@@ -1,0 +1,24 @@
+section{
+    margin-top:80px;
+}
+
+.sorot:hover {
+    border-radius : 25px;
+    /* border-bottom : 5px solid white ; */
+    background-color:#b8b8b8 ;
+    /* color: white ; */
+    /* margin-top : -5px; */
+}
+
+#informasi, #faq{
+    padding : 90px 0;
+}
+
+footer{
+    padding : 50px 0 ;
+}
+
+.myform b{
+    color : red ;
+    font-size: 12px;
+}

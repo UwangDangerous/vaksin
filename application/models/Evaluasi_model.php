@@ -77,7 +77,7 @@
             $query = [
                 'idSample' => $this->input->post('idSample'),
                 'batch' => $this->input->post('batch'),
-                'vialLolos' => $fixVial,
+                'vialLolos' => rtrim($fixVial,','),
                 'doses' => $this->input->post('doses'),
                 'tgl_expiry' => $this->input->post('tanggal'),
                 'hasilEvaluasi' => $berkas

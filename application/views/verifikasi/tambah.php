@@ -67,13 +67,13 @@
         </div>
         <form action="<?= base_url(); ?>verifikasi/verifikasi" method='post'>
             <div class="modal-body">
-                <input type="text" value="<?= $sample['idEvaluasi']; ?>" name='id'>
+                <input type="hidden" value="<?= $sample['idEvaluasi']; ?>" name='id'>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Example select</label>
                     <select class="form-control" id="exampleFormControlSelect1" name='status' >
-                        <option value='Diterima'>Diterima</option>
-                        <option value='Berkas Tidak Lengkap '>Berkas Tidak Lengkap </option>
-                        <option value='Berkas Tidak Memenuhi Syarat '>Berkas Tidak Diterima </option>
+                        <?php foreach ($pesan as $psn) : ?>
+                            <option value='<?= $psn['idPesan']; ?>'><?= $psn['indo']; ?></option>
+                        <?php endforeach ; ?>
                     </select>
                 </div>
                 <div class="form-group">

@@ -31,6 +31,7 @@
             $data['header'] = 'Verifikasi Sample'; 
             $data['bread'] = 'Dashboard / <a href="'.base_url().'verifikasi "> Hasil Evaluasi  </a> / Verifikasi Sample'; 
             $data['sample'] = $this->Verifikasi_model->getDataSampleVerifikasi($id);
+            $data['pesan'] = $this->db->get('pesan')->result_array();
             $this->load->model('_Date');
             if( $this->session->userdata('key') != null )
             {

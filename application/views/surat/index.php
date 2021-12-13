@@ -18,7 +18,7 @@
         <tr>
             <th>No</th>
             <th>Nama Surat / Keterangan</th>
-            <th>Riwayat Surat</th>
+            <th>Sertifikat</th>
             <th>Dokumen dari Manufaktur</th>
             <th>Surat</th>
             <th>Aksi</th>
@@ -31,7 +31,9 @@
             <tr>
                 <td><?= $no++; ?></td>
                 <td><?= $row['keterangan']; ?></td>
-                <td><a href="<?= base_url(); ?>surat/proses/<?= $row['idPenerimaan']; ?>" class='btn btn-secondary'>Cek Pekerjaan</a></td>
+                <td> <!-- blm beres sertifikat --> 
+                    <a href="<?= base_url(); ?>sample/cetak/<?= $row['idPenerimaan']; ?>" class='badge badge-secondary' data-toggle="tooltip" title="Cek Sertifikat"><i class="fa fa-file-signature"></i></a>
+                </td>
                 <td>
                     <a href="" class='badge badge-info' data-toggle="modal" data-target="#dok<?= $row['idPenerimaan']; ?>">
                         <i class="fa fa-upload" data-toggle="tooltip" title="Upload Dokumen dari Manufactur"></i>

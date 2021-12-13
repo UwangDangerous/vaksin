@@ -25,9 +25,6 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-1">
-            <a href="<?= base_url(); ?>sample/tambahSample/<?= $id; ?>" class="btn btn-primary" data-toggle="tooltip" title="Tambah Sample"> <i class="fa fa-pen"></i> </a>
-        </div>
     </div>
 
     <div class="table-responsive ">

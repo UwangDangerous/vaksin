@@ -62,9 +62,9 @@
                                 </nav>
                             </div>
 
-                            <a class="nav-link" href="<?= base_url(); ?>cetak">
+                            <a class="nav-link" href="<?= base_url(); ?>sertifikat">
                                 <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>
-                                Cetak Lot Release
+                                Buat sertifikat
                             </a>
 <!-- untuk pengawas -->
                             <a class="nav-link" href="<?= base_url(); ?>petugas">

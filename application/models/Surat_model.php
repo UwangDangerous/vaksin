@@ -7,6 +7,13 @@
             return $this->db->get('_surat')->result_array();
         }
 
+        public function getJumlahSample($id) 
+        {
+            $this->db->where('idSurat', $id);
+            $this->db->select('count(idSurat) as jumlah');
+            return $this->db->get("_sample")->row_array()['jumlah'];
+        }
+
         public function addSurat()
         {
             $this->load->model('_Upload');
@@ -38,11 +45,11 @@
         
         
 
-        public function addDokumen($id) 
-        {
-            $this->db->where('idPenerimaan', $id);
-            return $this->db->get('dokumen')->result_array();
-        }
+        // public function addDokumen($id) 
+        // {
+        //     $this->db->where('idPenerimaan', $id);
+        //     return $this->db->get('dokumen')->result_array();
+        // }
 
         // public function uploadDokumen()
         // {

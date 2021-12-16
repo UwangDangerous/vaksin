@@ -31,7 +31,7 @@
                     $tmbh .= $tambahan[$x].'_' ;
                 }
 
-                $berkas = rtrim($tmbh,'_').rtrim($nama,'_').'_'.rtrim($file,'_').'_'.$hashDate ;
+                $berkas = rtrim($nama,'_').'_'.rtrim($file,'_').'_'.$hashDate.'_'.rtrim($tmbh,'_') ;
 
                 $config['file_name'] = $berkas ;
                 $this->load->library('upload',$config);
@@ -44,7 +44,7 @@
                         'warna' => 'danger'
                     ];
                     $this->session->set_flashdata($pesan);
-                    redirect("surat") ;  
+                    redirect("$redirect") ;  
                 }
 
                 return $config['file_name'].'.'.$ekstensi ;
@@ -54,7 +54,7 @@
                     'warna' => 'danger'
                 ];
                 $this->session->set_flashdata($pesan);
-                redirect("surat") ;  
+                redirect("$redirect") ;  
             }
         }
     }

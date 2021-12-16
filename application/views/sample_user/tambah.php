@@ -10,7 +10,7 @@
         
     <?php endif ; ?> 
 
-    <form action="" method='post' class='myform'> <!-- enctype="multipart/form-data" --> 
+    <form action="" method='post' > <!-- enctype="multipart/form-data" class='myform' --> 
         <input type="hidden" name='id' value="<?= $id; ?>"> 
         <!-- nama sempel --> 
         <div class="form-group">

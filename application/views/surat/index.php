@@ -36,7 +36,7 @@
                         <a href="<?= base_url(); ?>assets/file-upload/surat/<?= $row['fileSurat']; ?>" class="badge badge-warning" data-toggle="tooltip" title="Cek Surat" target='blank'> <i class="fa fa-eye"></i> </a>
                     </td>
                     <td>
-                        di isi oleh banyak sample
+                        <?= $this->Surat_model->getJumlahSample($row['idSurat']); ?>
                     </td>
                     <td>
                         <a href="<?= base_url(); ?>sample_/index/<?= $row['idSurat']; ?>" class="badge badge-primary" data-toggle="tooltip" title="Info Sampel / Tambah Sampel"> <i class="fa fa-bars"></i> </a>

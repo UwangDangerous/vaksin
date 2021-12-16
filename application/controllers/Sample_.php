@@ -16,6 +16,7 @@
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Informasi Sample'; 
             $data['id'] = $id ;
             $data['sample'] = $this->User_Sample_model->getDataSample($id);
+            $this->load->model('_Date');
             if( $this->session->userdata('eksId') != null )
             {
                 $this->load->view('temp/dsbHeader',$data);
@@ -66,43 +67,63 @@
                 redirect('auth/inuser') ;
             }
         }
-
-        // public function tambahSample($id)
-        // {
-        //     $idLevel = $this->session->userdata('idLevel') ;
-        //     $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
-        //     $data['header'] = 'Data Sample'; 
-        //     $data['bread'] = 'dsb / Informasi Sample /<a href="'.base_url().'sample/tambah/'.$id.'"> Data Sample </a> / Tambah Sample '; 
-        //     $data['sample'] = $this->Sample_model->getDataSample();
-        //     $data['jenisSample'] = $this->db->get('jenisSample')->result_array();
             
-        //     $surat =  $this->Sample_model->judul($id);
+        public function uploadDataDukung($id) 
+        {
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/data-dukung','pdf','sample_/index/'.$id, ''.$this->input->post('namaJenisDataDukung') );
+            $query = [
+                'idSample' => $this->input->post('idSample'),
+                'idJenisDataDukung' => $this->input->post('idJenisDataDukung'),
+                'fileDataDukung' => $upload
+            ];
 
-        //     $data['judulSurat'] = $surat['keterangan'];
-        //     $data['pengirim'] = $surat['namaEU'];
-        //     $data['id'] = $id ;
+            if($this->db->insert('_dataDukung', $query) ) {
+                $pesan = [
+                    'pesan' => 'Data Dukung Berhasil Ditambahkan' ,
+                    'warna' => 'success'
+                ];
 
-        //     $data['sample'] =  $this->Sample_model->getSample($id);
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Dukung Gagal Ditambahkan' ,
+                    'warna' => 'danger'
+                ];
 
-        //     if( $this->session->userdata('eksId') != null )
-        //     {
-        //         $this->form_validation->set_rules('nama', 'Nama Surat / Keterangan', 'required');
-        //         $this->form_validation->set_rules('js', 'Jenis Sampel', 'required');
-        //         $this->form_validation->set_rules('vial', 'Vial', 'required');
-        //         $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }
+        }
 
-        //         if($this->form_validation->run() == FALSE) {
-        //             $this->load->view('temp/dsbHeader',$data);
-        //             $this->load->view('sample/tambahSample',$data);
-        //             $this->load->view('temp/dsbFooter');
-        //         }else{
-        //             $this->Sample_model->addSample($id);
-        //         }
-        //     }else{
-        //         $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
-        //         redirect('auth/inuser') ;
-        //     }
-        // }
+        public function addImportir() 
+        {
+            $id = $this->input->post('id') ;
+            $query = [
+                'idSample' => $id,
+                'namaImportir' => $this->input->post('nama'),
+                'alamatImportir' => $this->input->post('alamat')
+            ];
+
+            if($this->db->insert('_importir', $query) ) {
+                $pesan = [
+                    'pesan' => 'Data Dukung Berhasil Ditambahkan' ,
+                    'warna' => 'success'
+                ];
+
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Dukung Gagal Ditambahkan' ,
+                    'warna' => 'danger'
+                ];
+
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }
+        }
 
         // public function cetak($id) 
         // {

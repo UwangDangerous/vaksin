@@ -4,9 +4,13 @@
         public function getSample() 
         {
             // $this->db->where('idPenerimaan', $id);
-            $this->db->join('jenisSample','sample.idJS = jenisSample.idJS');
+            // $this->db->join('jenisSample','sample.idJS = jenisSample.idJS');
+            $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
+            $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
+            $this->db->join('_jenissample', '_jenissample.idJenisSample = _sample.idJenisSample');
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
             $this->db->order_by('idSample', 'desc');
-            return $this->db->get("sample")->result_array();
+            return $this->db->get("_sample")->result_array();
         }
 
         public function getPetugas($id)
@@ -32,6 +36,13 @@
             $this->db->where("idSample = $idSample and idLevel = $id");
             return $this->db->get('petugas')->row_array();
             // var_dump($data) ;
+        }
+
+
+        public function getBuktiBayar($id) 
+        {
+            $this->db->where('idSample', $id);
+            return $this->db->get('_buktiBayar')->row_array();
         }
 
         

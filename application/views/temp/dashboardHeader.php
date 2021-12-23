@@ -57,7 +57,10 @@
                                         User
                                     </a>
                                     <a class="nav-link" href="<?= base_url(); ?>sample">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div> Sample
+                                        <div class="sb-nav-link-icon"><i class="fa fa-envelope-open-text"></i></div> Surat Pengajuan
+                                    </a>
+                                    <a class="nav-link" href="<?= base_url(); ?>libur">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div> Libur Nasional
                                     </a>
                                 </nav>
                             </div>
@@ -68,8 +71,8 @@
                             </a>
 <!-- untuk pengawas -->
                             <a class="nav-link" href="<?= base_url(); ?>petugas">
-                                <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
-                                Pilih Petugas
+                                <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
+                                Sample
                             </a>
 
 <?php elseif($lvl == 2) : ?> <!-- pengawas --> 

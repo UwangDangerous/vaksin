@@ -10,9 +10,30 @@ class Petugas extends CI_Controller{
 
     public function index()
     {
+        $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
-        $data['judul'] = 'Petugas Evaluasi dan Verifikasi '. $this->session->userdata('namaLevel'); 
-        $data['header'] = 'Petugas Evaluasi dan Verifikasi'; 
+        $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
+        $data['header'] = 'Data Sampel'; 
+        $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Sampel'; 
+        $data['sample'] = $this->Petugas_model->getSample();
+        // $data['petugas'] = $this->Petugas_model->getPetugas();
+        if( ($this->session->userdata('key') != null) )
+        {
+            $this->load->view('temp/dashboardHeader',$data);
+            $this->load->view('petugas/index',$data);
+            $this->load->view('temp/dashboardFooter');
+        }else{
+            $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
+            redirect('auth/inuser') ;
+        }
+    }
+
+    public function detail($id)
+    {
+        $this->load->model('_Date');
+        $idLevel = $this->session->userdata('idLevel') ;
+        $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
+        $data['header'] = 'Data Sampel'; 
         $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Petugas'; 
         $data['sample'] = $this->Petugas_model->getSample();
         // $data['petugas'] = $this->Petugas_model->getPetugas();

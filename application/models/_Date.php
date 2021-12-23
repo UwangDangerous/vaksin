@@ -74,6 +74,126 @@
 
             return $bulan[2].' '.$b.' '.$bulan[0] ;
         }
+
+
+        public function pengerjaan($id, $lamaPengerjaan, $mulai, $jam )
+        {
+            if($mulai ){
+
+
+                $this->db->where('idSample', $id);
+                $clockOFF = $this->db->get('clockoff')->result_array();
+
+                $dataKurang = [] ;
+                $jumlahHariDataKurang = 0;
+                if($clockOFF) {
+                    foreach($clockOFF as $cf) {
+
+                        if($cf['clock_on'] == '0000-00-00') {
+                            // $co = date('Y-m-d') ;
+                            $dataKurang[] = [
+                                'clock_off' => strtotime($cf['clock_off']),
+                                'clock_on' => strtotime(date('Y-m-d')) 
+                            ];
+                        }else{
+                            // $co = $cf['clock_on'] ;
+                            $dataKurang[] = [
+                                'clock_off' => strtotime( $cf['clock_off'] ),
+                                'clock_on' => strtotime( $cf['clock_on'] ) 
+                            ];
+                        }
+
+                        
+                    }
+                }
+
+                foreach($dataKurang as $dk) {
+                    $jumlahHariDataKurang += ( $dk['clock_on'] - $dk['clock_off'] ) / (60 * 60 * 24) ;
+                }
+
+                $time = explode(':', $jam) ;
+                if($time[0] > 12) {
+                    $mulai = date('Y-m-d', strtotime("+1 day",  strtotime($mulai))) ;
+                }
+
+                //mengitung tanggal akhir pengerjaan untuk libur
+                $awalPengerjaan = strtotime($mulai) ;
+                $pengerjaan = $lamaPengerjaan + $jumlahHariDataKurang;
+                
+                for($i=1 ; $i<=$pengerjaan; $i++) {
+                    $proses = date('Y-m-d l', strtotime("+$i day", $awalPengerjaan)) ;
+                    $hari = explode(' ', $proses) ;
+                    if($hari[1] == 'Saturday') {
+                        $pengerjaan ++;
+                    }
+
+                    if($hari[1] == 'Sunday') {
+                        $pengerjaan ++;
+                    }
+                }
+
+            
+                $akhirPengerjaan = date('Y-m-d', strtotime("+$pengerjaan day", $awalPengerjaan) ) ;
+
+                $this->db->where("tglLibur BETWEEN '$mulai' AND '$akhirPengerjaan'");
+                $libur = $this->db->get('harilibur')->num_rows();
+
+                //mengitung tanggal final
+                $awalPengerjaan = strtotime($mulai) ;
+                $pengerjaan = $lamaPengerjaan + $jumlahHariDataKurang + $libur;
+                $sabtuMinggu = 0 ;
+                
+                for($i=1 ; $i<=$pengerjaan; $i++) {
+                    $proses = date('Y-m-d l', strtotime("+$i day", $awalPengerjaan)) ;
+                    $hari = explode(' ', $proses) ;
+                    if($hari[1] == 'Saturday') {
+                        $pengerjaan ++;
+                        $sabtuMinggu ++ ;
+                    }
+
+                    if($hari[1] == 'Sunday') {
+                        $pengerjaan ++;
+                        $sabtuMinggu ++ ;
+                    }
+                }
+
+                $akhirPengerjaan = date('Y-m-d', strtotime("+$pengerjaan day", $awalPengerjaan) ) ;
+                $waktuBerjalan = (strtotime( $akhirPengerjaan ) - strtotime( date('Y-m-d') ) ) / (60 * 60 * 24) - $sabtuMinggu ;
+
+                $total = $lamaPengerjaan + $jumlahHariDataKurang + $libur ;
+
+                
+                
+
+                    $data = [
+                        'lamaPengerjaan' => $lamaPengerjaan ,
+                        'penundaan' => $jumlahHariDataKurang,
+                        'libur' => $libur ,
+                        'total' => $total,
+                        'waktuBerjalan' =>  $total - $waktuBerjalan  
+                    ];
+            
+            }else{
+
+                $data = [
+                    'lamaPengerjaan' => $lamaPengerjaan ,
+                    'penundaan' => 0,
+                    'libur' => 0 ,
+                    'total' => $lamaPengerjaan,
+                    'waktuBerjalan' => 0 
+                ];
+
+            }
+
+            return $data ;
+
+            // mulai
+            // selesai
+            // libur
+            // 
+
+        }
+
     }
 
 ?>

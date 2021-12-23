@@ -15,14 +15,16 @@
         <table class="table table-bordered table-striped text-center">
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Sample</th>
-                    <th>Jenis Sample</th>
-                    <th>vial</th>
-                    <th>Tanggal Terima</th>
-                    <th>Ceklis</th>
-                    <th>Pilih Petugas</th>
-                    <th>Aksi</th>
+                    <th class='align-middle'>No</th>
+                    <th class='align-middle'>Pengirim</th>
+                    <th class='align-middle'>Nama Sampel</th>
+                    <th class='align-middle'>Sampel</th>
+                    <th class='align-middle'>Jenis Pengujian</th>
+                    <th class='align-middle'>Tanggal Terima</th>
+                    <th class='align-middle'>Bukti Bayar</th>
+                    <th class='align-middle'>Tanggal Pembayaran</th>
+                    <th class='align-middle'>Pengerjaan
+                    <th class='align-middle'>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,24 +32,35 @@
                 <?php foreach ($sample as $row) : ?>
                     <tr>
                         <td><?= $no++; ?></td>
+                        <td><?= $row['namaEU']; ?></td>
                         <td><?= $row['namaSample']; ?></td>
-                        <td><?= $row['namaJS']; ?></td>
+                        <td><?= $row['jenisSample']; ?> ( <?= $row['waktuPengujian']; ?> Hari)</td>
+                        <td><?= $row['namaJenisDokumen']; ?></td>
+                        <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
                         <td>
-                            <?= $row['vial']; ?>
-                            <?php $vial = explode(',' , $row['vial']); ?>
-                            (@ <?= count($vial); ?> Vial)
+                            <?php if($bukti = $this->Petugas_model->getBuktiBayar($row['idSample']) ) : ?>
+                                <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" class="badge badge-success" data-toogle='tooltip' title='Lihat Bukti Bayar'><i class="fa fa-check"></i></a>
+
+                                <?php $tglBayarFormat = $this->_Date->formatTanggal( $bukti['tgl_bayar'] ).'<br>( '.$bukti['jam_bayar'].' )' ; ?> <br>
+                                <?php 
+                                    $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], $bukti['tgl_bayar'], $bukti['jam_bayar'] ) ; 
+                                ?>  
+                            <?php else : ?>
+                                <a href="#" class="badge badge-danger" data-toogle='tooltip' title='Belum Ada Bukti Bayar'><i class="fa fa-times"></i></a>
+                                <?php  $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], null , null ) ; ?>
+
+                                <?php $tglBayarFormat = '';  ?>
+                            <?php endif ; ?>
                         </td>
-                        <td><?= $row['tgl_terima_sample']; ?></td>
-                        <td>
-                            <a href="<?= base_url(); ?>assets/file-upload/ceklis-evaluator/<?= $row['ceklis']; ?>" class="badge badge-warning" data-toggle="tooltip" title="Ceklis Evaluator" target="blank"> <i class="fa fa-eye"></i> </a>
-                        </td>
+                        <td><?= $tglBayarFormat; ?></td>
+                        <td> <?= $pengerjaan['waktuBerjalan']; ?> dari <?= $pengerjaan['total'] ; ?>
 
                         <td>
                             <!-- acordion -->
                             <div id="accordion">
                                 <!-- <div class="card"> -->
                                     <div class="card-headerkomen" id="headingThree">
-                                        <a class="badge badge-info collapsed" data-toggle="collapse" data-target="#collapseThree<?= $row['idSample']; ?>" aria-expanded="false" aria-controls="collapseThree" data-toggle="tooltip" title="Petugas">
+                                        <a class="badge badge-warning collapsed" data-toggle="collapse" data-target="#collapseThree<?= $row['idSample']; ?>" aria-expanded="false" aria-controls="collapseThree" data-toggle="tooltip" title="Petugas">
                                             <i class="fa fa-user-tie" ></i>
                                         </a>
                                     </div>
@@ -56,13 +69,13 @@
                                         <?php $petugas = $this->Petugas_model->getPetugas($row['idSample']); ?>
                                         <?php if($petugas == null) : ?>
                                             <li class="list-group-item">
-                                                <a class='badge badge-info' data-toggle="modal"  data-toggle="tooltip" title="Pilih Petugas" data-target="#petugas<?= $row['idSample'];?>" type='button'> 
+                                                <a class='badge badge-danger' data-toggle="modal"  data-toggle="tooltip" title="Pilih Petugas" data-target="#petugas<?= $row['idSample'];?>" type='button'> 
                                                     <i class="fa fa-plus"></i> 
                                                 </a>
                                             </li>
                                         <?php else : ?>
                                             <li class="list-group-item">
-                                                <a class='badge badge-info' data-toggle="modal"  data-toggle="tooltip" title="Lihat Petugas" data-target="#viewPetugas<?= $row['idSample'];?>" type='button'> 
+                                                <a class='badge badge-success' data-toggle="modal"  data-toggle="tooltip" title="Lihat Petugas" data-target="#viewPetugas<?= $row['idSample'];?>" type='button'> 
                                                     <i class="fa fa-eye"></i> 
                                                 </a>
                                             </li>
@@ -244,18 +257,17 @@
                                 </div>
                             </div>
                             <!-- Modal View Petugas-->
+                            <a href="<?= base_url() ; ?>petugas/detail/<?= $row['idSample']; ?>" class="badge badge-primary" data-toggle='tooltip' title='Lihat Rincian'><i class="fa fa-search"></i></a>
                         </td>
 
-                        <td>
-                            <a href="<?= base_url(); ?>sample/ubahSample/<?= $row['idPenerimaan'].'/'.$row['idSample'];?>" class="badge badge-success" data-toggle="tooltip" title="Ubah Data Sample"> <i class="fa fa-edit"></i> </a>
-                            <a href="<?= base_url(); ?>sample/hapusSample/<?= $row['idPenerimaan'].'/'.$row['idSample'];?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample"> <i class="fa fa-trash"></i> </a>
-                        </td>
                     </tr>
                 <?php endforeach ; ?>
             </tbody>
         </table>
     </div>
 </div>
+<?//php date_default_timezone_set('Asia/Jakarta'); ?>
+<?//= date('h:m:s'); ?>
 
 
  

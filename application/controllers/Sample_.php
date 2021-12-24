@@ -13,7 +13,7 @@
             $idLevel = $this->session->userdata('idLevel') ;
             $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Data Sample'; 
-            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Informasi Sample'; 
+            $data['bread'] = 'Dashboard / <a href="'.base_url().'surat"> Riwayat Surat </a> / Informasi Sample'; 
             $data['id'] = $id ;
             $data['sample'] = $this->User_Sample_model->getDataSample($id);
             $this->load->model('_Date');
@@ -89,6 +89,37 @@
             }else{
                 $pesan = [
                     'pesan' => 'Data Dukung Gagal Ditambahkan' ,
+                    'warna' => 'danger'
+                ];
+
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }
+        }
+
+        public function uploadBuktiBayar($id) 
+        {
+            date_default_timezone_set('Asia/Jakarta');
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/bukti-bayar','pdf|jpg|jpeg|png','sample_/index/'.$id,'buktibayar');
+            $query = [
+                'idSample' => $id,
+                'tgl_bayar' => date('Y-m-d') ,
+                'jam_bayar' => date('h:i:s') ,
+                'fileBuktiBayar' => $upload
+            ];
+
+            if($this->db->insert('_buktibayar', $query) ) {
+                $pesan = [
+                    'pesan' => 'Bukti Bayar Berhasil Ditambahkan' ,
+                    'warna' => 'success'
+                ];
+
+                $this->session->set_flashdata($pesan);
+                redirect("sample_/index/$id") ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Bukti Bayar Gagal Ditambahkan' ,
                     'warna' => 'danger'
                 ];
 

@@ -58,7 +58,7 @@
                         <div class="card">
                             <div class="card-header" id="jenisManufactureAccord">
                             <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#jmAccord<?= $row['idSample'];?>" aria-expanded="true" aria-controls="jmAccord<?= $row['idSample'];?>">
+                                <button class="btn btn-link" data-toggle="collapse" data-target="#jmAccord<?= $row['idSample'];?>" aria-expanded="true" aria-controls="jmAccord<?= $row['idSample'];?>" data-toggle='tooltip' title='Lengkapi Data'>
                                     <?= $row['namaJenisManufacture']; ?>
                                 </button>
                             </h5>
@@ -70,39 +70,41 @@
                                     <?= $import['namaImportir']; ?> ,
                                     <?= $import['alamatImportir']; ?>
                                 <?php else : ?>
-                                    <a href="" class="badge badge-primary" data-toggle="modal" data-toggle='tooltip' title='Tambah Data Importir' data-target="#exampleModal"> 
+                                    <a href="" class="badge badge-primary" data-toggle="modal" data-toggle='tooltip' title='Tambah Data Importir' data-target="#jenisPerusahaan<?= $row['idSample']; ?>"> 
                                         <i class="fa fa-plus"></i> 
                                     </a>
 
                                     <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content ">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                        Data Importir
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body ">
-                                                    <form method="post" action="<?= base_url(); ?>sample_/addImportir" class='myform '>
-                                                        <input type="hidden" name='id' value='<?= $row['idSample'];?>'>
-                                                        <div class="form-group">
-                                                            <label for="nama">Nama Importir</label>
-                                                            <input type="text" class="form-control" id="nama" name='nama' >
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="alamat">Alamat Importir</label>
-                                                            <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control"></textarea>
-                                                        </div>
+                                    <div class="d-flex text-left">
+                                        <div class="modal fade" id="jenisPerusahaan<?= $row['idSample']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content ">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                            Data Importir
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body ">
+                                                        <form method="post" action="<?= base_url(); ?>sample_/addImportir" class='myform '>
+                                                            <input type="hidden" name='id' value='<?= $row['idSample'];?>'>
+                                                            <div class="form-group">
+                                                                <label for="nama">Nama Importir</label>
+                                                                <input type="text" class="form-control" id="nama" name='nama' >
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="alamat">Alamat Importir</label>
+                                                                <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control"></textarea>
+                                                            </div>
 
-                                                        <br><br>
-                                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                                    </form>
+                                                            <br><br>
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                        </form>
+                                                    </div>
+                                                    
                                                 </div>
-                                                
                                             </div>
                                         </div>
                                     </div>
@@ -134,32 +136,38 @@
                                 <?php $tombolNotaPembayaran = '' ?>
                                 <?php if($dok == $dokIsi) : ?>
                                     <?php $tombolNotaPembayaran = '<a href="" class="badge badge-secondary" data-toggle="modal" data-target="#pembayaran'.$row['idSample'].'" data-toggle="tooltip" title="Upload Bukti Pembayaran"> <i class="fa fa-file-invoice"></i> </a>' ; ?>
-                                <?php endif ; ?>
-                                <!-- Modal -->
-                                <div class="modal fade" id="pembayaran<?= $row['idSample']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Pembayaran Sample <?= $row['namaSample'] ;?> ( <?= $row['jenisSample']; ?> ) </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                        <div class="modal-body">
-                                            <!-- myform -->
-                                            <form action="<?= base_url(); ?>sample_/uploadBuktiBayar/<?= $row['idSurat']; ?>" method='post' class='myform' enctype="multipart/form-data">
-                                            <div class="modal-body">
-                                                <input type="hidden" name='id' value='<?= $row['idSample']; ?>'>
-
-                                                <div class="form-group">
-                                                    <label for="berkas">Upload File</label>
-                                                    <input type="file" class="form-control" id="berkas" name='berkas' >
-                                                    <b class='text-danger'>*tipe file pdf</b>
+                                    <!-- modal bukti bayar -->
+                                    <div class="d-flex text-left">
+                                        <div class="modal fade" id="pembayaran<?= $row['idSample']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel"> <label for="berkas"> Upload Bukti Bayar </label></h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <!-- form bukti bayar -->
+                                                <form action="<?= base_url(); ?>sample_/uploadBuktiBayar/<?= $row['idSurat']; ?>" method='post' class='myform' enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <input type="file" class="form-control" id="berkas" name='berkas' >
+                                                            <b class='text-center'>*tipe file pdf,jpg,jpeg,png</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                                    </div>
+                                                </form>
+                                                <!-- form bukti bayar -->
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <!-- modal bukti bayar -->
+                                <?php endif ; ?>
+
+                                
                             </h5>
                             </div>
 
@@ -186,35 +194,35 @@
                                     </li>
                                     <!-- Modal -->
                                     <div class="modal fade " id="datadukung<?= $row['idSample'].''.$jm['idJenisDataDukung'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog " role="document">
-                                        <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                Upload File <?= $jm['namaJenisDataDukung'];?>
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <!-- form -->
-                                        <form action="<?= base_url(); ?>sample_/uploadDataDukung/<?= $row['idSurat']; ?>" method='post' class='myform' enctype="multipart/form-data">
-                                            <div class="modal-body">
-                                                <input type="hidden" name='idSample' value="<?= $row['idSample']; ?>">
-                                                <input type="hidden" name='idJenisDataDukung' value="<?= $jm['idJenisDataDukung']; ?>">
-                                                <input type="hidden" name='namaJenisDataDukung' value="<?= $jm['namaJenisDataDukung']; ?>">
-
-                                                <div class="form-group">
-                                                    <label for="berkas">Upload File</label>
-                                                    <input type="file" class="form-control" id="berkas" name='berkas' >
-                                                    <b class='text-center'>*tipe file pdf</b>
+                                        <div class="modal-dialog " role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                        Upload File <?= $jm['namaJenisDataDukung'];?>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
+                                                <!-- form -->
+                                                <form action="<?= base_url(); ?>sample_/uploadDataDukung/<?= $row['idSurat']; ?>" method='post' class='myform' enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                        <input type="hidden" name='idSample' value="<?= $row['idSample']; ?>">
+                                                        <input type="hidden" name='idJenisDataDukung' value="<?= $jm['idJenisDataDukung']; ?>">
+                                                        <input type="hidden" name='namaJenisDataDukung' value="<?= $jm['namaJenisDataDukung']; ?>">
+
+                                                        <div class="form-group">
+                                                            <label for="berkas">Upload File</label>
+                                                            <input type="file" class="form-control" id="berkas" name='berkas' >
+                                                            <b class='text-center'>*tipe file pdf</b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Simpan</button>
-                                            </div>
-                                        </form>
                                         </div>
-                                    </div>
                                     </div>
                                 <?php endforeach ; ?>
                             </ul>
@@ -229,7 +237,12 @@
                     <a href="#" class="badge badge-primary" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
                     <a href="#" class="badge badge-success" data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
                     <a href="#" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample"> <i class="fa fa-trash"></i> </a>
-                    <?= $tombolNotaPembayaran; ?>
+
+                    <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>
+                        <?= $tombolNotaPembayaran; ?>
+                    <?php else : ?>
+                        <a href='#' data-toggle='tooltip' title='sudah di upload' class='badge badge-success'> <i class="fa fa-check"></i> </a>
+                    <?php endif ; ?>
                 </td>
         <?php endforeach ; ?>
     </tbody>

@@ -21,9 +21,10 @@
 
             $query = [
                 'namaSurat' => $this->input->post('nama', true),
+                'isiSurat' => $this->input->post('Isi', true),
                 'idEU' => $this->session->userdata('eksId'),
                 'fileSurat' => $upload ,
-                'tgl_pengiriman' => $this->input->post('tanggal', true)
+                'tgl_kirim_surat' => 'Y-m-d'
             ];
 
             if($this->db->insert('_surat', $query)){

@@ -19,9 +19,10 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Perihal</th>
-                <th>Surat</th>
+                <th>Judul Surat</th>
+                <th>Isi / Keterangan</th>
                 <th>Jumlah Sample</th>
+                <th>Surat</th>
                 <th>Aksi</th>
             </tr>
             </thead>
@@ -32,11 +33,12 @@
                 <tr>
                     <td><?= $no++; ?></td>
                     <td><?= $row['namaSurat']; ?></td>
-                    <td>
-                        <a href="<?= base_url(); ?>assets/file-upload/surat/<?= $row['fileSurat']; ?>" class="badge badge-warning" data-toggle="tooltip" title="Cek Surat" target='blank'> <i class="fa fa-eye"></i> </a>
-                    </td>
+                    <td><?= $row['isiSurat']; ?></td>
                     <td>
                         <?= $this->Surat_model->getJumlahSample($row['idSurat']); ?>
+                    </td>
+                    <td>
+                        <a href="<?= base_url(); ?>assets/file-upload/surat/<?= $row['fileSurat']; ?>" class="badge badge-warning" data-toggle="tooltip" title="Cek Surat" target='blank'> <i class="fa fa-eye"></i> </a>
                     </td>
                     <td>
                         <a href="<?= base_url(); ?>sample_/index/<?= $row['idSurat']; ?>" class="badge badge-primary" data-toggle="tooltip" title="Info Sampel / Tambah Sampel"> <i class="fa fa-bars"></i> </a>

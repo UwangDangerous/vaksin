@@ -8,14 +8,14 @@ class Petugas extends CI_Controller{
         $this->load->model('Petugas_model');
     }
 
-    public function index()
+    public function index($id=null)
     {
         $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
         $data['header'] = 'Data Sampel'; 
         $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Sampel'; 
-        $data['sample'] = $this->Petugas_model->getSample();
+        $data['sample'] = $this->Petugas_model->getSample($id);
         // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
@@ -34,13 +34,13 @@ class Petugas extends CI_Controller{
         $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
         $data['header'] = 'Data Sampel'; 
-        $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Petugas'; 
-        $data['sample'] = $this->Petugas_model->getSample();
+        $data['bread'] = 'Dashboard / <a href="'.base_url().'petugas"> Sampel </a> / Rincian Sampel'; 
+        $data['sample'] = $this->Petugas_model->getDetailSample($id);
         // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
             $this->load->view('temp/dashboardHeader',$data);
-            $this->load->view('petugas/index',$data);
+            $this->load->view('petugas/detail');
             $this->load->view('temp/dashboardFooter');
         }else{
             $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
@@ -49,9 +49,6 @@ class Petugas extends CI_Controller{
     }
 
     public function tambahPetugas() {
-        // 'idIU' => $this->input->post('evaluator'),
-        //     'idIU' => $this->input->post('verifikator'),
-        //     'idIU' => $this->input->post('ve'),
         if( $iu = $this->input->post('ve') ) {
             $i = 0 ;
             for($i; $i<2; $i++) {

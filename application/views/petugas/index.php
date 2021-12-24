@@ -17,7 +17,7 @@
                 <tr>
                     <th class='align-middle'>No</th>
                     <th class='align-middle'>Pengirim</th>
-                    <th class='align-middle'>Nama Sampel</th>
+                    <th class='align-middle'>Nama Sampel / Produk</th>
                     <th class='align-middle'>Sampel</th>
                     <th class='align-middle'>Jenis Pengujian</th>
                     <th class='align-middle'>Tanggal Terima</th>

@@ -35,8 +35,8 @@
             if( $this->session->userdata('eksId') )
             {
                 // $this->form_validation->set_rules('berkas', 'Nama User', 'required');
-                $this->form_validation->set_rules('nama', 'Nama Surat / Keterangan', 'required');
-                $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
+                $this->form_validation->set_rules('nama', 'Nama Surat / Judul', 'required');
+                $this->form_validation->set_rules('Isi', 'Isi Surat', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dsbHeader',$data);

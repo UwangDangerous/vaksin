@@ -94,6 +94,12 @@
             return $this->db->get('_importir')->row_array() ;
         }
 
+        public function cekBuktiBayar($id)
+        {
+            $this->db->where('idSample', $id);
+            return $this->db->get('_buktiBayar')->row_array();
+        }
+
     }
 
 ?>

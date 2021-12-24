@@ -35,7 +35,11 @@
                     $b = '00' ;
             }
 
-            return $bulan[2].' '.$b.' '.$bulan[0] ;
+            if($b == '00') {
+                return '-' ;
+            }else{
+                return $bulan[2].' '.$b.' '.$bulan[0] ;
+            }
         }
 
         public function dateFormat($tanggal) 

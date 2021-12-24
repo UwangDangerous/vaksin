@@ -3,11 +3,9 @@
     class Sample_model extends CI_Model{
         public function getDataSample() 
         {
-            // $this->db->join('penerimaan','penerimaan.idPenerimaan = sample.idPenerimaan');
-            $this->db->join('eksuser', 'eksuser.idEU = penerimaan.idEU');
-            // $this->db->join('jenisSample', 'jenisSample.idJS = sample.idJS');
-            $this->db->order_by('idPenerimaan','desc');
-            return $this->db->get('penerimaan')->result_array();
+            $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
+            $this->db->order_by('idSurat','desc');
+            return $this->db->get('_surat')->result_array();
         }
 
         public function addDokumen($id) 

@@ -17,6 +17,8 @@
         public function getPetugas($id)
         {
             $this->db->where('idSample', $id);
+            $this->db->join('level', 'level.idLevel = petugas.idLevel');
+            $this->db->join('inuser', 'inuser.idIU = petugas.idIU');
             return $this->db->get('petugas')->result_array();
         }
 

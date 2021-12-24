@@ -36,6 +36,7 @@ class Petugas extends CI_Controller{
         $data['header'] = 'Data Sampel'; 
         $data['bread'] = 'Dashboard / <a href="'.base_url().'petugas"> Sampel </a> / Rincian Sampel'; 
         $data['sample'] = $this->Petugas_model->getDetailSample($id);
+        $data['petugas'] = $this->Petugas_model->getPetugas($id);
         // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
@@ -66,7 +67,11 @@ class Petugas extends CI_Controller{
                 ];
                 // var_dump($query) ;
                 $this->db->insert('petugas', $query);
+
             }
+
+            $this->session->set_flashdata('pesan', "Petugas Berhasil Di Simpan");
+            redirect("petugas") ;
                 
         }else{
             $i = 0 ;
@@ -100,6 +105,8 @@ class Petugas extends CI_Controller{
                 }
                 
             }
+            $this->session->set_flashdata('pesan', "Petugas Berhasil Di Simpan");
+            redirect("petugas") ;
         }
 
 
@@ -151,6 +158,40 @@ class Petugas extends CI_Controller{
         $this->session->set_flashdata('pesan', "Petugas $petugas Berhasil Di Ubah");
         redirect("petugas") ;
         
+    }
+
+    public function inputDataKurang($id) 
+    {
+        $query=[
+            'idSample' => $id,
+            'clock_off' => date('Y-m-d'),
+            'keterangan' => $this->input->post('keterangan',true),
+            'clock_on' => '0000-00-00'
+        ];
+
+        if( $this->db->insert('clockoff', $query) ) {
+            $queryRiwayat = [
+                'idSample' => $id,
+                'tgl_riwayat' => date('Y-m-d'),
+                'keteranganRiwayat' => 'Clock Off ( '.$this->input->post('keterangan',true).' )'
+            ];
+            $this->db->insert('riwayatpekerjaan', $queryRiwayat);
+            $pesan = [
+                'pesan' => 'Data Berhasil Disimpan' ,
+                'warna' => 'success'
+            ];
+            $this->session->set_flashdata($pesan);
+            redirect('petugas/detail/'.$id) ;
+
+            
+        }else{
+            $pesan = [
+                'pesan' => 'Data Gagal Disimpan' ,
+                'warna' => 'danger'
+            ];
+            $this->session->set_flashdata('pesan');
+            redirect('petugas/detail/'.$id) ;
+        }
     }
 }
 

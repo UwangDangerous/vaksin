@@ -10,6 +10,7 @@
 
         public function index()
         {
+            $this->load->model('_Date');
             $idLevel = $this->session->userdata('idLevel') ;
             $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Data Sample'; 

@@ -1,4 +1,19 @@
 <div class="card p-3">
+    <div class="row">
+        <div class="col-md-6">
+            <form action="" post>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Pencarian" >
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div><!-- col 1 --> 
+    </div><!-- row 1 --> 
+
     <?php if(!empty($this->session->flashdata('pesan') )) : ?>
         
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -257,7 +272,7 @@
                                 </div>
                             </div>
                             <!-- Modal View Petugas-->
-                            <a href="<?= base_url() ; ?>petugas/detail/<?= $row['idSample']; ?>" class="badge badge-primary" data-toggle='tooltip' title='Lihat Rincian'><i class="fa fa-search"></i></a>
+                            <a href="<?= base_url() ; ?>petugas/detail/<?= $row['idSample']; ?>" class="badge badge-primary" data-toggle='tooltip' title='Lihat Rincian'><i class="fa fa-info"></i></a>
                         </td>
 
                     </tr>

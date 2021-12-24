@@ -1,3 +1,14 @@
+<?php if(!empty($this->session->flashdata('pesan') )) : ?>
+        
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?=  $this->session->flashdata('pesan'); ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+<?php endif ; ?>
+
 <div class="card p-3">
     <h4>Sample <?= $sample['namaSample']; ?> ( <?= $sample['jenisSample']; ?> )</h4>
     <div class="row p-3">
@@ -109,7 +120,20 @@
 <div class="card p-3 mt-3">
     <div class="d-flex justify-content-between">
         <h3>Riwayat Pengerjaan</h3>
-        <a href="" class="btn btn-primary" data-toggle='tooltip' title='Kirim Pesan Data Kurang'><i class="fa fa-pen"></i></a>
+        <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#clockoff' data-toggle='tooltip' title='Kirim Pesan Data Kurang'><i class="fa fa-pen"></i></a>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table>
+                <?php foreach ($petugas as $p) : ?>
+                    <tr>
+                        <th><?= $p['namaLevel']; ?></th>
+                        <td>:</td>
+                        <td><?= $p['namaIU']; ?></td>
+                    </tr>
+                <?php endforeach ; ?>
+            </table>
+        </div>
     </div>
     <br>
     <div class="table-responsive">
@@ -124,7 +148,7 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Mengirim Surat Pengajan</td>
+                    <td>Mengirim Surat Pengajuan</td>
                     <td><?=  $this->_Date->formatTanggal( $sample['tgl_kirim_surat'] ); ?></td>
                 </tr>
                 <tr>
@@ -164,7 +188,7 @@
                 <?php foreach ($riwayat as $row) : ?>
                     <tr>
                         <td><?= ++$no; ?></td>
-                        <td><?= $row['keterangan']; ?></td>
+                        <td><?= $row['keteranganRiwayat']; ?></td>
                         <td><?= $this->_Date->formatTanggal( $row['tgl_riwayat'] ); ?></td>
                     </tr>
                 <?php endforeach ; ?>
@@ -172,4 +196,37 @@
             </tbody>
         </table>
     </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="clockoff" tabindex="-1" role="dialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"> <label for="keterangan"> Informasi Data Kurang </label> </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="<?= base_url() ;?>petugas/inputDataKurang/<?= $sample['idSample'];?>">
+        <div class="modal-body">
+            <div class="form-group">
+                <textarea class="form-control" id="keterangan" name='keterangan' rows="3"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Kirim</button>
+        </div>
+    </form>
+    </div>
+  </div>
 </div>

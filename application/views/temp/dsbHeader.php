@@ -51,6 +51,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Riwayat dan Keterangan
                             </a>
+                            <a class="nav-link" href="<?= base_url(); ?>surat/penundaan">
+                                <div class="sb-nav-link-icon"><i class="fa fa-clock"></i></div>
+                                Penundaan
+                            </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat/pengaturan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
                                 Pengaturan

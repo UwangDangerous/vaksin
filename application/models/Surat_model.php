@@ -43,6 +43,17 @@
                 redirect('surat/kirim') ;
             }
         }
+
+        public function getClockOFF()
+        {
+            $this->db->where('idEU', $this->session->userdata('eksId'));
+            $this->db->join('_sample','_sample.idSample = clockoff.idSample');
+            $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
+            $this->db->join('clockoff_dokumen', 'clockoff_dokumen.idClockOff = clockoff.idClockOff','left');
+            $this->db->order_by('clockOff.idClockOff', 'desc');
+            $this->db->select('clockoff.idclockOff as idClockOff, namaSample, judul, keterangan, keterangan_cf, clock_on,clock_off, _sample.idSample,berkas_cf');
+            return $this->db->get('clockoff')->result_array();
+        }
         
         
 

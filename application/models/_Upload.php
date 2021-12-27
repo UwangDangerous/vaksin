@@ -36,7 +36,7 @@
                 $config['file_name'] = $berkas ;
                 $this->load->library('upload',$config);
 
-                if($this->upload->do_upload('berkas')){
+                if($this->upload->do_upload($namaBerkas)){
                     $this->upload->initialize($config);
                 }else{
                     $pesan = [

@@ -77,6 +77,58 @@
                 redirect('surat/kirim') ;
             }
         }
+
+        public function penundaan() 
+        {
+            $this->load->model('_Date');
+            $data['judul'] = 'Penundaan Pengerjaan'. $this->session->userdata('eksNama'); 
+            $data['header'] = 'Penundaan Pengerjaan'; 
+            $data['bread'] = '<a href="'.base_url().'dsb"> Dashboard </a> / Riwayat Surat'; 
+            $data['penundaan'] = $this->Surat_model->getClockOFF();
+            if( $this->session->userdata('eksId') )
+            {
+                $this->load->view('temp/dsbHeader',$data);
+                $this->load->view('surat/penundaan', $data);
+                $this->load->view('temp/dsbFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+                redirect('auth') ;
+            }
+        }
+
+        public function uploadPenundaan($id)
+        {
+            // $id = $this->input->post('id') ;
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/berkas-clock-off','pdf','surat/penundaan');
+            $query = [
+                'idClockOff' => $id,
+                'keterangan_cf' => $this->input->post('keterangan'),
+                'berkas_cf' => $upload
+            ];
+
+            $this->db->where('idClockOff', $id);
+            if($this->db->update('clockoff', ['clock_on'=>date('Y-m-d')])) {
+                if($this->db->insert('clockoff_dokumen', $query)) {
+                    $pesan = [
+                        'pesan' => 'Dokumen Berhasil Di Upload',
+                        'warna' => 'success' 
+                    ];
+                }else{
+                    $pesan = [
+                        'pesan' => 'Dokumen Gagal Di Upload',
+                        'warna' => 'danger' 
+                    ];
+                }
+            }else{
+                $pesan = [
+                    'pesan' => 'Dokumen Gagal Di Upload',
+                    'warna' => 'danger' 
+                ];
+            }
+            $this->session->set_flashdata($pesan);
+            redirect('surat/penundaan') ;
+        }
     }
 
 ?>

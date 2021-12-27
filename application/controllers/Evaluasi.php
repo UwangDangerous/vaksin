@@ -51,6 +51,93 @@
                 redirect('auth/inuser') ;
             }
         }
+
+
+
+
+        public function tambahEvaluasi($id)
+        {
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/hasil-evaluasi','pdf','evaluasi','hasil-evaluasi');
+            // $namaBerkas, $path, $type,$redirect,$namaTambahan = ''
+
+            $query = [
+                'idSample' => $id,
+                'hasilEvaluasi' => $upload
+            ];
+            $queryRiwayat = [
+                'idSample' => $id,
+                'tgl_riwayat' => date('Y-m-d'),
+                'keteranganRiwayat' => 'Selesai Di Evaluasi Oleh '. $this->session->userdata('nama')
+            ];
+
+            if($this->db->insert('evaluasi', $query)){
+                if($this->db->insert('riwayatPekerjaan', $queryRiwayat)) {
+                    $pesan = [
+                        'pesan' => 'Data Berhasil Di Tambah',
+                        'warna' => 'success' 
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    redirect("evaluasi") ;
+                }else{
+                    $pesan = [
+                        'pesan' => 'Data Gagal Di Tambah',
+                        'warna' => 'danger' 
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    redirect("evaluasi") ;
+                }
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Gagal Di Tambah',
+                    'warna' => 'danger' 
+                ];
+                $this->session->set_flashdata($pesan);
+                redirect("evaluasi") ;
+            }
+        }
+
+
+        public function pesanEvaluasi($id)
+        {
+            $query = [
+                'idSample' => $id,
+                'clock_off' => date('Y-m-d'),
+                'judul' => $this->input->post('judul'),
+                'keterangan' => $this->input->post('isi'),
+                'clock_on' => '0000-00-00'
+            ];
+            $queryRiwayat = [
+                'idSample' => $id,
+                'tgl_riwayat' => date('Y-m-d'),
+                'keteranganRiwayat' => 'Clock off '.$this->input->post('judul').' | oleh' . $this->session->userdata('nama')
+            ];
+
+            if($this->db->insert('clockoff', $query)){
+                if($this->db->insert('riwayatPekerjaan', $queryRiwayat)) {
+                    $pesan = [
+                        'pesan' => 'Data Berhasil Di Tambah',
+                        'warna' => 'success' 
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    redirect("evaluasi") ;
+                }else{
+                    $pesan = [
+                        'pesan' => 'Data Gagal Di Tambah',
+                        'warna' => 'danger' 
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    redirect("evaluasi") ;
+                }
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Gagal Di Tambah',
+                    'warna' => 'danger' 
+                ];
+                $this->session->set_flashdata($pesan);
+                redirect("evaluasi") ;
+            }
+        }
     }
 
 ?>

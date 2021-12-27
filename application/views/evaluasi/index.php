@@ -130,7 +130,7 @@
                                     <?php else : ?>
 
                                         <?php if($evaluasi = $this->Evaluasi_model->getDataEvaluasi($row['idSample'])) : ?>
-                                            <a href="<?= base_url(); ?>assets/file-upload/hasil-evaluasi/<?= $evaluasi['hasilEvaluasi'];?>" class="badge badge-secondary" data-toggle='tooltip' title='Lihat Hasil Evaluasi'>
+                                            <a href="<?= base_url(); ?>assets/file-upload/hasil-evaluasi/<?= $evaluasi['hasilEvaluasi'];?>" class="badge badge-secondary" data-toggle='tooltip' title='Lihat Hasil Evaluasi' target='blank'>
                                                 <i class="fa fa-file-signature"></i>
                                             </a> <!-- lihat dokumen --> 
                                             <a href="" class="badge badge-success" data-toggle='tooltip' title='Ubah Ceklis'>
@@ -246,9 +246,18 @@
                                 </button>
                             </div>
                             <?php $clock_on = $this->Evaluasi_model->clock_on($row['idSample']); ?>
-                            <?php foreach ($clock_on as $cn) : ?>
-                                <?php var_dump($cn); ?>
-                            <?php endforeach ; ?>
+                                <ul class="list-group">
+                                    <?php foreach ($clock_on as $cn) : ?>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            <?= $cn['judul']; ?>  <br>
+                                            ( <?= $this->_Date->formatTanggal( $cn['clock_off'] ); ?> - 
+                                             <?= $this->_Date->formatTanggal( $cn['clock_on'] ); ?> )
+                                            <a class="badge badge-primary" href='<?= base_url();?>assets/file-upload/berkas-clock-off/<?= $cn['berkas_cf'];?>'> 
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </li>
+                                    <?php endforeach ; ?>
+                                </ul>
                             </div>
                         </div>
                     </div>

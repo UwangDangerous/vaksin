@@ -97,7 +97,7 @@
             }
         }
 
-        public function uploadBuktiBayar($id) 
+        public function uploadBuktiBayar($id,$idSurat) 
         {
             date_default_timezone_set('Asia/Jakarta');
             $this->load->model('_Upload');
@@ -116,7 +116,7 @@
                 ];
 
                 $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$id") ;
+                redirect("sample_/index/$idSurat") ;
             }else{
                 $pesan = [
                     'pesan' => 'Bukti Bayar Gagal Ditambahkan' ,
@@ -124,7 +124,7 @@
                 ];
 
                 $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$id") ;
+                redirect("sample_/index/$idSurat") ;
             }
         }
 

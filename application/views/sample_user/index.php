@@ -148,7 +148,7 @@
                                                     </button>
                                                 </div>
                                                 <!-- form bukti bayar -->
-                                                <form action="<?= base_url(); ?>sample_/uploadBuktiBayar/<?= $row['idSurat']; ?>" method='post' class='myform' enctype="multipart/form-data">
+                                                <form action="<?= base_url(); ?>sample_/uploadBuktiBayar/<?= $row['idSample']; ?>/<?= $row['idSurat'];?>" method='post' class='myform' enctype="multipart/form-data">
                                                     <div class="modal-body">
                                                         <div class="form-group">
                                                             <input type="file" class="form-control" id="berkas" name='berkas' >
@@ -239,9 +239,9 @@
                     <a href="#" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample"> <i class="fa fa-trash"></i> </a>
 
                     <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>
-                        <?= $tombolNotaPembayaran; ?>
-                    <?php else : ?>
                         <a href='#' data-toggle='tooltip' title='sudah di upload' class='badge badge-success'> <i class="fa fa-check"></i> </a>
+                    <?php else : ?>
+                        <?= $tombolNotaPembayaran; ?>
                     <?php endif ; ?>
                 </td>
         <?php endforeach ; ?>

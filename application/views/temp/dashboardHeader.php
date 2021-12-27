@@ -52,6 +52,10 @@
                             </a>
                             <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="<?= base_url(); ?>jenisSample">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
+                                        Jenis Sample
+                                    </a>
                                     <a class="nav-link" href="<?= base_url(); ?>user">
                                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                         User

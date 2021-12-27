@@ -54,7 +54,7 @@
                         <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
                         <td>
                             <?php if($bukti = $this->Petugas_model->getBuktiBayar($row['idSample']) ) : ?>
-                                <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" class="badge badge-success" data-toogle='tooltip' title='Lihat Bukti Bayar'><i class="fa fa-check"></i></a>
+                                <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-success" data-toogle='tooltip' title='Lihat Bukti Bayar'><i class="fa fa-check"></i></a>
 
                                 <?php $tglBayarFormat = $this->_Date->formatTanggal( $bukti['tgl_bayar'] ).'<br>( '.$bukti['jam_bayar'].' )' ; ?> <br>
                                 <?php 

@@ -27,7 +27,15 @@
           <a class="nav-link" href="<?= base_url(); ?>#faq">FAQ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href=""><i class="fa fa-user"></i></a>
+          <?php if($this->session->userdata('key')) : ?>
+            <a class="nav-link" href="<?=base_url();?>dashboard" data-toogle='tooltip' title='Dashboard'>
+              <i class="fa fa-user"></i>
+            </a>
+          <?php elseif($this->session->userdata('eksId')) : ?>
+            <a class="nav-link" href="<?=base_url();?>dsb" data-toogle='tooltip' title='Dashboard'>
+              <i class="fa fa-user"></i>
+            </a>
+          <?php endif ; ?>
         </li>
       </ul>
     </div>

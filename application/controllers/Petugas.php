@@ -165,6 +165,7 @@ class Petugas extends CI_Controller{
         $query=[
             'idSample' => $id,
             'clock_off' => date('Y-m-d'),
+            'judul' => $this->input->post('judul'),
             'keterangan' => $this->input->post('keterangan',true),
             'clock_on' => '0000-00-00'
         ];

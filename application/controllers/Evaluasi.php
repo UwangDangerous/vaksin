@@ -10,6 +10,7 @@
 
         public function index()
         {
+            $this->load->model('_Date');
             $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Data Sample'; 
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Ceklis Tersedia'; 

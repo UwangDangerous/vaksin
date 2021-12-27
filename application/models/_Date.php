@@ -170,6 +170,8 @@
                 
 
                     $data = [
+                        'awalPengerjaan' => date('Y-m-d' ,$awalPengerjaan),
+                        'akhirPengerjaan' => $akhirPengerjaan,
                         'lamaPengerjaan' => $lamaPengerjaan ,
                         'penundaan' => $jumlahHariDataKurang,
                         'libur' => $libur ,

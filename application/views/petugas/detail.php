@@ -123,7 +123,7 @@
         <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#clockoff' data-toggle='tooltip' title='Kirim Pesan Data Kurang'><i class="fa fa-pen"></i></a>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col-md-4">
             <table>
                 <?php foreach ($petugas as $p) : ?>
                     <tr>
@@ -219,6 +219,10 @@
       </div>
       <form method="post" action="<?= base_url() ;?>petugas/inputDataKurang/<?= $sample['idSample'];?>">
         <div class="modal-body">
+            <label for="judul">Judul Pesan</label>
+            <input type="text" name="judul" id="judul" class='form-control'>
+
+            <label for="keterangan">Isi Pesan</label>
             <div class="form-group">
                 <textarea class="form-control" id="keterangan" name='keterangan' rows="3"></textarea>
             </div>

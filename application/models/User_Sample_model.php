@@ -7,7 +7,6 @@
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            // $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisDataDukung = _sample.idJenisDataDukung');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
             $this->db->order_by('idsample','desc');

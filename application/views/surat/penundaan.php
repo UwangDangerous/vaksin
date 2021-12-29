@@ -62,7 +62,7 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="post" action="<?= base_url();?>surat/uploadPenundaan/<?= $row['idClockOff']; ?>" enctype="multipart/form-data" class='myform'>
+                                <form method="post" action="<?= base_url();?>surat/uploadPenundaan/<?= $row['idClockOff']; ?>/<?= $row['idSample'];?>" enctype="multipart/form-data" class='myform'>
                                 
                                     <div class="modal-body">
                                         <label for="berkas">Upload File Susulan</label>

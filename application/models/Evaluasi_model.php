@@ -123,7 +123,7 @@
         public function clockoff($id)
         {
             $this->db->where('idSample',$id);
-            $this->db->order_by('idClockOff', 'asc');
+            $this->db->order_by('idClockOff', 'desc');
             return $this->db->get('clockoff')->row_array() ;
         }
 

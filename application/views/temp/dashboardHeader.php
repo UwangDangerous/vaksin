@@ -86,7 +86,7 @@
                                 Evaluasi Sample
                             </a>
 <?php elseif($lvl == 4) : ?> <!-- Verifikator --> 
-                            <a class="nav-link" href="<?= base_url(); ?>verifikasi">
+                            <a class="nav-link" href="<?= base_url(); ?>verifikasi_">
                                 <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
                                 Verifikasi Sample
                             </a>

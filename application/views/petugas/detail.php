@@ -103,7 +103,7 @@
                                         <?php foreach ($dataDukung as $dd) : ?>
                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                 <?= $dd['namaJenisDataDukung']; ?>
-                                                <a href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung']; ?>" data-toggle='tooltip' title='lihat data dukung <?= $dd['namaJenisDataDukung']; ?>' class="badge badge-primary"><i class="fa fa-eye"></i></a>
+                                                <a href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung']; ?>" data-toggle='tooltip' title='lihat data dukung <?= $dd['namaJenisDataDukung']; ?>' class="badge badge-primary" target='blank'><i class="fa fa-eye"></i></a>
                                             </li>
                                         <?php endforeach ; ?>
                                     </ul>

@@ -96,7 +96,7 @@
             }
         }
 
-        public function uploadPenundaan($id)
+        public function uploadPenundaan($id, $idSample)
         {
             // $id = $this->input->post('id') ;
             $this->load->model('_Upload');
@@ -107,13 +107,31 @@
                 'berkas_cf' => $upload
             ];
 
+            $queryRiwayat = [
+                'idSample' => $idSample,
+                'tgl_riwayat' => date('Y-m-d') ,
+                'keteranganRiwayat' => 'Data Telah Di Lengkapi ( clock on / '.$this->input->post('keterangan').' ) | Oleh '. $this->session->userdata('eksNama')
+            ] ;
+
             $this->db->where('idClockOff', $id);
             if($this->db->update('clockoff', ['clock_on'=>date('Y-m-d')])) {
                 if($this->db->insert('clockoff_dokumen', $query)) {
-                    $pesan = [
-                        'pesan' => 'Dokumen Berhasil Di Upload',
-                        'warna' => 'success' 
-                    ];
+                    
+                    if($this->db->insert('riwayatPekerjaan', $queryRiwayat)) {
+
+                        $pesan = [
+                            'pesan' => 'Dokumen Berhasil Di Upload',
+                            'warna' => 'success' 
+                        ];
+
+                    }else{
+
+                        $pesan = [
+                            'pesan' => 'Dokumen Gagal Di Upload',
+                            'warna' => 'danger' 
+                        ];
+
+                    }
                 }else{
                     $pesan = [
                         'pesan' => 'Dokumen Gagal Di Upload',

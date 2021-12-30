@@ -71,7 +71,31 @@
             $this->db->where('idSample', $id);
             return $this->db->get('riwayatPekerjaan')->result_array();
         }
+
+        public function hasilEvaluasi($id)
+        {
+            $this->db->where('idSample', $id) ;
+            if( $hasil = $this->db->get('evaluasi')->row_array() ) {
+                return '<a href="'.base_url().'assets/file-upload/hasil-evaluasi/'.$hasil["hasilEvaluasi"].'" class="badge badge-primary" data-toggle="tooltip" title="Hasil Evaluasi" target="blank"><i class="fa fa-eye"></i></a>' ;
+            }else{
+                return '<i class="text-danger"> Ceklis Tidak Tersedia </i>' ;
+            }
+        }
+
+        public function hasilVerifikasi($id)
+        {
+            $this->db->where('idSample', $id) ;
+            $this->db->join('evaluasi', 'evaluasi.idEvaluasi = verifikasi.idEvaluasi') ;
+            return $hasil = $this->db->get('verifikasi')->row_array() ;
+            // if( $hasil = $this->db->get('verifikasi')->row_array() ) {
+            //     return '<a href="'.base_url().'assets/file-upload/hasil-verifikasi/'.$hasil["hasilVerifikasi"].'" class="badge badge-primary" data-toggle="tooltip" title="Hasil Verifikasi" target="blank"><i class="fa fa-eye"></i></a> || oke' ;
+            // }else{
+            //     return '<i class="text-danger"> Ceklis Tidak Tersedia </i> || ' ;
+            // }
+
+        }
         
     }
 
 ?>
+

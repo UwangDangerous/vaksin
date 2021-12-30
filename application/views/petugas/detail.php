@@ -118,22 +118,78 @@
 </div>
 
 <div class="card p-3 mt-3">
-    <div class="d-flex justify-content-between">
-        <h3>Riwayat Pengerjaan</h3>
-        <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#clockoff' data-toggle='tooltip' title='Kirim Pesan Data Kurang'><i class="fa fa-pen"></i></a>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <table>
+    <h3> Petugas dan Hasil Kerja </h3>
+    <br>
+        <div class="d-flex justify-content-between">
+            <table cellpadding='5'>
+                <?php $idVerifikasi = 0 ; ?>
                 <?php foreach ($petugas as $p) : ?>
                     <tr>
                         <th><?= $p['namaLevel']; ?></th>
                         <td>:</td>
                         <td><?= $p['namaIU']; ?></td>
+                        <td>
+                            <?php if($p['idLevel'] == 3) : ?>
+                                <?= $this->Petugas_model->hasilEvaluasi($sample['idSample']) ; ?>
+                            <?php elseif($p['idLevel'] == 4) : ?>
+                                <?php $hasil = $this->Petugas_model->hasilVerifikasi($sample['idSample']) ; ?>
+                                <?php if($hasil) : ?>
+                                    <a href="<?= base_url(); ?>assets/file-upload/hasil-verifikasi/<?= $hasil["hasilVerifikasi"]; ?>" class="badge badge-primary" data-toggle="tooltip" title="Hasil Verifikasi" target="blank"><i class="fa fa-eye"></i></a>
+                                    <?php $idVerifikasi = $hasil['idVerifikasi'] ; ?>
+                                <?php endif ; ?>
+                            <?php endif ; ?>
+                        </td>
                     </tr>
                 <?php endforeach ; ?>
             </table>
+
+            <!-- Button trigger modal -->
+            <?php if($idVerifikasi != 0) : ?>
+                
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-toggle='tooltip' title='Certificate'>
+                            <i class="fa fa-print"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Sertifikat</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="post" action="<?= base_url() ;?>petugas/sertifikat/<?= $idVerifikasi;?>">
+                                <div class="modal-body">
+                                    <label for="no">Nomer Surat</label>
+                                    <input type="text" name="no" id="no" class='form-control' placeholder=''>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="no">Nomer Sample</label>
+                                    <input type="text" name="no" id="no" class='form-control' placeholder='F/PBT/0018'>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Buat Sertifikat</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <?php endif ; ?>
+
+                
         </div>
+</div>
+
+<div class="card p-3 mt-3">
+    <div class="d-flex justify-content-between">
+        <h3>Riwayat Pengerjaan</h3>
+        <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#clockoff' data-toggle='tooltip' title='Kirim Pesan Data Kurang'><i class="fa fa-pen"></i></a>
     </div>
     <br>
     <div class="table-responsive">

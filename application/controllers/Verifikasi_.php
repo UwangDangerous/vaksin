@@ -37,7 +37,7 @@
                 'hasilVerifikasi' => $upload
             ];
             $queryRiwayat = [
-                'idSample' => $id,
+                'idSample' => $idSample,
                 'tgl_riwayat' => date('Y-m-d'),
                 'keteranganRiwayat' => 'Selesai Di Verifikasi Oleh '. $this->session->userdata('nama')
             ];

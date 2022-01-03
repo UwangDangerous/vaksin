@@ -15,6 +15,7 @@
             $data['header'] = 'Riwayat dan Keterangan Surat'; 
             $data['bread'] = '<a href="'.base_url().'dsb"> Dashboard </a> / Riwayat Surat'; 
             $data['surat'] = $this->Surat_model->getSurat();
+            $this->load->model('_Date');
             if( $this->session->userdata('eksId') )
             {
                 $this->load->view('temp/dsbHeader',$data);
@@ -35,8 +36,9 @@
             if( $this->session->userdata('eksId') )
             {
                 // $this->form_validation->set_rules('berkas', 'Nama User', 'required');
-                $this->form_validation->set_rules('nama', 'Nama Surat / Judul', 'required');
-                $this->form_validation->set_rules('Isi', 'Isi Surat', 'required');
+                $this->form_validation->set_rules('nama', 'Perihal / Judul Surat', 'required');
+                $this->form_validation->set_rules('nosurat', 'Nomer Surat', 'required');
+                $this->form_validation->set_rules('tanggal', 'Tanggal Surat', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dsbHeader',$data);

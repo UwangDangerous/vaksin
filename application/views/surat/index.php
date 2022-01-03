@@ -19,10 +19,11 @@
             <thead>
             <tr>
                 <th>No</th>
-                <th>Judul Surat</th>
-                <th>Isi / Keterangan</th>
+                <th>No Surat</th>
+                <th>Perihal</th>
+                <th>Tanggal Surat</th>
                 <th>Jumlah Sample</th>
-                <th>Surat</th>
+                <th>Isi Surat</th>
                 <th>Aksi</th>
             </tr>
             </thead>
@@ -32,8 +33,9 @@
             <?php foreach ($surat as $row) : ?>
                 <tr>
                     <td><?= $no++; ?></td>
+                    <td><?= $row['noSurat']; ?></td>
                     <td><?= $row['namaSurat']; ?></td>
-                    <td><?= $row['isiSurat']; ?></td>
+                    <td><?= $this->_Date->formatTanggal( $row['tgl_kirim_surat'] ); ?></td>
                     <td>
                         <?= $this->Surat_model->getJumlahSample($row['idSurat']); ?>
                     </td>

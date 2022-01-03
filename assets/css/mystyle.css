@@ -22,3 +22,8 @@ footer{
     color : red ;
     font-size: 12px;
 }
+.myscroll{
+    width : 100% ;
+    height: 300px;
+    overflow: scroll;
+}

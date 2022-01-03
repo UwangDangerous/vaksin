@@ -18,14 +18,19 @@
             <small id="usernameHelp" class="form-text text-danger"><?= form_error('berkas'); ?></small>
         </div>
         <div class="form-group">
-            <label for="nama">Nama Surat / Judul</label>
+            <label for="nosurat">Nomer Surat</label>
+            <input type="text" class="form-control" id="nosurat" name='nosurat' placeholder="Nomer Surat">
+            <small id="usernameHelp" class="form-text text-danger"><?= form_error('nosurat'); ?></small>
+        </div>
+        <div class="form-group">
+            <label for="nama">Perihal / Judul Surat</label>
             <input type="text" class="form-control" id="nama" name='nama' placeholder="Nama Surat / Judul">
             <small id="usernameHelp" class="form-text text-danger"><?= form_error('nama'); ?></small>
         </div>
         <div class="form-group">
-            <label for="Isi">Isi Surat</label>
-            <textarea name="Isi" id="Isi" cols="30" rows="10" class="form-control" placeholder="Isi Surat / Keterangan"></textarea>
-            <small id="usernameHelp" class="form-text text-danger"><?= form_error('Isi'); ?></small>
+            <label for="tanggal">Tanggal Surat</label>
+            <input type="date" class="form-control" id="tanggal" name='tanggal'>
+            <small id="usernameHelp" class="form-text text-danger"><?= form_error('tanggal'); ?></small>
         </div>
 
         <br><br>

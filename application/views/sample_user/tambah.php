@@ -44,11 +44,21 @@
                     <select class="form-control" id='jd'  name='jd'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisDokumen as $jd) : ?>
-                            <option value="<?= $jd['idJenisDokumen']; ?>"> <?= $jd['namaJenisDokumen']; ?> </option>
+                            <option value="<?= $jd['idJenisDokumen']; ?>|<?= $jd['namaJenisDokumen']; ?>"> <?= $jd['namaJenisDokumen']; ?> </option>
                         <?php endforeach ; ?>
                     </select>
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('jd'); ?></small>
                 </div>
+
+                <script>
+                    $('#jd').change(function () {
+                        var option_value = $(this).val();
+                        var coba = option_value.split("|") ;
+                        $('#Price').html(coba[0]);
+                    });
+                </script>
+
+                <div id="Price"></div>
 
             </div>
 

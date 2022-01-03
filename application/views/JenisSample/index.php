@@ -38,6 +38,9 @@
                             <a href="#"  data-toggle="modal" data-target="#ubahData<?= $row['idJenisSample'];?>"  data-toogle='tooltip' title='Ubah Data' class="badge badge-success">
                                 <i class="fa fa-edit"></i>
                             </a>
+                            <a href="<?= base_url(); ?>form" data-toogle='tooltip' title='Buat Form' class="badge badge-primary">
+                                <i class="fa fa-table"></i>
+                            </a>
                         </td>
 
                         <!-- Modal Ubah Data-->

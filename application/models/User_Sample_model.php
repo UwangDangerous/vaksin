@@ -7,10 +7,28 @@
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            // $this->db->join('_jenisDokumen', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
-            $this->db->order_by('idsample','desc');
+            $this->db->join('_importir', '_sample.idSample = _importir.idSample','left');
+            $this->db->order_by('_sample.idsample','desc');
+            $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
+                                _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
+                                namaImportir, namaJenisManufacture, noMA, tgl_pengiriman, _surat.idSurat as idSurat'
+                            );
             return $this->db->get('_sample')->result_array();
+        }
+
+        public function getDataSampleBatch($id) 
+        {
+            $this->db->where('_sample.idSample', $id );
+            $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
+            $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
+            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
+            $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
+            $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
+            return $this->db->get('_sample')->row_array();
         }
 
         public function getJenisDataDukung($id) 
@@ -33,13 +51,8 @@
                 'namaSample' => $this->input->post('nama'),
                 'idJenisSample' => $this->input->post('js'),
                 'idJenisDokumen' => $this->input->post('jd'),
-                'namaManufacture' => $this->input->post('namaManufacture'),
-                'alamatManufacture' => $this->input->post('alamatManufacture'),
                 'idJenisManufacture' => $this->input->post('jm'),
                 'noMA' => $this->input->post('noMA'),
-                'batchNo' => $this->input->post('batch'),
-                'expiryDate' => $this->input->post('expiry'),
-                'StorageTemperature' => $this->input->post('penyimpanan'),
                 'tgl_pengiriman' => $this->input->post('tanggal')
             ];
             
@@ -75,6 +88,13 @@
             return $this->db->get('_dataDukung')->row_array()['jumlah'];
         }
 
+        public function getJumlahDataDukung($idBatch, $jenis)
+        {
+            $this->db->where('idBatch', $idBatch);
+            $this->db->where('idJenisDataDukung', $jenis);
+            return $this->db->get('_dataDukung_batch')->num_rows();
+        }
+
         public function jmlDokumenTerisi($id)
         {
             $this->db->where('idSample', $id);
@@ -97,6 +117,18 @@
         {
             $this->db->where('idSample', $id);
             return $this->db->get('_buktiBayar')->row_array();
+        }
+
+        public function getBatch($id) 
+        {
+            $this->db->where('idSample', $id);
+            return $this->db->get('sample_batch')->num_rows();
+        }
+
+        public function getDataBatch($id) 
+        {
+            $this->db->where('idSample', $id);
+            return $this->db->get('sample_batch')->result_array();
         }
 
     }

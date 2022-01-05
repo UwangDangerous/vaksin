@@ -17,10 +17,10 @@
     </div><!-- col 1 --> 
 </div><!-- row 1 --> 
 
-<?php if(!empty($this->session->flashdata('pesan') )) : ?>
+<?php if(!empty($this->session->flashdata('pesanImportir') )) : ?>
     
-    <div class="alert alert-<?=  $this->session->flashdata('warna'); ?> alert-dismissible fade show" role="alert">
-        <?=  $this->session->flashdata('pesan'); ?>
+    <div class="alert alert-<?=  $this->session->flashdata('warnaImportir'); ?> alert-dismissible fade show" role="alert">
+        <?=  $this->session->flashdata('pesanImportir'); ?>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -37,8 +37,7 @@
             <th class='align-middle'>Nama Perusahaan</th>
             <th class='align-middle'>Jenis Perusahaan</th>
             <th class='align-middle'>No MA</th>
-            <th class='align-middle'>No Batch</th>
-            <th class='align-middle'>Masa Berlaku</th>
+            <th class='align-middle'>Jumlah Batch</th>
             <th class='align-middle'>Tanggal Pengiriman</th>
             <th class='align-middle'>Lengkapi Dokumen</th>
             <th class='align-middle'>Aksi</th>
@@ -50,76 +49,27 @@
             <tr>
                 <td><?= $no++; ?></td>
                 <td><?= $row['namaSample'];?> <br>( <?= $row['jenisSample']; ?> )</td>
-                <td><?= $row['namaManufacture']; ?></td>
+                <td>
+                    <?php if($row['idJenisManufacture'] == 2)  : ?>
+                        <?= $row['namaImportir']; ?> <br>
+                        ( <?= $row['namaEU']; ?> Imported)
+                    <?php else : ?>
+                        <?= $row['namaEU']; ?>
+                    <?php endif ; ?>
+                </td>
                 
                 <td>
-                    <?php if($row['idJenisManufacture'] == 2) : ?>
-                        <div id="accordion">
-                        <div class="card">
-                            <div class="card-header" id="jenisManufactureAccord">
-                            <h5 class="mb-0">
-                                <button class="btn btn-link" data-toggle="collapse" data-target="#jmAccord<?= $row['idSample'];?>" aria-expanded="true" aria-controls="jmAccord<?= $row['idSample'];?>" data-toggle='tooltip' title='Lengkapi Data'>
-                                    <?= $row['namaJenisManufacture']; ?>
-                                </button>
-                            </h5>
-                            </div>
-
-                            <div id="jmAccord<?= $row['idSample'];?>" class="collapse" aria-labelledby="jenisManufactureAccord" data-parent="#accordion">
-                            <div class="card-body">
-                                <?php if($import = $this->User_Sample_model->getImportir($row['idSample'])) : ?>
-                                    <?= $import['namaImportir']; ?> ,
-                                    <?= $import['alamatImportir']; ?>
-                                <?php else : ?>
-                                    <a href="" class="badge badge-primary" data-toggle="modal" data-toggle='tooltip' title='Tambah Data Importir' data-target="#jenisPerusahaan<?= $row['idSample']; ?>"> 
-                                        <i class="fa fa-plus"></i> 
-                                    </a>
-
-                                    <!-- Modal -->
-                                    <div class="d-flex text-left">
-                                        <div class="modal fade" id="jenisPerusahaan<?= $row['idSample']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content ">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">
-                                                            Data Importir
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body ">
-                                                        <form method="post" action="<?= base_url(); ?>sample_/addImportir" class='myform '>
-                                                            <input type="hidden" name='id' value='<?= $row['idSample'];?>'>
-                                                            <div class="form-group">
-                                                                <label for="nama">Nama Importir</label>
-                                                                <input type="text" class="form-control" id="nama" name='nama' >
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="alamat">Alamat Importir</label>
-                                                                <textarea name="alamat" id="alamat" cols="30" rows="5" class="form-control"></textarea>
-                                                            </div>
-
-                                                            <br><br>
-                                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                                        </form>
-                                                    </div>
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endif ; ?>
-                            </div>  
-                        </div>
-                    </div>
-                    <?php else : ?>
                         <?= $row['namaJenisManufacture']; ?>
-                    <?php endif ; ?>
                 </td>
 
                 <td> <?= $row['noMA']; ?> </td>
-                <td> <?= $row['batchNo']; ?> </td>
-                <td> <?= $this->_Date->formatTanggal( $row['expiryDate'] ); ?> </td>
+                <td>
+                    <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
+                        <?= $batch; ?>
+                    <?php else : ?>
+                        0
+                    <?php endif ; ?>
+                </td>
                 <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
 
                 <!-- lengkapi dokumen -->
@@ -232,8 +182,11 @@
                     </div>
                 </td>
                 <!-- akhir lengkapi dokumen -->
-                
                 <td>
+                    <a href="<?=base_url();?>sample_/batch/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-warning" data-toggle='tooltip' title='Lengkapi Dokumen'>
+                        <i class="fa fa-pen"></i>
+                    </a>
+
                     <a href="#" class="badge badge-primary" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
                     <a href="#" class="badge badge-success" data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
                     <a href="#" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample"> <i class="fa fa-trash"></i> </a>

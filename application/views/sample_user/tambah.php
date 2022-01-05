@@ -62,22 +62,12 @@
 
             </div>
 
-            <div class="col-md-6">
-
-                <!-- nama perusahaan -->
-                <div class="form-group">
-                    <label for="namaManufacture">Nama Perusahaan</label>
-                    <input type="text" class="form-control" id="namaManufacture" placeholder="Nama Perusahaan" name='namaManufacture' value="<?= set_value('namaManufacture'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('namaManufacture'); ?></small>
-                </div>
-
-            </div>
 
             <div class="col-md-6">
 
                 <!-- jenis perusahaan -->
                 <div class="form-group">
-                    <label for="jm">Perusahaan</label>
+                    <label for="jm">Jenis Perusahaan</label>
                     <select class="form-control" id='jm'  name='jm'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisManufacture as $jm) : ?>
@@ -89,57 +79,13 @@
 
             </div>
 
-            <div class="col-md-12">
-
-                <!-- alamat perusahaan -->
-                <div class="form-group">
-                    <label for="alamatManufacture">Alamat Perusahaan</label>
-                    <textarea name="alamatManufacture" id="alamatManufacture" cols="30" rows="5" class="form-control" placeholder='Alamat Perusahaan'></textarea>
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('alamatManufacture'); ?></small>
-                </div>
-
-            </div>
-
             <div class="col-md-6">
 
                 <!-- no ma -->
                 <div class="form-group">
-                    <label for="noMA">Nomer MA</label>
+                    <label for="noMA">Nomer MA (Marketing Authorization)</label>
                     <input type="text" class="form-control" id="noMA" placeholder="Nomer MA (Marketing Authorization)" name='noMA' value="<?= set_value('noMA'); ?>" >
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('noMA'); ?></small>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <!-- no batch -->
-                <div class="form-group">
-                    <label for="batch">No Batch</label>
-                    <input type="text" class="form-control" id="batch" placeholder="No Batch" name='batch' value="<?= set_value('batch'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('batch'); ?></small>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <!-- penyimpanan -->
-                <div class="form-group">
-                    <label for="penyimpanan">Suhu Penyimpanan</label>
-                    <input type="text" class="form-control" id="penyimpanan" placeholder="Suhu Penyimpanan (contoh : 4 C)" name='penyimpanan' value="<?= set_value('penyimpanan'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('penyimpanan'); ?></small>
-                </div>
-
-            </div>
-
-            <div class="col-md-6">
-
-                <!-- masa berlaku -->
-                <div class="form-group">
-                    <label for="expiry">Masa Berlaku</label>
-                    <input type="date" class="form-control" id="expiry" placeholder="Masa Berlaku" name='expiry' value="<?= set_value('expiry'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('expiry'); ?></small>
                 </div>
 
             </div>

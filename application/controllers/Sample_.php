@@ -23,8 +23,30 @@
                 $this->load->view('sample_user/index');
                 $this->load->view('temp/dsbFooter');
             }else{
-                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
-                redirect('auth/inuser') ;
+                $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+                redirect('auth') ;
+            }
+        }
+
+        public function batch($idSurat, $idSample)
+        {
+            $idLevel = $this->session->userdata('idLevel') ;
+            $data['judul'] = 'Lengkapi Dokumen '. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Lengkapi Dokumen'; 
+            $data['bread'] = 'Dashboard / Riwayat Surat / <a href="'.base_url().'sample_/index/'.$idSurat.'">  Informasi Sample  </a> / Lengkapi Dokumen'; 
+            // $data['id'] = $idSample ;
+            $data['idSurat'] = $idSurat ;
+            $data['sample'] = $this->User_Sample_model->getDataSampleBatch($idSample);
+            $this->load->model('_Date');
+            $data['batch'] = $this->User_Sample_model->getDataBatch($idSample) ;
+            if( $this->session->userdata('eksId') != null )
+            {
+                $this->load->view('temp/dsbHeader',$data);
+                $this->load->view('sample_user/batch');
+                $this->load->view('temp/dsbFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+                redirect('auth') ;
             }
         }
 
@@ -47,12 +69,7 @@
                 $this->form_validation->set_rules('nama', 'Nama Surat / Keterangan', 'required');
                 $this->form_validation->set_rules('js', 'Jenis Sampel', 'required');
                 $this->form_validation->set_rules('jd', 'Jenis Dokumen', 'required');
-                $this->form_validation->set_rules('namaManufacture', 'Nama Perusahaan', 'required');
-                $this->form_validation->set_rules('alamatManufacture', 'Alamat Perusahaan', 'required');
                 $this->form_validation->set_rules('noMA', 'Nomer MA', 'required|numeric');
-                $this->form_validation->set_rules('batch', 'No Batch', 'required|numeric');
-                $this->form_validation->set_rules('penyimpanan', 'Penyimpanan', 'required');
-                $this->form_validation->set_rules('expiry', 'Masa Berlaku', 'required');
                 $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
 
                 if($this->form_validation->run() == FALSE) {
@@ -63,8 +80,8 @@
                     $this->User_Sample_model->addSample();
                 }
             }else{
-                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
-                redirect('auth/inuser') ;
+                $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+                redirect('auth') ;
             }
         }
             
@@ -115,52 +132,135 @@
                     'warna' => 'success'
                 ];
 
-                $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$idSurat") ;
             }else{
                 $pesan = [
                     'pesan' => 'Bukti Bayar Gagal Ditambahkan' ,
                     'warna' => 'danger'
                 ];
 
-                $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$idSurat") ;
             }
+
+            $this->session->set_flashdata($pesan);
+            redirect("sample_/index/$idSurat") ;
         }
 
-        public function addImportir() 
+        public function tambahImportir($idSurat)
         {
-            $id = $this->input->post('id') ;
             $query = [
-                'idSample' => $id,
-                'namaImportir' => $this->input->post('nama'),
-                'alamatImportir' => $this->input->post('alamat')
-            ];
+                'idSample' => $this->input->post('idSample'),
+                'namaImportir' => $this->input->post('namaImportir'),
+                'alamatImportir' => $this->input->post('alamatImportir')
+            ] ;
 
-            if($this->db->insert('_importir', $query) ) {
+            if( $this->db->insert('_importir', $query) ){
                 $pesan = [
-                    'pesan' => 'Data Dukung Berhasil Ditambahkan' ,
-                    'warna' => 'success'
-                ];
-
-                $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$id") ;
+                    'pesanImportir' => 'Data Berhasil Di Simpan' ,
+                    'warnaImportir' => 'success'
+                ] ;
             }else{
                 $pesan = [
-                    'pesan' => 'Data Dukung Gagal Ditambahkan' ,
-                    'warna' => 'danger'
-                ];
-
-                $this->session->set_flashdata($pesan);
-                redirect("sample_/index/$id") ;
+                    'pesanImportir' => 'Data Gagal Di Simpan' ,
+                    'warnaImportir' => 'danger'
+                ] ;
             }
+
+            $this->session->set_flashdata( $pesan );
+            redirect("sample_/batch/$idSurat/".$this->input->post('idSample') );
+
+            
         }
 
-        // public function cetak($id) 
-        // {
-        //     $data['id'] = $id ;
-        //     $this->load->view('sample/cetak', $data);
-        // }
+        public function tambahBatch($idSurat,$idSample)
+        {
+            $jmlVial = $this->input->post('jmlvial');
+            $vials = '' ;
+            for ($i = 1; $i <= $jmlVial; $i++) {
+                $vials .= $this->input->post("vial$i").',';
+            }
+
+            $vials = rtrim($vials, ',') ;
+
+            $query = [
+                'idSample' => $idSample,
+                'noBatch' => $this->input->post('batch'),
+                'dosis' => $this->input->post('Dosis'),
+                'vial' => $vials 
+            ] ;
+            // var_dump($query) ;
+
+            if( $this->db->insert('sample_batch', $query) ){
+                $pesan = [
+                    'pesanImportir' => 'Data Berhasil Di Simpan' ,
+                    'warnaImportir' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesanImportir' => 'Data Gagal Di Simpan' ,
+                    'warnaImportir' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata( $pesan );
+            redirect("sample_/batch/$idSurat/$idSample");
+
+            
+        }
+
+        public function ubahDataBatch($idSurat,$idSample)
+        {
+            $idBatch = $this->input->post('idBatch');
+            $jmlVial = $this->input->post("jmlvialEdit$idBatch");
+            $jmlVialAwal = $this->input->post("jml$idBatch");
+
+            $vialAwal = '' ;
+
+            for ($i = 0; $i < $jmlVialAwal; $i++) {
+                $vialAwal .= $this->input->post("vial$i|$idBatch").',';
+            }
+
+            if($jmlVial > $jmlVialAwal){
+                $j =  $jmlVialAwal + 1 ;
+                for ($j; $j < $jmlVial; $j++) {
+                    $vialAwal .= $this->input->post("vialBaru$j|$idBatch").',';
+                }
+            }else{
+                echo "tidak" ;
+            }
+            var_dump($vialAwal) ;
+            // $vials = '' ;
+            // for ($i = 1; $i <= $jmlVial; $i++) {
+            //     $vials .= $this->input->post("vial$i").',';
+            // }
+
+            // $vials = rtrim($vials, ',') ;
+            // $jumlahVialAwal = $this->input->post("jml$idBatch");
+            // for($i = 0)
+
+            $query = [
+                'idSample' => $idSample,
+                'noBatch' => $this->input->post("batchEdit$idBatch"),
+                'dosis' => $this->input->post("DosisEdit$idBatch")
+                // 'vial' => $vials 
+            ] ;
+            // var_dump($query) ;
+
+            // if( $this->db->insert('sample_batch', $query) ){
+            //     $pesan = [
+            //         'pesanImportir' => 'Data Berhasil Di Simpan' ,
+            //         'warnaImportir' => 'success'
+            //     ] ;
+            // }else{
+            //     $pesan = [
+            //         'pesanImportir' => 'Data Gagal Di Simpan' ,
+            //         'warnaImportir' => 'danger'
+            //     ] ;
+            // }
+
+            // $this->session->set_flashdata( $pesan );
+            // redirect("sample_/batch/$idSurat/$idSample");
+
+            
+        }
     }
 
 ?>

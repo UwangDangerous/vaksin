@@ -7,14 +7,15 @@
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            // $this->db->join('_jenisDokumen', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
             $this->db->join('_importir', '_sample.idSample = _importir.idSample','left');
             $this->db->order_by('_sample.idsample','desc');
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
                                 _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
-                                namaImportir, namaJenisManufacture, noMA, tgl_pengiriman, _surat.idSurat as idSurat'
+                                namaImportir, namaJenisManufacture, noMA, tgl_pengiriman, _surat.idSurat as idSurat,
+                                _sample.idJenisSample as idJenisSample, namaJenisDokumen, _jenisDokumen.idJenisDokumen as idJenisDokumen'
                             );
             return $this->db->get('_sample')->result_array();
         }
@@ -46,11 +47,13 @@
 
         public function addSample() 
         {
+            $jenisDokumen = explode('|',$this->input->post('jd')) ;
+            $jenisDokumen = $jenisDokumen[0] ;
             $query = [
                 'idSurat' => $this->input->post('id'),
                 'namaSample' => $this->input->post('nama'),
                 'idJenisSample' => $this->input->post('js'),
-                'idJenisDokumen' => $this->input->post('jd'),
+                'idJenisDokumen' => $jenisDokumen,
                 'idJenisManufacture' => $this->input->post('jm'),
                 'noMA' => $this->input->post('noMA'),
                 'tgl_pengiriman' => $this->input->post('tanggal')

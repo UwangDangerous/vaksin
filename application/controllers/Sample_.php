@@ -214,20 +214,6 @@
 
             $vialAwal = '' ;
 
-            // for ($i = 0; $i < $jmlVialAwal; $i++) {
-            //     $vialAwal .= $this->input->post("vial$i|$idBatch").',';
-            // }
-
-            // if($jmlVial > $jmlVialAwal){
-            //     $j =  $jmlVialAwal + 1 ;
-            //     for ($j; $j <= $jmlVial; $j++) {
-            //         $vialAwal .= $this->input->post("vial$j|$idBatch").',';
-            //         // echo $this->input->post('vial'.$j.'|'.$idBatch).',';
-            //         // echo 'vialBaru'.$j.''.$idBatch ;
-            //     }
-            //     // echo "vialBaru$j|$idBatch" ;
-            // }
-
             $query = [
                 'idSample' => $idSample,
                 'noBatch' => $this->input->post("batchEdit$idBatch"),
@@ -308,17 +294,9 @@
                     $this->db->where('idBatch', $batch);
                     $dataDukung = $this->db->get('_datadukung_batch')->result_array();
                     foreach($dataDukung as $dd) {
-                        $link = base_url().'assets/file-upload/data-dukung/'.$dd['fileDataDukung'] ;
-                        // var_dump($link) ;
-                        rmdir( $link ) ;
-                        // delete_files(base_url().'./assets/file-upload/data-dukung/'.$dd['fileDataDukung'], TRUE);
-                        // var_dump( base_url().'./assets/file-upload/data-dukung/'.$dd['fileDataDukung']) ;
-                        
-                        
+                        $link = './assets/file-upload/data-dukung/'.$dd['fileDataDukung'] ;
+                        unlink($link) ;
                     }
-                    // echo "<a href='../../../'> back </a>  ";
-                    // var_dump($dataDukung);
-                     die ;
                     $this->db->where('idSample', $id);
                     if($this->db->delete('_sample')) {
                         
@@ -356,6 +334,39 @@
                 }
             }
             
+            $this->session->set_flashdata($pesan);
+            redirect("sample_/index/$idSurat/$id") ;
+        }
+
+        public function editDataSample($idSurat) 
+        {
+            $id = $this->input->post('id');
+            $jp = explode('|', $this->input->post('jd')) ;
+ 
+            $query = [
+                'namaSample' => $this->input->post('nama'),
+                'idJenisSample' => $this->input->post('js'),
+                'idJenisDokumen' => $jp[1],
+                'idJenisManufacture' => $this->input->post('jp'),
+                'noMA' => $this->input->post('noMA'),
+                'tgl_pengiriman' => $this->input->post('tanggal')
+            ] ;
+
+            var_dump($query) ;
+
+            $this->db->where('idSample', $id);
+            if($this->db->update('_sample', $query)) {
+                $pesan = [
+                    'pesan' => 'Data Berhasil Di Ubah',
+                    'warna' => 'success' 
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Gagal Di Ubah',
+                    'warna' => 'danger' 
+                ] ;
+            }
+
             $this->session->set_flashdata($pesan);
             redirect("sample_/index/$idSurat/$id") ;
         }

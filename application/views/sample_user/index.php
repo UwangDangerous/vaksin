@@ -70,7 +70,7 @@
                 </td>
                 
                 <td>
-                        <?= $row['namaJenisManufacture']; ?>
+                        <?= $row['namaJenisManufacture']; ?> <br> ( <?= $row['namaJenisDokumen']; ?> )
                 </td>
 
                 <td> <?= $row['noMA']; ?> </td>
@@ -201,7 +201,7 @@
                     <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
                     <?php $petugas = $this->User_Sample_model->getInfoPetugas($row['idSample']) ; ?>
                     <?php if($petugas == 0) : ?>
-                        <a href="#" class="badge badge-success" data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
+                        <a href="#" class="badge badge-success" data-toggle='modal' data-target='#edit<?= $row['idSample'];?>' data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
                         <a href="<?= base_url() ; ?>sample_/hapus/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample" onclick="return confirm(' Apakah Anda Yakin ? ');"> <i class="fa fa-trash"></i> </a>
                     <?php endif ; ?>
 
@@ -211,6 +211,127 @@
                         <?= $tombolNotaPembayaran; ?>
                     <?php endif ; ?>
                 </td>
+
+
+                <!-- Modal Edit -->
+                    <div class="modal fade" id="edit<?= $row['idSample'] ; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Data Sampel <?= $row['namaSample']; ?> ( <?= $row['jenisSample']; ?> )</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="post" action="<?= base_url(); ?>sample_/editDataSample/<?= $row['idSurat'] ;?>">
+                                    <div class="modal-body">
+                                        <input type="hidden" name='id' value='<?= $row['idSample']; ?>'>
+                                        <label for="nama">Nama Sampel / Produk</label>
+                                        <input type="text" name="nama" id="nama" class='form-control' value='<?= $row['namaSample']; ?>'>
+                                        <label for="js">Jenis Sampel</label>
+                                        <select name="js" id="js" class="form-control">
+                                            <?php foreach ($jenisSample =  $this->db->get('_jenisSample')->result_array() as $js) : ?>
+                                                <?php if($js['idJenisSample'] == $row['idJenisSample']) : ?>
+                                                    <option selected value="<?= $js['idJenisSample']; ?>">
+                                                        <?= $js['jenisSample']; ?> ( <?= $js['waktuPengujian']; ?> Hari Kerja )
+                                                    </option>
+                                                <?php else : ?>
+                                                    <option value="<?= $js['idJenisSample']; ?>">
+                                                        <?= $js['jenisSample']; ?> ( <?= $js['waktuPengujian']; ?> Hari Kerja )
+                                                    </option>
+                                                <?php endif ; ?>
+                                            <?php endforeach ; ?>
+                                        </select>
+
+                                        <label for="jp">Jenis Perusahaan</label>
+                                        <select name="jp" id="jp" class="form-control">
+                                            <?php foreach ($jenisPerusahaan =  $this->db->get('_jenisManufacture')->result_array() as $jp) : ?>
+                                                <?php if($jp['idJenisManufacture'] == $row['idJenisManufacture']) : ?>
+                                                    <option selected value="<?= $jp['idJenisManufacture']; ?>">
+                                                        <?= $jp['namaJenisManufacture']; ?>
+                                                    </option>
+                                                <?php else : ?>
+                                                    <option value="<?= $jp['idJenisManufacture']; ?>">
+                                                        <?= $jp['namaJenisManufacture']; ?>
+                                                    </option>
+                                                <?php endif ; ?>
+                                            <?php endforeach ; ?>
+                                            <script>
+                                                $('#jp').change(function () {
+                                                    var option_value = $(this).val();
+                                                    if(option_value == '1') {
+                                                        $('#jenisPerusahaan').html(``);
+                                                    }else{
+                                                        $('#jenisPerusahaan').html(`
+                                                            <div class="card p-2 mb-2 mt-2 text-danger">
+                                                                <div class="card-header">
+                                                                    <span> <i class='fa fa-info-circle'></i> </span> keterangan
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    anda harus upload data dukung baru
+                                                                </div>
+                                                            </div>`
+                                                        );
+                                                    }
+                                                });
+                                            </script>
+                                        </select>
+
+                                        <div id="jenisPerusahaan"></div>
+
+                                        <label for="jd">Jenis Dokumen</label>
+                                        <select name="jd" id="jd" class="form-control">
+                                            <?php foreach ($jenisDokumen =  $this->db->get('_jenisDokumen')->result_array() as $jd) : ?>
+                                                <?php if($jd['idJenisDokumen'] == $row['idJenisDokumen']) : ?>
+                                                    <option selected value="<?= $jd['keteranganDokumen'].'|'.$jd['idJenisDokumen']; ?>">
+                                                        <?= $jd['namaJenisDokumen']; ?>
+                                                    </option>
+                                                <?php else : ?>
+                                                    <option value="<?= $jd['keteranganDokumen'].'|'.$jd['idJenisDokumen']; ?>">
+                                                        <?= $jd['namaJenisDokumen']; ?>
+                                                    </option>
+                                                <?php endif ; ?>
+                                            <?php endforeach ; ?>
+                                        </select>
+
+                                        <script>
+                                                $('#jd').change(function () {
+                                                    var value_dok = $(this).val();
+                                                    var jDokumen = value_dok.split("|") ;
+                                                    if(jDokumen[0] == '') {
+                                                        $('#jenisDokumen').html(``);
+                                                    }else{
+                                                        $('#jenisDokumen').html(`
+                                                            <div class="card p-2 mb-2 mt-2 text-info">
+                                                                <div class="card-header">
+                                                                    <span> <i class='fa fa-info-circle'></i> </span> keterangan
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    `+jDokumen[0]+`
+                                                                </div>
+                                                            </div>`
+                                                        );
+                                                    }
+                                                });
+                                            </script>
+                                        </select>
+
+                                        <div id="jenisDokumen"></div>
+
+                                        <label for="noMA">Nomer MA (Marketing Authorization)</label>
+                                        <input type="number" name="noMA" id="noMA" name='noMA' class='form-control' placeholder='Nomer MA (Marketing Authorization)' value='<?= $row['noMA'];?>'> 
+                                        
+                                        <label for="tanggal">Nomer MA (Marketing Authorization)</label>
+                                        <input type="date" name="tanggal" id="tanggal" name='tanggal' class='form-control' value='<?= $row['tgl_pengiriman'];?>'> 
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Ubah Data</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <!-- Modal Edit -->
         <?php endforeach ; ?>
     </tbody>
 </table>

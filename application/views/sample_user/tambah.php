@@ -28,7 +28,7 @@
                     <select class="form-control" id='js'  name='js'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisSample as $js) : ?>
-                            <option value="<?= $js['idJenisSample']; ?>"> <?= $js['jenisSample']; ?> </option>
+                            <option value="<?= $js['idJenisSample']; ?>"> <?= $js['jenisSample']; ?> ( <?= $js['waktuPengujian']; ?> Hari Kerja ) </option>
                         <?php endforeach ; ?>
                     </select>
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('js'); ?></small>
@@ -44,7 +44,7 @@
                     <select class="form-control" id='jd'  name='jd'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisDokumen as $jd) : ?>
-                            <option value="<?= $jd['idJenisDokumen']; ?>|<?= $jd['namaJenisDokumen']; ?>"> <?= $jd['namaJenisDokumen']; ?> </option>
+                            <option value="<?= $jd['idJenisDokumen']; ?>|<?= $jd['keteranganDokumen']; ?>"> <?= $jd['namaJenisDokumen']; ?> </option>
                         <?php endforeach ; ?>
                     </select>
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('jd'); ?></small>
@@ -53,12 +53,26 @@
                 <script>
                     $('#jd').change(function () {
                         var option_value = $(this).val();
-                        var coba = option_value.split("|") ;
-                        $('#Price').html(coba[0]);
+                        var jDokumen = option_value.split("|") ;
+                        if(jDokumen[0] == '') {
+                            $('#jenisDokumen').html(``);
+                        }else{
+                            $('#jenisDokumen').html(`
+                                <div class="card p-2 mb-2 text-info">
+                                    <div class="card-header">
+                                        <span> <i class='fa fa-info-circle'></i> </span> keterangan
+                                    </div>
+                                    <div class="card-body">
+                                        `+jDokumen[1]+`
+                                    </div>
+                                </div>`
+                            );
+                        }
                     });
                 </script>
-
-                <div id="Price"></div>
+                
+                    <div id="jenisDokumen"></div>
+                
 
             </div>
 

@@ -214,52 +214,150 @@
 
             $vialAwal = '' ;
 
-            for ($i = 0; $i < $jmlVialAwal; $i++) {
-                $vialAwal .= $this->input->post("vial$i|$idBatch").',';
-            }
-
-            if($jmlVial > $jmlVialAwal){
-                $j =  $jmlVialAwal + 1 ;
-                for ($j; $j < $jmlVial; $j++) {
-                    $vialAwal .= $this->input->post("vialBaru$j|$idBatch").',';
-                }
-            }else{
-                echo "tidak" ;
-            }
-            var_dump($vialAwal) ;
-            // $vials = '' ;
-            // for ($i = 1; $i <= $jmlVial; $i++) {
-            //     $vials .= $this->input->post("vial$i").',';
+            // for ($i = 0; $i < $jmlVialAwal; $i++) {
+            //     $vialAwal .= $this->input->post("vial$i|$idBatch").',';
             // }
 
-            // $vials = rtrim($vials, ',') ;
-            // $jumlahVialAwal = $this->input->post("jml$idBatch");
-            // for($i = 0)
+            // if($jmlVial > $jmlVialAwal){
+            //     $j =  $jmlVialAwal + 1 ;
+            //     for ($j; $j <= $jmlVial; $j++) {
+            //         $vialAwal .= $this->input->post("vial$j|$idBatch").',';
+            //         // echo $this->input->post('vial'.$j.'|'.$idBatch).',';
+            //         // echo 'vialBaru'.$j.''.$idBatch ;
+            //     }
+            //     // echo "vialBaru$j|$idBatch" ;
+            // }
 
             $query = [
                 'idSample' => $idSample,
                 'noBatch' => $this->input->post("batchEdit$idBatch"),
-                'dosis' => $this->input->post("DosisEdit$idBatch")
-                // 'vial' => $vials 
+                'dosis' => $this->input->post("DosisEdit$idBatch"),
+                'vial' => $this->input->post("vial$idBatch")
             ] ;
-            // var_dump($query) ;
 
-            // if( $this->db->insert('sample_batch', $query) ){
-            //     $pesan = [
-            //         'pesanImportir' => 'Data Berhasil Di Simpan' ,
-            //         'warnaImportir' => 'success'
-            //     ] ;
-            // }else{
-            //     $pesan = [
-            //         'pesanImportir' => 'Data Gagal Di Simpan' ,
-            //         'warnaImportir' => 'danger'
-            //     ] ;
-            // }
+            $this->db->where('idBatch', $idBatch);
+            if( $this->db->update('sample_batch', $query) ){
+                $pesan = [
+                    'pesanImportir' => 'Data Berhasil Di Ubah' ,
+                    'warnaImportir' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesanImportir' => 'Data Gagal Di Ubah' ,
+                    'warnaImportir' => 'danger'
+                ] ;
+            }
 
-            // $this->session->set_flashdata( $pesan );
-            // redirect("sample_/batch/$idSurat/$idSample");
+            $this->session->set_flashdata( $pesan );
+            redirect("sample_/batch/$idSurat/$idSample");
 
             
+        }
+
+        public function uploadDataDukungBatch($idSurat,$idSample) 
+        {
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser("berkas",'assets/file-upload/data-dukung','pdf','sample_/batch/'.$idSurat.'/'.$idSample, $this->input->post('namaJenisDataDukung').'_batch');
+            $query = [
+                'idBatch' => $this->input->post('idBatch') ,
+                'idJenisDataDukung' => $this->input->post('idJenisDataDukung') ,
+                'fileDataDukung' =>  $upload
+            ];
+
+            // var_dump($query) ;
+            if($this->db->insert('_datadukung_batch', $query)) {
+                $pesan = [
+                    'pesan' =>  $this->input->post('namaJenisDataDukung').' Berhasil di Upload',
+                    'warna' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Gagal Upload',
+                    'warna' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata($pesan);
+            redirect("sample_/batch/$idSurat/$idSample") ;
+
+        }
+
+
+        public function hapus($idSurat,$id) {
+            $this->db->where('idSample', $id);
+            $this->db->join('_sample', '_surat.idSurat = _sample.idSurat');
+            $this->db->select('idEU, idJenisManufacture');
+            $auth = $this->db->get('_surat')->row_array();
+
+            if($auth['idEU'] != $this->session->userdata('eksId') ){
+                $pesan = [
+                    'pesan' => 'bukan data anda' ,
+                    'warna' => 'danger'
+                ] ;
+            }else{
+                $this->db->where('idSample', $id);
+                $this->db->select('idBatch');
+                $batch = $this->db->get('sample_batch')->row_array()['idBatch'];
+
+            if($this->User_Sample_model->getInfoPetugas($id) != 0) {
+                    $pesan = [
+                        'pesan' => 'Sedang Proses Pengerjaan' ,
+                        'warna' => 'danger'
+                    ] ;
+                }else{
+                    $this->db->where('idBatch', $batch);
+                    $dataDukung = $this->db->get('_datadukung_batch')->result_array();
+                    foreach($dataDukung as $dd) {
+                        $link = base_url().'assets/file-upload/data-dukung/'.$dd['fileDataDukung'] ;
+                        // var_dump($link) ;
+                        rmdir( $link ) ;
+                        // delete_files(base_url().'./assets/file-upload/data-dukung/'.$dd['fileDataDukung'], TRUE);
+                        // var_dump( base_url().'./assets/file-upload/data-dukung/'.$dd['fileDataDukung']) ;
+                        
+                        
+                    }
+                    // echo "<a href='../../../'> back </a>  ";
+                    // var_dump($dataDukung);
+                     die ;
+                    $this->db->where('idSample', $id);
+                    if($this->db->delete('_sample')) {
+                        
+                        
+
+                        //hapus sample_batch 1
+                        $this->db->where('idSample', $id);
+                        $this->db->delete('sample_batch');
+                        
+                        //hapus _dataDukung_batch 1.1
+                        $this->db->where('idBatch', $batch);
+                        $this->db->delete('_datadukung_batch');
+
+                        //hapus bukti bayar 2
+                        $this->db->where('idSample', $id);
+                        $this->db->delete('_buktibayar');
+                        
+                        //hapus importir 3
+                        if($auth['idJenisManufacture'] == 2 ) {
+                            $this->db->where('idSample', $id);
+                            $this->db->delete('_importir');
+                        }
+
+                        $pesan = [
+                            'pesan' => 'Data Berhasil Di Hapus' ,
+                            'warna' => 'success'
+                        ] ;
+                    }else{
+                        $pesan = [
+                            'pesan' => 'Data Gagal Di Hapus' ,
+                            'warna' => 'danger'
+                        ] ;
+                    }
+
+                }
+            }
+            
+            $this->session->set_flashdata($pesan);
+            redirect("sample_/index/$idSurat/$id") ;
         }
     }
 

@@ -27,10 +27,14 @@
             <input type="text" class="form-control" id="nama" name='nama' placeholder="Nama Surat / Judul">
             <small id="usernameHelp" class="form-text text-danger"><?= form_error('nama'); ?></small>
         </div>
-        <div class="form-group">
-            <label for="tanggal">Tanggal Surat</label>
-            <input type="date" class="form-control" id="tanggal" name='tanggal'>
-            <small id="usernameHelp" class="form-text text-danger"><?= form_error('tanggal'); ?></small>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="tanggal">Tanggal Surat</label>
+                    <input type="date" class="form-control" id="tanggal" name='tanggal'>
+                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('tanggal'); ?></small>
+                </div>
+            </div>
         </div>
 
         <br><br>

@@ -17,6 +17,17 @@
     </div><!-- col 1 --> 
 </div><!-- row 1 --> 
 
+<?php if(!empty($this->session->flashdata('pesan') )) : ?>
+    
+    <div class="alert alert-<?=  $this->session->flashdata('warna'); ?> alert-dismissible fade show" role="alert">
+        <?=  $this->session->flashdata('pesan'); ?>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+<?php endif ; ?>
+
 <?php if(!empty($this->session->flashdata('pesanImportir') )) : ?>
     
     <div class="alert alert-<?=  $this->session->flashdata('warnaImportir'); ?> alert-dismissible fade show" role="alert">
@@ -65,7 +76,7 @@
                 <td> <?= $row['noMA']; ?> </td>
                 <td>
                     <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
-                        <?= $batch; ?>
+                        <?= $batch; ?> <br>
                     <?php else : ?>
                         0
                     <?php endif ; ?>
@@ -183,13 +194,16 @@
                 </td>
                 <!-- akhir lengkapi dokumen -->
                 <td>
-                    <a href="<?=base_url();?>sample_/batch/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-warning" data-toggle='tooltip' title='Lengkapi Dokumen'>
+                    <a href="<?=base_url();?>sample_/batch/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
                         <i class="fa fa-pen"></i>
                     </a>
 
-                    <a href="#" class="badge badge-primary" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
-                    <a href="#" class="badge badge-success" data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
-                    <a href="#" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample"> <i class="fa fa-trash"></i> </a>
+                    <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
+                    <?php $petugas = $this->User_Sample_model->getInfoPetugas($row['idSample']) ; ?>
+                    <?php if($petugas == 0) : ?>
+                        <a href="#" class="badge badge-success" data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
+                        <a href="<?= base_url() ; ?>sample_/hapus/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample" onclick="return confirm(' Apakah Anda Yakin ? ');"> <i class="fa fa-trash"></i> </a>
+                    <?php endif ; ?>
 
                     <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>
                         <a href='#' data-toggle='tooltip' title='sudah di upload' class='badge badge-success'> <i class="fa fa-check"></i> </a>

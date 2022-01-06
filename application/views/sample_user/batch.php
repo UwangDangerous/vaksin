@@ -1,6 +1,20 @@
 <?php //var_dump($sample) ; ?>
 
 <div class="card p-3">
+    <?php if(!empty($this->session->flashdata('pesan') )) : ?>
+        <!-- <tr>
+            <td colspan='3'> -->
+
+                <div class="alert alert-<?=  $this->session->flashdata('warna'); ?> alert-dismissible fade show" role="alert">
+                    <?=  $this->session->flashdata('pesan'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+            <!-- </td>
+        </tr> -->
+    <?php endif ; ?>  
     <div class="row">
         <div class="col">
             <table cellpadding=3>
@@ -131,26 +145,37 @@
                                                                         <?php foreach ($manufacture as $m) : ?>
                                                                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                                                                 <?= $m['namaJenisDataDukung']; ?>
-                                                                                <a href='#' class="badge badge-primary" data-toggle='modal' data-target='#upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung'] ;?>'> <i class="fa fa-upload"></i> </a>
+                                                                                <?php if($isiDock = $this->User_Sample_model->getInfoJumlahDoc($m['idJenisDataDukung'], $b['idBatch']) ) : ?>
+                                                                                    <span href="" class="badge badge-success"><i class="fa fa-check"></i></span>
+                                                                                <?php else : ?>
+                                                                                    <a href='#' class="badge badge-primary" data-toggle='modal' data-target='#upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung'] ;?>' data-toggle='tooltip' title='Upload <?= $m['namaJenisDataDukung']; ?>'> <i class="fa fa-upload"></i> </a>
+                                                                                <?php endif ; ?>
                                                                             </li>
 
                                                                             <!-- modal upload --> 
                                                                                 <div class="modal fade" id="upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                                   <div class="modal-dialog" role="document">
                                                                                     <div class="modal-content">
-                                                                                      <div class="modal-header">
-                                                                                        <h5 class="modal-title" id="exampleModalLabel"> upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung'];?> </h5>
-                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                          <span aria-hidden="true">&times;</span>
-                                                                                        </button>
-                                                                                      </div>
-                                                                                      <div class="modal-body">
-                                                                                        ...
-                                                                                      </div>
-                                                                                      <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                                        <button type="button" class="btn btn-primary">Save changes</button>
-                                                                                      </div>
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="exampleModalLabel"> Upload Data<?= $m['namaJenisDataDukung'];?> </h5>
+                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">&times;</span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                        <form method="post" class='myform' enctype="multipart/form-data" action="<?= base_url();?>sample_/uploadDataDukungBatch/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>">
+                                                                                            <div class="modal-body">
+                                                                                                <input type="hidden" name='idBatch' value='<?= $b['idBatch'];?>'>
+                                                                                                <input type="hidden" name='idJenisDataDukung' value='<?= $m['idJenisDataDukung'];?>'>
+                                                                                                <input type="hidden" name='namaJenisDataDukung' value='<?= $m['namaJenisDataDukung'];?>'>
+                                                                                                <label for="berkas">Upload <?= $m['namaJenisDataDukung'] ?></label>
+                                                                                                <input type="file" name="berkas" id="berkas" class='form-control'>
+                                                                                                <b>*file pdf</b>
+                                                                                            </div>
+                                                                                            
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="submit" class="btn btn-primary">Upload</button>
+                                                                                            </div>
+                                                                                        </form>
                                                                                     </div>
                                                                                   </div>
                                                                                 </div>
@@ -200,61 +225,19 @@
                                                                     <label for="DosisEdit<?= $b['idBatch'];?>">Dosis</label>
                                                                     <input type="number" name="DosisEdit<?= $b['idBatch'];?>" id="DosisEdit<?= $b['idBatch'];?>" class='form-control' placeholder='Dosis(1/2/5/10/20)' value='<?= $b['dosis'];?>'> <br>
                                                                     
-                                                                    <label for="jmlvialEdit<?= $b['idBatch'];?>">Jumlah Vial</label>
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                            <div class="input-group mb-3">
-                                                                                <input type="number" class="form-control" name="jmlvialEdit<?= $b['idBatch'];?>" id="jmlvialEdit<?= $b['idBatch'];?>" placeholder="Jumlah Vial" value='<?= $jv; ?>'>
-                                                                                <div class="input-group-append">
-                                                                                    <button class="btn btn-outline-primary" id='editVials<?= $b['idBatch'];?>' type="button"> <i class='fa fa-plus'> </i> </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <label for="vial<?= $b['idBatch'];?>">Vial</label>
+                                                                    <textarea name="vial<?= $b['idBatch']; ?>" id="vial<?= $b['idBatch']; ?>" cols="30" rows="10" class="form-control"><?= $b['vial']; ?></textarea>
 
-                                                                    <input type="hidden" name='jml<?= $b['idBatch'];?>' id='jml<?= $b['idBatch'];?>' value='<?= $jv;?>'>
-
-                                                                    <div class="myscroll">
-                                                                        <?php $noUrut = 1 ; ?>
-                                                                        <?php for($i = 0; $i < $jv ; $i++ ):?>
-                                                                            <label for="vial<?= $i; ?>|<?= $b['idBatch'];?>">No Vial <?= $noUrut++; ?> </label>
-                                                                            <input type="text" name="vial<?= $i; ?>|<?= $b['idBatch'];?>" id="vial<?= $i; ?>|<?= $b['idBatch'];?>" class='form-control' value='<?= $vials[$i]; ?>'>
-                                                                        <?php endfor ; ?>
-
-                                                                        <div class="vialsEdit<?= $b['idBatch'];?>" id="vialsEdit<?= $b['idBatch'];?>"></div>
-                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-primary">Ubah Data</button>
                                                                 </div>
-
                                                             </form>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 <!-- modal batch edit -->
-<script>
-    $(document).ready(function(){
-        $('#editVials<?= $b['idBatch'];?>').click(function(){
-            var vialEdit = $("input#jmlvialEdit<?= $b['idBatch'];?>").val() ;
-            var vialJumlah = $("input#jml<?= $b['idBatch'];?>").val() ;
-            $('#vialsEdit<?= $b['idBatch'];?>').html('') ;
-            if(vialEdit >= vialJumlah){
-                // vialEdit -= vialJumlah
-            }else{
-                $("input#jml<?= $b['idBatch'];?>").val(vialJumlah) ;
-            }
-            let j = ++vialJumlah ;
-            let i = j ;
-            for(i  ; i <= vialEdit ; i++ ) {
-                $('#vialsEdit<?= $b['idBatch'];?>').append(`
-                    <label for="vialBaru`+i+`|<?= $b['idBatch']; ?>">No Vial `+i+` </label>
-                    <input type="text" name="vialBaru`+i+`|<?= $b['idBatch']; ?>" id="vialBaru`+i+`|<?= $b['idBatch']; ?>" class='form-control'>
-                `) ;
-            }
-        }) ;
-    });
-</script>
+
                                         <?php endforeach ; ?>
                                     </tbody>
                                 </table>
@@ -316,22 +299,22 @@
 <!-- tambah batch -->
 
 <script>
-    // $(document).ready(function(){
-    //     $('#addVials').click(function(){
-    //         var vialAdd = $("input#jmlvial").val() ;
-    //         $('#vials').html('') ;
-    //         var i = 1 ;
-    //         for(i ; i <= vialAdd ; i++ ) {
-    //                 // <div class="col-md-12">
-    //             $('#vials').append(`
-    //                 <label for="vial`+i+`">No Vial `+i+` </label>
-    //                 <input type="text" name="vial`+i+`" id="vial`+i+`" class='form-control'>
-    //             `) ;
-    //                 // </div>
-    //         }
-    //     }) ; 
+    $(document).ready(function(){
+        $('#addVials').click(function(){
+            var vialAdd = $("input#jmlvial").val() ;
+            $('#vials').html('') ;
+            var i = 1 ;
+            for(i ; i <= vialAdd ; i++ ) {
+                    // <div class="col-md-12">
+                $('#vials').append(`
+                    <label for="vial`+i+`">No Vial `+i+` </label>
+                    <input type="text" name="vial`+i+`" id="vial`+i+`" class='form-control'>
+                `) ;
+                    // </div>
+            }
+        }) ; 
 
-    // });
+    });
 
     
 </script>

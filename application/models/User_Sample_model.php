@@ -131,6 +131,19 @@
             return $this->db->get('sample_batch')->result_array();
         }
 
+        public function getInfoJumlahDoc($idJenisDataDukung, $idBatch) 
+        {
+            $this->db->where('idBatch', $idBatch);
+            $this->db->where('idJenisDataDukung', $idJenisDataDukung);
+            return $this->db->get('_datadukung_batch')->row_array();
+        } 
+
+        public function getInfoPetugas($id) 
+        {
+            $this->db->where('idSample', $id);
+            return $this->db->get('petugas')->num_rows();
+        }
+
     }
 
 ?>

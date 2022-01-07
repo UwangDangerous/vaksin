@@ -56,7 +56,8 @@
                 'idJenisDokumen' => $jenisDokumen,
                 'idJenisManufacture' => $this->input->post('jm'),
                 'noMA' => $this->input->post('noMA'),
-                'tgl_pengiriman' => $this->input->post('tanggal')
+                'tgl_pengiriman' => $this->input->post('tanggal'),
+                'idProses' => $this->input->post('proses')
             ];
             
             if($this->db->insert('_sample', $query) ) {

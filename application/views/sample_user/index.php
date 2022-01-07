@@ -198,11 +198,13 @@
                         <i class="fa fa-pen"></i>
                     </a>
 
-                    <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
+                    
                     <?php $petugas = $this->User_Sample_model->getInfoPetugas($row['idSample']) ; ?>
                     <?php if($petugas == 0) : ?>
                         <a href="#" class="badge badge-success" data-toggle='modal' data-target='#edit<?= $row['idSample'];?>' data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
                         <a href="<?= base_url() ; ?>sample_/hapus/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample" onclick="return confirm(' Apakah Anda Yakin ? ');"> <i class="fa fa-trash"></i> </a>
+                    <?php else : ?>
+                        <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
                     <?php endif ; ?>
 
                     <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>

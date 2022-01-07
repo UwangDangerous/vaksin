@@ -44,7 +44,9 @@
                     <select class="form-control" id='jd'  name='jd'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisDokumen as $jd) : ?>
-                            <option value="<?= $jd['idJenisDokumen']; ?>|<?= $jd['keteranganDokumen']; ?>"> <?= $jd['namaJenisDokumen']; ?> </option>
+                            <option value="<?= $jd['idJenisDokumen']; ?>|<?= $jd['keteranganDokumen']; ?>|<?= $jd['idProses']; ?>"> 
+                                <?= $jd['namaJenisDokumen']; ?> 
+                            </option>
                         <?php endforeach ; ?>
                     </select>
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('jd'); ?></small>
@@ -65,8 +67,9 @@
                                     <div class="card-body">
                                         `+jDokumen[1]+`
                                     </div>
-                                </div>`
-                            );
+                                </div>
+                                <input type='hidden' value='`+jDokumen[2]+`' name='proses'> 
+                            `);
                         }
                     });
                 </script>

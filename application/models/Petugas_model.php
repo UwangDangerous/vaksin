@@ -1,15 +1,17 @@
 <?php 
 
     class Petugas_model extends CI_Model{
-        public function getSample($id) 
+        public function getSample($id,$cari) 
         {
             // $this->db->where('idPenerimaan', $id);
             // $this->db->join('jenisSample','sample.idJS = jenisSample.idJS');
+            $this->db->where("_jenisDokumen.idJenisDokumen like '%$cari%'");
             $this->db->where("_surat.idSurat like '%$id%'");
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenissample', '_jenissample.idJenisSample = _sample.idJenisSample');
             $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
+            $this->db->join('proses', 'proses.idProses = _sample.idProses');
             $this->db->order_by('idSample', 'desc');
             return $this->db->get("_sample")->result_array();
         }
@@ -93,6 +95,12 @@
             //     return '<i class="text-danger"> Ceklis Tidak Tersedia </i> || ' ;
             // }
 
+        }
+
+        public function getProses($idSample)
+        {
+            $this->db->where('idSample', $idSample);
+            return $this->db->get('prosespengerjaan')->row_array();
         }
         
     }

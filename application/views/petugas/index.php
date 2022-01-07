@@ -1,7 +1,25 @@
+<?php $tglBayarFormat = ''; ?>
 <div class="card p-3">
     <div class="row">
+        <div class="col-md-6">  
+            <form action="" method='post'>
+                <div class="input-group">
+                    <select class="custom-select" name='cariJenisDok'>
+                        <option value="">-pilih-</option>
+                        <?php foreach ($jenisDokumen = $this->db->get('_jenisDokumen')->result_array() as $jd) : ?>
+                            <option value='<?= $jd['idJenisDokumen']; ?>'> <?= $jd['namaJenisDokumen']; ?> </option>
+                        <?php endforeach ; ?>
+                    </select>
+                    <div class="input-group-append">
+                        <button type='submit' name='cariByDokumen' class="btn btn-outline-primary" value='cariByDokumen'>
+                            <fa class="fa fa-search"></fa>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="col-md-6">
-            <form action="" post>
+            <form action="" method='post'>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Pencarian" >
                     <div class="input-group-append">
@@ -38,7 +56,7 @@
                     <th class='align-middle'>Tanggal Terima</th>
                     <th class='align-middle'>Bukti Bayar</th>
                     <th class='align-middle'>Tanggal Pembayaran</th>
-                    <th class='align-middle'>Pengerjaan
+                    <th class='align-middle' colspan='2'>Pengerjaan
                     <th class='align-middle'>Aksi</th>
                 </tr>
             </thead>
@@ -53,24 +71,65 @@
                         <td><?= $row['namaJenisDokumen']; ?></td>
                         <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
                         <td>
+                            <?php $sts = false ; ?>
+                            <?php $sts2 = false ; ?>
                             <?php if($bukti = $this->Petugas_model->getBuktiBayar($row['idSample']) ) : ?>
                                 <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-success" data-toogle='tooltip' title='Lihat Bukti Bayar'><i class="fa fa-check"></i></a>
+                                <!-- percabangan pelulusan -->
+                                <?php if($row['idProses'] == 1) : ?>
+                                
+                                    <?php $tglBayarFormat = $this->_Date->formatTanggal( $bukti['tgl_bayar'] ).'<br>( '.$bukti['jam_bayar'].' )' ; ?> <br>
+                                    <?php 
+                                        $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], $bukti['tgl_bayar'], $bukti['jam_bayar'] ) ; 
+                                    ?>  
 
-                                <?php $tglBayarFormat = $this->_Date->formatTanggal( $bukti['tgl_bayar'] ).'<br>( '.$bukti['jam_bayar'].' )' ; ?> <br>
-                                <?php 
-                                    $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], $bukti['tgl_bayar'], $bukti['jam_bayar'] ) ; 
-                                ?>  
+                                <?php elseif($row['idProses'] == 2) : ?>
+                                    <?php $proses = $this->Petugas_model->getProses($row['idSample']) ; ?>
+                                    <!-- pengerjaan -->
+                                        <?php if($proses) : ?>
+                                            <?php $tglBayarFormat = $this->_Date->formatTanggal( $bukti['tgl_bayar'] ).'<br>( '.$bukti['jam_bayar'].' )' ; ?> <br>
+                                            <?php 
+                                                $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], $proses['tgl_selesai'], $proses['jam_selesai'] ) ; 
+                                            ?> 
+                                        <?php else : ?>
+                                            <?php $sts = true ; ?>
+                                        <?php endif ; ?>
+                                    <!-- pengerjaan -->
+                                <?php else : ?>
+                                    <?php $sts = true ; ?>
+                                <?php endif ; ?>
+                                <!-- percabangan pelulusan -->
                             <?php else : ?>
                                 <a href="#" class="badge badge-danger" data-toogle='tooltip' title='Belum Ada Bukti Bayar'><i class="fa fa-times"></i></a>
-                                <?php  $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], null , null ) ; ?>
-
+                                <!-- <?php//  $pengerjaan = $this->_Date->Pengerjaan( $row['idSample'], $row['waktuPengujian'], null , null ) ; ?> -->
+                                <?php $sts2 = true ; ?>
                                 <?php $tglBayarFormat = '';  ?>
                             <?php endif ; ?>
                         </td>
-                        <td><?= $tglBayarFormat; ?></td>
-                        <td> <?= $pengerjaan['waktuBerjalan']; ?> dari <?= $pengerjaan['total'] ; ?>
+                        <td><?= $tglBayarFormat; ?></td> 
 
+                        <td> <?= $row['namaProses']; ?> </td>
+
+                        <td> 
+                            <?php if($sts == true) : ?>
+                                <?php if($row['idProses'] == 0) : ?>
+                                    <a href="" id="" class='badge badge-primary' data-toggle='modal' data-target='#ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>' data-toggle='tooltip' title='verifikasi'> <i class="fa fa-pen"></i> </a>
+                                <?php elseif($row['idProses'] == 2) : ?>
+                                    <i class="text-danger">Menunggu Hasil Pengujian</i>
+                                <?php endif ; ?>
+                            <?php else : ?>
+
+                                <?php if($sts2 == true) : ?>
+                                    -
+                                <?php else : ?>
+                                    <?= $pengerjaan['waktuBerjalan']; ?> dari <?= $pengerjaan['total'] ; ?>
+                                <?php endif ; ?>
+                                
+                            <?php endif ; ?>
+                        </td>
+                        
                         <td>
+                            <!-- proses -->
                             <!-- acordion -->
                             <div id="accordion">
                                 <!-- <div class="card"> -->
@@ -283,6 +342,36 @@
 </div>
 <?//php date_default_timezone_set('Asia/Jakarta'); ?>
 <?//= date('h:m:s'); ?>
+
+<div class="modal fade" id="ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="<?= base_url(); ?>petugas/ubahIdProsesSample/<?= $row['idSample'];?>">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pilih Pekerjaan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <b> Jenis Pekerjaan </b> <br><br>
+                    <?php $this->db->where('idProses != 0'); ?>
+                    <?php foreach ($this->db->get('proses')->result_array() as $p) : ?>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="radio" name="cmbProses" id="cmb<?= $p['idProses']?>" value="<?= $p['idProses']?>" >
+                            <label class="form-check-label" for="cmb<?= $p['idProses']?>">
+                                <?= $p['namaProses']; ?>
+                            </label>
+                        </div>
+                    <?php endforeach ; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
  

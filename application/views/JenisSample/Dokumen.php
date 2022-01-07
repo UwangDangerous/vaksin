@@ -25,7 +25,7 @@
                     <tr>
                         <td><?= $no++; ?></td>
                         <td><?= $row['namaJenisDokumen']; ?></td>
-                        <td><?= $row['KeteranganDokumen']; ?></td>
+                        <td><?= $row['keteranganDokumen']; ?></td>
                         <td><a href="#" class="badge badge-success" data-toggle='modal' data-target='#modal<?= $row['idJenisDokumen']; ?>' data-toggle='tooltip' title='Edit Data'><i class="fa fa-edit"></i></a></td>
                     </tr>
                     <!-- Modal -->

@@ -29,22 +29,19 @@
 <table class="table table-bordered table-striped text-center">
     <thead>
         <tr>
-            <th class='align-middle'>No</th>
+            <th class='align-middle'>No Surat</th>
             <th class='align-middle'>Nama Surat / Judul</th>
-            <th class='align-middle'>Isi Surat</th>
             <th class='align-middle'>Pengirim</th>
-            <th class='align-middle'>Tanggal Pengiriman</th>
+            <th class='align-middle'>Tanggal Surat</th>
             <th class='align-middle'>Surat</th>
             <th class='align-middle'>Aksi</th>
         </tr>
     </thead>
     <tbody>
-        <?php $no=1; ?>
         <?php foreach ($sample as $row) : ?>
             <tr>
-                <td><?= $no++; ?></td>
+                <td><?= $row['noSurat']; ?></td>
                 <td><?= $row['namaSurat']; ?></td>
-                <td><?= $row['isiSurat']; ?></td>
                 <td><?= $row['namaEU']; ?></td>
                 <td><?= $this->_Date->formatTanggal( $row['tgl_kirim_surat'] ) ;?></td>
                 <td>

@@ -10,12 +10,21 @@ class Petugas extends CI_Controller{
 
     public function index($id=null)
     {
+        if($this->input->post('cariByDokumen')) {
+            $cari = $this->input->post('cariJenisDok');
+        }else{
+            $cari = '' ;
+        }
+
+        if($id == 0) {
+            $id = null ;
+        }
         $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
         $data['header'] = 'Data Sampel'; 
         $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Sampel'; 
-        $data['sample'] = $this->Petugas_model->getSample($id);
+        $data['sample'] = $this->Petugas_model->getSample($id,$cari);
         // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
@@ -193,6 +202,25 @@ class Petugas extends CI_Controller{
             $this->session->set_flashdata('pesan');
             redirect('petugas/detail/'.$id) ;
         }
+    }
+
+    public function ubahIdProsesSample($id)
+    {
+        // echo $this->input->post('cmbProses');
+        $this->db->where('idSample',$id); 
+        if($this->db->update('_sample', [ 'idProses' => $this->input->post('cmbProses') ] ) ) {
+            $pesan = [
+                'pesan' => 'Data Berhasil Disimpan' ,
+                'warna' => 'success'
+            ];
+        }else{
+            $pesan = [
+                'pesan' => 'Data Gagal Disimpan' ,
+                'warna' => 'danger'
+            ];
+        }
+        $this->session->set_flashdata('pesan');
+        redirect('petugas/detail/'.$id) ;
     }
 }
 

@@ -116,8 +116,8 @@
                 }
 
                 $time = explode(':', $jam) ;
-                if($time[0] > 12) {
-                    $mulai = date('Y-m-d', strtotime("+1 day",  strtotime($mulai))) ;
+                if($time[0] < 12) {
+                    $mulai = date('Y-m-d', strtotime("-1 day",  strtotime($mulai))) ;
                 }
 
                 //mengitung tanggal akhir pengerjaan untuk libur

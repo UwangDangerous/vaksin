@@ -87,6 +87,11 @@
                                 Sample
                             </a>
 
+                            <a class="nav-link" href="<?= base_url(); ?>pengujian">
+                                <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
+                                Pengujian
+                            </a>
+
 <?php elseif($lvl == 2) : ?> <!-- pengawas --> 
 <?php elseif($lvl == 3) : ?> <!-- evaluator --> 
                             <a class="nav-link" href="<?= base_url(); ?>evaluasi">

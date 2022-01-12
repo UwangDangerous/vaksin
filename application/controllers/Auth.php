@@ -30,8 +30,11 @@
 
         public function register()
         {
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('nama', 'Nama Perusahaan', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[eksuser.email]');
+            $this->form_validation->set_rules('alamat', 'Alamat Perusahaan', 'required');
+            $this->form_validation->set_rules('password1', 'Kata Sandi', 'required|min_length[8]|matches[password2]');
+            $this->form_validation->set_rules('password2', 'Konfirmasi Kata Sandi', 'required|min_length[8]|matches[password1]');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/header');
@@ -40,8 +43,61 @@
                     $this->load->view('temp/footerPage');
                     $this->load->view('temp/footer');
                 }else{
-                    
+                    $this->Login_model->Registrasi_akun();
                 }
+        }
+
+        public function aktivasi() 
+        {
+            $email = $this->input->get('email');
+            $token = $this->input->get('token');
+
+
+            $user = $this->db->get_where('eksuser', ['email' => $email])->row_array();
+            
+            if($user) {
+                $user_token = $this->db->get_where('eksuser_token', ['token' => $token])->row_array();
+
+                if($user_token) {
+
+                    $limit = $user_token['tanggal_buat'] + (60*60*48) ;
+                    var_dump($limit, time())  ;
+                    if($limit < time()) {
+                        $pesan = [
+                            'pesan' => 'Gagal Aktivasi, Token Kadaluarsa, Silahkan Daftar Kembali',
+                            'warna' => 'danger'
+                        ];
+
+                        $this->db->delete('eksuser', ['email' => $email]);
+                        $this->db->delete('eksuser_token', ['email' => $email]);
+                    }else{
+                        $pesan = [
+                            'pesan' => 'Aktivasi Berhasil, Silahkan Login',
+                            'warna' => 'success'
+                        ];
+                        $this->db->delete('eksuser_token', ['email' => $email]);
+
+
+                        $this->db->where('email', $email);
+                        $this->db->update('eksuser', ['aktif' => 1]);
+                    }
+                    
+
+                }else{
+                    $pesan = [
+                        'pesan' => 'Gagal Aktivasi, Token Anda Salah',
+                        'warna' => 'danger'
+                    ];
+                }
+            }else{
+                $pesan = [
+                    'pesan' => 'Gagal Aktivasi, Email Anda Salah',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan);
+            redirect('auth') ;
         }
 
 

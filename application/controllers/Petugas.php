@@ -204,7 +204,7 @@ class Petugas extends CI_Controller{
         }
     }
 
-    public function ubahIdProsesSample($id)
+    public function ubahIdProsesSample($id,$idSurat)
     {
         // echo $this->input->post('cmbProses');
         $this->db->where('idSample',$id); 
@@ -220,7 +220,7 @@ class Petugas extends CI_Controller{
             ];
         }
         $this->session->set_flashdata('pesan');
-        redirect('petugas/detail/'.$id) ;
+        redirect("petugas/index/$idSurat/$id") ;
     }
 }
 

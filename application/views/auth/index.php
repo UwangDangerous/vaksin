@@ -18,6 +18,15 @@
                                     </div>
                                     
                                 <?php endif ; ?> 
+                                
+                                <?php if(!empty($this->session->flashdata('pesan') )) : ?>
+                                    
+                                    <div class="alert alert-<?= $this->session->flashdata('warna'); ?> alert-dismissible fade show" role="alert">
+                                        <?=  $this->session->flashdata('pesan'); ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                    
+                                <?php endif ; ?> 
 
                                 <form action="" method='post'>
                                     <div class="form-group">

@@ -57,7 +57,8 @@
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenissample', '_jenissample.idJenisSample = _sample.idJenisSample');
             $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
-            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            $this->db->join('proses', 'proses.idProses = _sample.idProses');
+            $this->db->join('_importir', '_importir.idSample = _sample.idSample', 'left');
             return $this->db->get('_sample')->row_array();
         }
 

@@ -53,7 +53,7 @@
                     <th class='align-middle'>Nama Sampel / Produk</th>
                     <th class='align-middle'>Sampel</th>
                     <th class='align-middle'>Jenis Pengujian</th>
-                    <th class='align-middle'>Tanggal Terima</th>
+                    <th class='align-middle'>Tanggal Terima Sampel</th>
                     <th class='align-middle'>Bukti Bayar</th>
                     <th class='align-middle'>Tanggal Pembayaran</th>
                     <th class='align-middle' colspan='2'>Pengerjaan
@@ -64,12 +64,19 @@
                 <?php $no = 1; ?>
                 <?php foreach ($sample as $row) : ?>
                     <tr>
+                        <!-- 1 -->
                         <td><?= $no++; ?></td>
+                        <!-- 2 -->
                         <td><?= $row['namaEU']; ?></td>
+                        <!-- 3 -->
                         <td><?= $row['namaSample']; ?></td>
+                        <!-- 4 -->
                         <td><?= $row['jenisSample']; ?> ( <?= $row['waktuPengujian']; ?> Hari)</td>
+                        <!-- 5 -->
                         <td><?= $row['namaJenisDokumen']; ?></td>
+                        <!-- 6 -->
                         <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
+                        <!-- 7 -->
                         <td>
                             <?php $sts = false ; ?>
                             <?php $sts2 = false ; ?>
@@ -106,10 +113,11 @@
                                 <?php $tglBayarFormat = '';  ?>
                             <?php endif ; ?>
                         </td>
+                        <!-- 8 -->
                         <td><?= $tglBayarFormat; ?></td> 
-
+                        <!-- 9 -->
                         <td> <?= $row['namaProses']; ?> </td>
-
+                        <!-- 10 -->
                         <td> 
                             <?php if($sts == true) : ?>
                                 <?php if($row['idProses'] == 0) : ?>
@@ -127,7 +135,7 @@
                                 
                             <?php endif ; ?>
                         </td>
-                        
+                        <!-- 11 -->
                         <td>
                             <!-- proses -->
                             <!-- acordion -->
@@ -335,6 +343,35 @@
                         </td>
 
                     </tr>
+                    <div class="modal fade" id="ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form method="post" action="<?= base_url(); ?>petugas/ubahIdProsesSample/<?= $row['idSample'];?>/<?= $row['idSurat'];?>">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Pilih Pekerjaan</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <b> Jenis Pekerjaan </b> <br><br>
+                                        <?php $this->db->where('idProses != 0'); ?>
+                                        <?php foreach ($this->db->get('proses')->result_array() as $p) : ?>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="cmbProses" id="cmb<?= $p['idProses']?>" value="<?= $p['idProses']?>" >
+                                                <label class="form-check-label" for="cmb<?= $p['idProses']?>">
+                                                    <?= $p['namaProses']; ?>
+                                                </label>
+                                            </div>
+                                        <?php endforeach ; ?>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 <?php endforeach ; ?>
             </tbody>
         </table>
@@ -343,35 +380,6 @@
 <?//php date_default_timezone_set('Asia/Jakarta'); ?>
 <?//= date('h:m:s'); ?>
 
-<div class="modal fade" id="ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form method="post" action="<?= base_url(); ?>petugas/ubahIdProsesSample/<?= $row['idSample'];?>">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Pilih Pekerjaan</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <b> Jenis Pekerjaan </b> <br><br>
-                    <?php $this->db->where('idProses != 0'); ?>
-                    <?php foreach ($this->db->get('proses')->result_array() as $p) : ?>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="cmbProses" id="cmb<?= $p['idProses']?>" value="<?= $p['idProses']?>" >
-                            <label class="form-check-label" for="cmb<?= $p['idProses']?>">
-                                <?= $p['namaProses']; ?>
-                            </label>
-                        </div>
-                    <?php endforeach ; ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
  

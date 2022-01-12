@@ -37,13 +37,21 @@
                 <tr>
                     <th>Nama Perusahaan</th>
                     <td>:</td> 
-                    <td><?= $sample['namaManufacture']; ?> ( <?= $sample['namaJenisManufacture']; ?> ) </td>
+                    <?php if($sample['idJenisManufacture'] == 2) : ?>
+                        <td><?= $sample['namaImportir']; ?> <br> ( Importir <?= $sample['namaEU']; ?> ) </td>
+                    <?php else : ?>
+                        <td> <?= $sample['namaEU']; ?> </td>
+                    <?php endif ; ?>
                 </tr>
 
                 <tr>
                     <th>Alamat Perusahaan</th>
                     <td>:</td> 
-                    <td><?= $sample['alamatManufacture']; ?></td>
+                    <?php if($sample['idJenisManufacture'] == 2) : ?>
+                        <td><?= $sample['alamatImportir']; ?></td>
+                    <?php else : ?>
+                        <td> <?= $sample['alamat']; ?> </td>
+                    <?php endif ; ?>
                 </tr>
 
                 <tr>

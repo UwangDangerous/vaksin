@@ -67,7 +67,7 @@
             $data['header'] = 'Data User Eksternal'; 
             $data['bread'] = '<a href="'.base_url().'dashboard">Dashboard</a> / Data User'; 
 
-            $data['user'] = $this->User_model->getDataUser();
+            $data['user'] = $this->User_model->getDataUserEksternal();
 
             if( ($this->session->userdata('key') != null) )
             {
@@ -78,6 +78,44 @@
                 $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
                 redirect('auth') ;
             }
+        }
+
+        public function nonAktif($id) 
+        {
+            $this->db->where('idEU', $id);
+            if($this->db->update('eksuser', ['aktif' => 2])){
+                $pesan = [
+                    'pesan' => 'User Di Non Aktifkan',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Gagal Non Aktifkan User',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan);
+            redirect('user/eksternal') ;
+        }
+
+        public function aktif($id) 
+        {
+            $this->db->where('idEU', $id);
+            if($this->db->update('eksuser', ['aktif' => 1])){
+                $pesan = [
+                    'pesan' => 'User Di Aktifkan',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Gagal Aktifkan User',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan);
+            redirect('user/eksternal') ;
         }
     }
 

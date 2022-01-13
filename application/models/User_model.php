@@ -1,7 +1,8 @@
 <?php 
 
     class User_model extends CI_Model{
-        public function getDataUser() {
+        public function getDataUser() 
+        {
             // $this->db->where('level.idLevel != 5 and level.idLevel != 6');
             $this->db->join('level', 'level.idLevel = inUser.idLevel');
             return $this->db->get('inUser')->result_array();
@@ -22,6 +23,11 @@
                 'idLevel' => $this->input->post('level')
             ];
             $this->db->insert('inuser',$query);
+        }
+
+        public function getDataUserEksternal()
+        {
+            return $this->db->get('eksuser')->result_array();
         }
     }
 

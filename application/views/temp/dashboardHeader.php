@@ -142,6 +142,11 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
                                 Pengaturan Akun
                             </a>
+
+                            <a class="nav-link" href="<?= base_url(); ?>auth/logout">
+                                <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                Logout
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

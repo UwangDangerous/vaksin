@@ -44,38 +44,67 @@
                             </div>
 <?php $lvl = $this->session->userdata('idLevel'); ?>
 <?php if($lvl == 1) : ?> <!-- admin --> 
+                            <!-- master data -->
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                    Master Data
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
+                                            Jenis Vaksin
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample/dokumen">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                            Jenis Dokumen
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>sample">
+                                            <div class="sb-nav-link-icon"><i class="fa fa-envelope-open-text"></i></div> Surat Pengajuan
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>libur">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div> Libur Nasional
+                                        </a>
+                                    </nav>
+                                </div>
+                            <!-- master data -->
 
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                Master Data
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<?= base_url(); ?>form_gi">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                        General Information
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>jenisSample">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
-                                        Jenis Sample
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>jenisSample/dokumen">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                        Jenis Dokumen
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>user">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                                        User
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>sample">
-                                        <div class="sb-nav-link-icon"><i class="fa fa-envelope-open-text"></i></div> Surat Pengajuan
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>libur">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div> Libur Nasional
-                                    </a>
-                                </nav>
-                            </div>
+                            <!-- Form -->
+                                <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#form" aria-expanded="false" aria-controls="form">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
+                                    Form
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="form" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="<?= base_url(); ?>form_gi">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                            General Information
+                                        </a>
+                                    </nav>
+                                </div>
+                            <!-- form -->
+
+                            <!-- user -->
+                                <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#user" aria-expanded="false" aria-controls="user">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                                    User
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="user" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="<?= base_url(); ?>user">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
+                                            Internal User
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>user/eksternal">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
+                                            Eksternal User
+                                        </a>
+                                    </nav>
+                                </div>
+                            <!-- user -->
 
                             <a class="nav-link" href="<?= base_url(); ?>sertifikat">
                                 <div class="sb-nav-link-icon"><i class="fas fa-print"></i></div>

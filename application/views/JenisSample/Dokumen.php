@@ -43,7 +43,7 @@
                                         <label for="nama">Jenis Dokumen</label>
                                         <input type="text" name="nama" id="nama" value='<?= $row['namaJenisDokumen'] ?>' class='form-control'>
                                         <label for="username">Username</label>
-                                        <textarea name="keterangan" id="username" cols="30" rows="5" class='form-control'><?= $row['KeteranganDokumen']; ?></textarea>
+                                        <textarea name="keterangan" id="username" cols="30" rows="5" class='form-control'><?= $row['keteranganDokumen']; ?></textarea>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-primary">Ubah Data</button>

@@ -8,19 +8,18 @@
             $this->load->model('JenisSample_model');
         }
         
-        public function index()
+        public function index($hal=0)
         {
             $idLevel = $this->session->userdata('idLevel') ;
-            $data['judul'] = 'Jenis Sampel '. $this->session->userdata('namaLevel'); 
-            $data['header'] = 'Jenis Sampel'; 
-            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Sampel'; 
+            $data['judul'] = 'Daftar Vaksin '. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Daftar Vaksin'; 
+            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Daftar Vaksin';
+            $data['hal'] = $hal ; 
 
-            $this->db->order_by('jenisSample', 'asc');
-            $data['sample'] = $this->db->get('_jenisSample')->result_array();
             if( ($this->session->userdata('key') != null) )
             {
                 $this->load->view('temp/dashboardHeader',$data);
-                $this->load->view('jenisSample/index');
+                $this->JenisSample_model->getDataJS($hal);
                 $this->load->view('temp/dashboardFooter');
             }else{
                 $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
@@ -49,25 +48,45 @@
 
         public function TambahData() 
         {
+            $wadah = explode('|', $this->input->post('wadah')) ;
             $query = [
                 'jenisSample' => $this->input->post('nama'),
-                'waktuPengujian' => $this->input->post('lama')
+                'waktuPengujian' => $this->input->post('lama'),
+                'wadah' => $wadah[0],
+                'jsIng' => $this->input->post('namaIng'),
+                'wIng' => $wadah[1],
+                'produksi' => $this->input->post('produksi')
             ];
-            $this->db->insert('_jenisSample',$query);
+            if( $this->db->insert('_jenisSample',$query) ) {
 
-            $pesan = [
-                'pesan' => 'Data Berhasil Disimpan' ,
-                'warna' => 'success' 
-            ];
+                $pesan = [
+                    'pesan' => 'Data Berhasil Disimpan' ,
+                    'warna' => 'success' 
+                ];
+
+            }else{
+
+                $pesan = [
+                    'pesan' => 'Data Gagal Disimpan' ,
+                    'warna' => 'danger' 
+                ];
+
+            }
             $this->session->set_flashdata($pesan);
             redirect('jenisSample') ;
         }
 
-        public function UbahData($id) 
+
+        public function UbahData($id,$hal) 
         {
+            $wadah = explode('|', $this->input->post('wadah')) ;
             $query = [
                 'jenisSample' => $this->input->post('nama'),
-                'waktuPengujian' => $this->input->post('lama')
+                'waktuPengujian' => $this->input->post('lama'),
+                'wadah' => $wadah[0],
+                'jsIng' => $this->input->post('namaIng'),
+                'wIng' => $wadah[1],
+                'produksi' => $this->input->post('produksi')
             ];
             $this->db->where('idJenisSample', $id);
             $this->db->update('_jenisSample',$query);
@@ -77,7 +96,7 @@
                 'warna' => 'success' 
             ];
             $this->session->set_flashdata($pesan);
-            redirect('jenisSample') ;
+            redirect('jenisSample/index/'.$hal) ;
         }
 
         public function ubahDok($id) 
@@ -103,6 +122,9 @@
             $this->session->set_flashdata($pesan);
             redirect('jenisSample/dokumen') ;
         }
+
+
+        
     } 
 
 ?>

@@ -11,8 +11,8 @@
         public function index()
         {
             $idLevel = $this->session->userdata('idLevel') ;
-            $data['judul'] = 'Data User '. $this->session->userdata('namaLevel'); 
-            $data['header'] = 'Data User'; 
+            $data['judul'] = 'Data User Internal'. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Data User Internal'; 
             $data['bread'] = '<a href="'.base_url().'dashboard">Dashboard</a> / Data User'; 
 
             $data['user'] = $this->User_model->getDataUser();
@@ -23,7 +23,7 @@
                 $this->load->view('user/index');
                 $this->load->view('temp/dashboardFooter');
             }else{
-                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
+                $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
                 redirect('auth/inuser') ;
             }
         }
@@ -56,8 +56,27 @@
                 }
 
             }else{
-                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
+                $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
                 redirect('auth/inuser') ;
+            }
+        }
+
+        public function eksternal()
+        {
+            $data['judul'] = 'Data User Eksternal'. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Data User Eksternal'; 
+            $data['bread'] = '<a href="'.base_url().'dashboard">Dashboard</a> / Data User'; 
+
+            $data['user'] = $this->User_model->getDataUser();
+
+            if( ($this->session->userdata('key') != null) )
+            {
+                $this->load->view('temp/dashboardHeader',$data);
+                $this->load->view('user/eksternal');
+                $this->load->view('temp/dashboardFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
+                redirect('auth') ;
             }
         }
     }

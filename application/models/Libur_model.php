@@ -26,9 +26,58 @@ class Libur_model extends CI_Model{
 
     public function getDataLibur()
     {
+        $this->load->library('pagination');
+
+        //pencarian
+            if(isset($_POST['cari']) ){
+                $keyTahun = $_POST['tahun'];
+                $this->session->set_userdata('keyTahun', $keyTahun);
+
+                $keyBulan = $_POST['bulan'];
+                $this->session->set_userdata('keyBulan', $keyBulan);
+
+                $keyJenis = $_POST['jenis'];
+                $this->session->set_userdata('keyJenis', $keyJenis);
+
+                $keyNama = $_POST['nama'];
+                $this->session->set_userdata('keyNama', $keyNama);
+            }else{
+                $keyTahun = $this->session->userdata('keyTahun');
+                $keyBulan = $this->session->userdata('keyBulan');
+                $keyJenis = $this->session->userdata('keyJenis');
+                $keyNama = $this->session->userdata('keyNama');
+            }
+        //pencarian
+
+        // $this->whereDataLibur($keyTahun,$keyBulan,$keyJenis,$keyNama);
+        $this->db->like('tipe', $keyJenis);
+        $this->db->like('tglLibur', $keyTahun);
+        $this->db->like('tglLibur', $keyBulan);
+        $this->db->like('namaLibur', $keyNama);
+        $this->db->from('harilibur');
+        $config['total_rows'] = $this->db->count_all_results();
+
+        $data['total_rows'] = $config['total_rows'] ;
+        $config['per_page'] = 4 ;
+        $config['num_links'] = 3 ; //default nya 2
+        $config['base_url'] = base_url()."libur/resetIndex" ;
+        
+        $this->pagination->initialize($config);
+        
+        $data['start'] = $this->uri->segment(3) ;
+        
+
+        $this->db->like('tipe', $keyJenis);
+        $this->db->like('tglLibur', $keyTahun.'-'.$keyBulan);
+        $this->db->like('namaLibur', $keyNama);
         $this->db->order_by('tglLibur', 'desc');
-        return $this->db->get('harilibur')->result_array();
+        $data['libur'] = $this->db->get('harilibur',$config['per_page'], $data['start'])->result_array();
+
+
+
+        $this->load->view('libur/index',$data);
     }
+
 }
 
 ?>

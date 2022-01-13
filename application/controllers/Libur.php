@@ -11,6 +11,15 @@ class Libur extends CI_Controller{
 
     public function index()
     {
+        $this->session->unset_userdata('keyTahun');
+        $this->session->unset_userdata('keyBulan');
+        $this->session->unset_userdata('keyNama');
+        $this->session->unset_userdata('keyTipe');
+        $this->resetIndex();
+    }
+
+    public function resetIndex()
+    {
         $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Libur Nasional '. $this->session->userdata('namaLevel'); 
@@ -23,13 +32,12 @@ class Libur extends CI_Controller{
         ];
 
         $data['tahun'] = $this->Libur_model->tahun();
-
-        $data['libur'] = $this->Libur_model->getDataLibur();
+        // $data['libur'] = $this->Libur_model->getDataLibur();
 
         if( ($this->session->userdata('key') != null) ) 
         {
             $this->load->view('temp/dashboardHeader',$data);
-            $this->load->view('Libur/index');
+            $this->Libur_model->getDataLibur();
             $this->load->view('temp/dashboardFooter');
         }else{
             $this->session->set_flashdata('login' , 'Anda Bukan Internal User');

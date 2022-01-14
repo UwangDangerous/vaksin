@@ -28,7 +28,29 @@
             }
         }
 
-        public function batch($idSurat, $idSample)
+        // public function batch($idSurat, $idSample)
+        // {
+        //     $idLevel = $this->session->userdata('idLevel') ;
+        //     $data['judul'] = 'Lengkapi Dokumen '. $this->session->userdata('namaLevel'); 
+        //     $data['header'] = 'Lengkapi Dokumen'; 
+        //     $data['bread'] = 'Dashboard / Riwayat Surat / <a href="'.base_url().'sample_/index/'.$idSurat.'">  Informasi Sample  </a> / Lengkapi Dokumen'; 
+        //     // $data['id'] = $idSample ;
+        //     $data['idSurat'] = $idSurat ;
+        //     $data['sample'] = $this->User_Sample_model->getDataSampleBatch($idSample);
+        //     $this->load->model('_Date');
+        //     $data['batch'] = $this->User_Sample_model->getDataBatch($idSample) ;
+        //     if( $this->session->userdata('eksId') != null )
+        //     {
+        //         $this->load->view('temp/dsbHeader',$data);
+        //         $this->load->view('sample_user/batch');
+        //         $this->load->view('temp/dsbFooter');
+        //     }else{
+        //         $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+        //         redirect('auth') ;
+        //     }
+        // }
+
+        public function batch_add($idSurat, $idSample)
         {
             $idLevel = $this->session->userdata('idLevel') ;
             $data['judul'] = 'Lengkapi Dokumen '. $this->session->userdata('namaLevel'); 
@@ -42,7 +64,7 @@
             if( $this->session->userdata('eksId') != null )
             {
                 $this->load->view('temp/dsbHeader',$data);
-                $this->load->view('sample_user/batch');
+                $this->load->view('sample_user/batch_add');
                 $this->load->view('temp/dsbFooter');
             }else{
                 $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
@@ -172,19 +194,11 @@
 
         public function tambahBatch($idSurat,$idSample)
         {
-            $jmlVial = $this->input->post('jmlvial');
-            $vials = '' ;
-            for ($i = 1; $i <= $jmlVial; $i++) {
-                $vials .= $this->input->post("vial$i").',';
-            }
-
-            $vials = rtrim($vials, ',') ;
-
             $query = [
                 'idSample' => $idSample,
                 'noBatch' => $this->input->post('batch'),
                 'dosis' => $this->input->post('Dosis'),
-                'vial' => $vials 
+                'vial' => $this->input->post('jmlvial')
             ] ;
             // var_dump($query) ;
 
@@ -201,10 +215,46 @@
             }
 
             $this->session->set_flashdata( $pesan );
-            redirect("sample_/batch/$idSurat/$idSample");
+            redirect("sample_/batch_add/$idSurat/$idSample");
 
             
         }
+
+        // public function tambahBatch($idSurat,$idSample)
+        // {
+        //     $jmlVial = $this->input->post('jmlvial');
+        //     $vials = '' ;
+        //     for ($i = 1; $i <= $jmlVial; $i++) {
+        //         $vials .= $this->input->post("vial$i").',';
+        //     }
+
+        //     $vials = rtrim($vials, ',') ;
+
+        //     $query = [
+        //         'idSample' => $idSample,
+        //         'noBatch' => $this->input->post('batch'),
+        //         'dosis' => $this->input->post('Dosis'),
+        //         'vial' => $vials 
+        //     ] ;
+        //     // var_dump($query) ;
+
+        //     if( $this->db->insert('sample_batch', $query) ){
+        //         $pesan = [
+        //             'pesanImportir' => 'Data Berhasil Di Simpan' ,
+        //             'warnaImportir' => 'success'
+        //         ] ;
+        //     }else{
+        //         $pesan = [
+        //             'pesanImportir' => 'Data Gagal Di Simpan' ,
+        //             'warnaImportir' => 'danger'
+        //         ] ;
+        //     }
+
+        //     $this->session->set_flashdata( $pesan );
+        //     redirect("sample_/batch/$idSurat/$idSample");
+
+            
+        // }
 
         public function ubahDataBatch($idSurat,$idSample)
         {

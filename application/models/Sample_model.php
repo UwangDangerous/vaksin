@@ -76,13 +76,6 @@
                     $nama .= $namaSurat[$i].'_' ;
                 }
 
-                // $namaFile = explode(' ',$filename[0]);
-                // $file = '' ;
-                // $j = 0 ;
-                // for($j; $j<count($namaFile); $j++) {
-                //     $file .= $namaFile[$j].'_' ;
-                // }
-
                 $berkas = 'Evaluasi_Dokumen_'.rtrim($nama,'_').'_'.$hashDate ; //rtrim($nama,'_').'_'.
 
                 $config['file_name'] = $berkas ;
@@ -108,6 +101,39 @@
                 $this->session->set_flashdata($pesan);
                 redirect("sample/tambahSample/$id") ;   
             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // bukti bayar
+        public function getBuktiBayar() 
+        {
+            $this->db->join('_sample', '_sample.idSample = _buktibayar.idSample');
+            $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
+            $this->db->join('eksuser', '_surat.idEU = eksuser.idEU');
+            $this->db->select('noSurat, idBuktiBayar, namaSurat, namaEU, namaSample, tgl_bayar, fileBuktiBayar,status_verifikasi_bayar, _sample.idSample as idSample');
+            return $this->db->get('_buktibayar')->result_array();
         }
     }
 

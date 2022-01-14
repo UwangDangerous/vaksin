@@ -97,6 +97,107 @@
             $data['id'] = $id ;
             $this->load->view('sample/cetak', $data);
         }
+
+        public function buktiBayar() 
+        {
+            $this->load->model('_Date');
+            $data['judul'] = 'Bukti Bayar '. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Bukti Bayar'; 
+            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Bukti Bayar'; 
+            $data['buktiBayar'] = $this->Sample_model->getBuktiBayar();;
+            if( $this->session->userdata('key') != null )
+            {
+                $this->load->view('temp/dashboardHeader',$data);
+                $this->load->view('sample/buktiBayar');
+                $this->load->view('temp/dashboardFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Login Kembali');
+                redirect('auth') ;
+            }
+        }
+
+        public function verifikasi_pembayaran()
+        {
+            date_default_timezone_set('Asia/Jakarta');
+            $id = $this->input->post('idSample');
+            $status = 0 ;
+            if(isset($_POST['terima'])) {
+                $status = 1 ;
+            }
+            
+            if(isset($_POST['tolak'])){
+                $status = 2 ;
+            }
+
+            $query=[
+                'tgl_verifikasi_bayar' => date('Y-m-d') ,
+                'jam_verifikasi_bayar' => date('h:i:s') ,
+                'status_verifikasi_bayar' => $status
+            ];
+
+            $this->db->where('idBuktiBayar', $this->input->post('id'));
+            if($status == 1) {
+                $this->db->set($query);
+                if( $this->db->update('_buktiBayar') ){
+                    $query_riwayat = [
+                        'idSample' => $id ,
+                        'tgl_riwayat' => date('Y-m-d'),
+                        'jam_riwayat' => date('h:i:s'), 
+                        'keteranganRiwayat' => 'Pembayaran Valid'
+                    ];
+
+                    if($this->db->insert('riwayatpekerjaan', $query_riwayat) ) {
+                        $pesan = [
+                            'pesan' => 'Verifikasi Berhasil' ,
+                            'warna' => 'success'
+                        ] ;
+                    }else{
+                        $pesan = [
+                            'pesan' => 'Verifikasi Gagal' ,
+                            'warna' => 'danger'
+                        ] ;
+                    }
+
+                }else{
+                    $pesan = [
+                        'pesan' => 'Verifikasi Gagal' ,
+                        'warna' => 'danger'
+                    ] ;
+                }
+            }else{
+                if( $this->db->delete('_buktiBayar') ){
+                    $file = "./assets/file-upload/bukti-bayar/".$this->input->post('namaFile');     
+                    unlink("./assets/file-upload/bukti-bayar/b.pdf") ;
+                    $query_riwayat = [
+                        'idSample' => $id ,
+                        'tgl_riwayat' => date('Y-m-d'),
+                        'jam_riwayat' => date('h:i:s'), 
+                        'keteranganRiwayat' => 'Pembayaran Tidak Valid - Silahkan upload bukti pembayaran kembali'
+                    ];
+
+                    if($this->db->insert('riwayatpekerjaan', $query_riwayat) ) {
+                        $pesan = [
+                            'pesan' => 'Verifikasi Berhasil - Data Dihapus' ,
+                            'warna' => 'success'
+                        ] ;
+                    }else{
+                        $pesan = [
+                            'pesan' => 'Verifikasi Gagal' ,
+                            'warna' => 'danger'
+                        ] ;
+                    }
+
+                }else{
+                    $pesan = [
+                        'pesan' => 'Verifikasi Gagal' ,
+                        'warna' => 'danger'
+                    ] ;
+                }
+            }
+
+            $this->session->set_flashdata($pesan);
+            redirect('sample/buktiBayar') ;
+        }
     }
 
 ?>

@@ -194,7 +194,7 @@
                 </td>
                 <!-- akhir lengkapi dokumen -->
                 <td>
-                    <a href="<?=base_url();?>sample_/batch/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
+                    <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
                         <i class="fa fa-pen"></i>
                     </a>
 

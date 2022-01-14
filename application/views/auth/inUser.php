@@ -24,7 +24,7 @@
                                 <form action="" method='post'>
                                     <div class="form-group">
                                         <label class="small mb-1" for="inputEmailAddress">Username</label>
-                                        <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Username" name='username'/>
+                                        <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Username" name='username' autofocus />
 
                                         <small id="usernameHelp" class="form-text text-danger"><?= form_error('username'); ?></small>
                                     </div> <br>

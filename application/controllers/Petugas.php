@@ -23,9 +23,8 @@ class Petugas extends CI_Controller{
         $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
         $data['header'] = 'Data Sampel'; 
-        $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Sampel'; 
+        $data['bread'] = 'Dashboard / <a href="'.base_url().'sample"> Penerimaan Surat </a> / Sampel'; 
         $data['sample'] = $this->Petugas_model->getSample($id,$cari);
-        // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
             $this->load->view('temp/dashboardHeader',$data);
@@ -41,8 +40,8 @@ class Petugas extends CI_Controller{
     {
         $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
-        $data['judul'] = 'Data Sampel '. $this->session->userdata('namaLevel'); 
-        $data['header'] = 'Data Sampel'; 
+        $data['judul'] = 'Rinscian Data Sampel '. $this->session->userdata('namaLevel'); 
+        $data['header'] = 'Rinscian Data Sampel'; 
         $data['bread'] = 'Dashboard / <a href="'.base_url().'petugas"> Sampel </a> / Rincian Sampel'; 
         $data['sample'] = $this->Petugas_model->getDetailSample($id);
         $data['petugas'] = $this->Petugas_model->getPetugas($id);

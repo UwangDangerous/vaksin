@@ -48,7 +48,7 @@
                     <a href="<?=base_url(); ?>assets/file-upload/surat/<?=$row['fileSurat'];?>" target='blank' data-toggle='tooltip' title='Lihat Surat' class="badge badge-secondary"><i class="fa fa-eye"></i></a>
                 </td>
                 <td>
-                    <a href="<?=base_url(); ?>petugas/index/<?=$row['idSurat'];?>" target='blank' data-toggle='tooltip' title='Data Sample' class="badge badge-primary"><i class="fa fa-bars"></i></a>
+                    <a href="<?=base_url(); ?>petugas/index/<?=$row['idSurat'];?>" data-toggle='tooltip' title='Data Sample' class="badge badge-primary"><i class="fa fa-bars"></i></a>
                 </td>
             </tr>
         <?php endforeach ; ?>

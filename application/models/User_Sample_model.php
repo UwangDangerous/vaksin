@@ -15,7 +15,8 @@
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
                                 _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
                                 namaImportir, namaJenisManufacture, noMA, tgl_pengiriman, _surat.idSurat as idSurat,
-                                _sample.idJenisSample as idJenisSample, namaJenisDokumen, _jenisDokumen.idJenisDokumen as idJenisDokumen'
+                                _sample.idJenisSample as idJenisSample, namaJenisDokumen, 
+                                _jenisDokumen.idJenisDokumen as idJenisDokumen'
                             );
             return $this->db->get('_sample')->result_array();
         }
@@ -131,7 +132,10 @@
 
         public function getDataBatch($id) 
         {
-            $this->db->where('idSample', $id);
+            $this->db->where('sample_batch.idSample', $id);
+            $this->db->join('_sample', 'sample_batch.idSample = _sample.idSample');
+            $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample');
+            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch');
             return $this->db->get('sample_batch')->result_array();
         }
 

@@ -129,6 +129,10 @@
         // bukti bayar
         public function getBuktiBayar() 
         {
+            if($this->input->get('cari')) {
+                $this->db->where('_buktiBayar.idSample', $this->input->get('cari'));
+            }
+
             $this->db->join('_sample', '_sample.idSample = _buktibayar.idSample');
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
             $this->db->join('eksuser', '_surat.idEU = eksuser.idEU');

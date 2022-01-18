@@ -144,7 +144,7 @@
             $query = [
                 'idSample' => $id,
                 'tgl_bayar' => date('Y-m-d') ,
-                'jam_bayar' => date('h:i:s') ,
+                'jam_bayar' => date('G:i:s') ,
                 'fileBuktiBayar' => $upload
             ];
 

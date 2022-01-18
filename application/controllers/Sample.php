@@ -131,7 +131,7 @@
 
             $query=[
                 'tgl_verifikasi_bayar' => date('Y-m-d') ,
-                'jam_verifikasi_bayar' => date('h:i:s') ,
+                'jam_verifikasi_bayar' => date('G:i:s') ,
                 'status_verifikasi_bayar' => $status
             ];
 
@@ -147,13 +147,13 @@
                     $query_riwayat = [
                         'idSample' => $id ,
                         'tgl_riwayat' => date('Y-m-d'),
-                        'jam_riwayat' => date('h:i:s'), 
+                        'jam_riwayat' => date('G:i:s'), 
                         'keteranganRiwayat' => $valid 
                     ];
 
                     if($this->db->insert('riwayatpekerjaan', $query_riwayat) ) {
                         $pesan = [
-                            'pesan' => 'Verifikasi Berhasil' ,
+                            'pesan' => 'Verifikasi Berhasil <a href="'.base_url().'petugas"> Sample </a>' ,
                             'warna' => 'success'
                         ] ;
                     }else{
@@ -176,13 +176,13 @@
                     $query_riwayat = [
                         'idSample' => $id ,
                         'tgl_riwayat' => date('Y-m-d'),
-                        'jam_riwayat' => date('h:i:s'), 
+                        'jam_riwayat' => date('G:i:s'), 
                         'keteranganRiwayat' => 'Pembayaran Tidak Valid - Silahkan upload bukti pembayaran kembali'
                     ];
 
                     if($this->db->insert('riwayatpekerjaan', $query_riwayat) ) {
                         $pesan = [
-                            'pesan' => 'Verifikasi Berhasil - Data Dihapus' ,
+                            'pesan' => 'Verifikasi Berhasil - Data Dihapus <a href="'.base_url().'petugas"> Sample </a>' ,
                             'warna' => 'success'
                         ] ;
                     }else{
@@ -202,6 +202,7 @@
 
             $this->session->set_flashdata($pesan);
             redirect('sample/buktiBayar') ;
+
         }
     }
 

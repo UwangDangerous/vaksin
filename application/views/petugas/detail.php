@@ -63,13 +63,18 @@
                 <tr>
                     <th>Dokumen</th>
                     <td>:</td> 
-                    <td><?= $sample['namaJenisDokumen']; ?></td>
+                    <td><?= $sample['namaJenisDokumen']; ?> ( <?= $sample['namaProses']; ?> ) </td>
                 </tr>
             </table>
         </div>
         <div class="col-md-6">
             <table cellpadding=2>
                  
+                <tr>
+                    <th>Tanggal Surat</th>
+                    <td>:</td> 
+                    <td> <?= $this->_Date->formatTanggal( $sample['tgl_kirim_surat'] ); ?></td>
+                </tr>
                 <tr>
                     <th>Tanggal Pengiriman Sample</th>
                     <td>:</td> 
@@ -80,12 +85,18 @@
                     <th>Bukti Bayar</th>
                     <td>:</td> 
                     <td>
-                        <?php if($bukti = $this->Petugas_model->getBuktiBayar($sample['idSample'])) : ?>
-                            <?= $this->_Date->formatTanggal($bukti['tgl_bayar']); ?> <?= $bukti['jam_bayar']; ?>
-                            <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-secondary" data-toggle='tooltip' title='Lihat Bukti Bayar'> <i class="fa fa-eye"></i> </a>
+                        <?php if($bukti = $this->Petugas_model->getBuktiBayar($id)) : ?>
+                            <?php if($bukti['status_verifikasi_bayar'] == 1) : ?>
+                                <?= $this->_Date->formatTanggal($bukti['tgl_verifikasi_bayar']); ?> <?= $bukti['jam_verifikasi_bayar']; ?>
+                                <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-secondary" data-toggle='tooltip' title='Lihat Bukti Bayar'> <i class="fa fa-eye"></i> </a>
+                            <?php else : ?>
+                                <?= $this->_Date->formatTanggal($bukti['tgl_bayar']); ?> <?= $bukti['jam_bayar']; ?>
+                                <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-secondary" data-toggle='tooltip' title='Lihat Bukti Bayar'> <i class="fa fa-eye"></i> </a>
+                            <?php endif ; ?>
                         <?php else : ?>
                             <i class="text-danger">Tidak Tersedia</i>
                         <?php endif ; ?>
+                        
                     </td>
                 </tr>
 
@@ -96,30 +107,72 @@
                 </tr>
 
                 <tr>
-                    <td colspan=3>
-                        <br>
-                        <div id="accordion">
-                                <h5 class="mb-0">
-                                    <button class="btn btn-primary collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Data Dukung
-                                    </button>
-                                </h5>
-                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                    
-                                    <ul class="list-group">
-                                        <?php $dataDukung = $this->Petugas_model->dataDukung($sample['idSample']) ; ?>
-                                        <?php foreach ($dataDukung as $dd) : ?>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <?= $dd['namaJenisDataDukung']; ?>
-                                                <a href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung']; ?>" data-toggle='tooltip' title='lihat data dukung <?= $dd['namaJenisDataDukung']; ?>' class="badge badge-primary" target='blank'><i class="fa fa-eye"></i></a>
-                                            </li>
-                                        <?php endforeach ; ?>
-                                    </ul>
-
+                    <th>Jumlah Batch </th>
+                    <td>:</td> 
+                    <td>
+                        <?php $batch = $this->Petugas_model->getBatch($id); ?>
+                        <?= count($batch); ?> 
+                        <a href="#" class="badge badge-secondary" data-toggle='modal' data-target='#modalBatch' data-toggle='tooltip' title='tampilkan rincian batch'>
+                            <i class="fa fa-eye"></i>
+                        </a>
+                        <!-- modal batch -->
+                        <div class="modal fade" id="modalBatch" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Batch</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped text-center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nomer Batch</th>
+                                                        <th>Dosis</th>
+                                                        <th>Jumlah <?= $sample['wadah']; ?></th>
+                                                        <th>Data Dukung</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach ($batch as $bat) : ?>
+                                                        <tr>
+                                                            <td><?= $bat['noBatch']; ?></td>
+                                                            <td><?= $bat['dosis']; ?></td>
+                                                            <td><?= number_format($bat['vial'], 0, ',', ','); ?></td>
+                                                            <td>
+                                                                <a class="badge badge-primary" data-toggle="collapse" href="#data_dukung<?= $bat['idBatch']; ?>" role="button" aria-expanded="false">
+                                                                    Data Dukung
+                                                                </a>
+                                                                <div class="collapse" id="data_dukung<?= $bat['idBatch']; ?>">
+                                                                        <ul class="list-group">
+                                                                            <?php $dataDukung_batch = $this->Petugas_model->getDataDukungBatch($bat['idBatch']); ?>
+                                                                            <?php foreach ($dataDukung_batch as $ddb) : ?>
+                                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                    <?= $ddb['namaJenisDataDukung']; ?>
+                                                                                    <a href='<?= base_url();?>assets/file-upload/data-dukung/<?= $ddb['fileDataDukung']; ?>' class="badge badge-primary" data-toogle='tooltip' title='Tampilkan Data Dukung' target='blank'> 
+                                                                                        <i class="fa fa-eye"></i> 
+                                                                                    </a>
+                                                                                </li>
+                                                                            <?php endforeach ; ?>
+                                                                        </ul>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach ; ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                         </div>
+                        <!-- modal batch -->
                     </td>
                 </tr>
+                
             </table>
         </div>
     </div>
@@ -138,9 +191,9 @@
                         <td><?= $p['namaIU']; ?></td>
                         <td>
                             <?php if($p['idLevel'] == 3) : ?>
-                                <?= $this->Petugas_model->hasilEvaluasi($sample['idSample']) ; ?>
+                                <?= $this->Petugas_model->hasilEvaluasi($id) ; ?>
                             <?php elseif($p['idLevel'] == 4) : ?>
-                                <?php $hasil = $this->Petugas_model->hasilVerifikasi($sample['idSample']) ; ?>
+                                <?php $hasil = $this->Petugas_model->hasilVerifikasi($id) ; ?>
                                 <?php if($hasil) : ?>
                                     <a href="<?= base_url(); ?>assets/file-upload/hasil-verifikasi/<?= $hasil["hasilVerifikasi"]; ?>" class="badge badge-primary" data-toggle="tooltip" title="Hasil Verifikasi" target="blank"><i class="fa fa-eye"></i></a>
                                     <?php $idVerifikasi = $hasil['idVerifikasi'] ; ?>
@@ -221,34 +274,9 @@
                     <td><?=  $this->_Date->formatTanggal( $sample['tgl_pengiriman'] ); ?></td>
                 </tr>
 
-                <?php if($bukti = $this->Petugas_model->getBuktiBayar($sample['idSample'])) : ?>
-                    <tr>
-                        <td>3</td>
-                        <td>
-                            Mengirim Bukti Bayar <a href="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $bukti['fileBuktiBayar']; ?>" target='blank' class="badge badge-secondary" data-toggle='tooltip' title='Lihat Bukti Bayar'> <i class="fa fa-eye"></i> </a>
-                        </td>
+                <?php $no = 3 ?>
 
-                        <td>
-                            <?= $this->_Date->formatTanggal($bukti['tgl_bayar']); ?> <br> ( <?= $bukti['jam_bayar']; ?> )
-                        </td>
-                    </tr>
-
-                    <?php $jam = explode(':',$bukti['jam_bayar']); ?>
-                    <?php if($jam > 12) : ?>
-                        <tr>
-                            <td><?= $no = 4 ; ?></td>
-                            <td>Mulai Pengerjaan</td>
-                            <td> 
-                                <?= $this->_Date->formatTanggal( date('Y-m-d', strtotime("+1 day", strtotime($bukti['tgl_bayar'])) ) );?>
-                            </td>
-                        </tr>
-                    <?php endif ; ?>
-
-                <?php else : ?>
-                    <?php $no = 3 ?>
-                <?php endif ; ?>
-
-                <?php $riwayat = $this->Petugas_model->RiwayatPekerjaan($sample['idSample']);?>
+                <?php $riwayat = $this->Petugas_model->RiwayatPekerjaan($id);?>
                 <?php foreach ($riwayat as $row) : ?>
                     <tr>
                         <td><?= ++$no; ?></td>
@@ -281,7 +309,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form method="post" action="<?= base_url() ;?>petugas/inputDataKurang/<?= $sample['idSample'];?>">
+      <form method="post" action="<?= base_url() ;?>petugas/inputDataKurang/<?= $id;?>">
         <div class="modal-body">
             <label for="judul">Judul Pesan</label>
             <input type="text" name="judul" id="judul" class='form-control'>

@@ -82,7 +82,7 @@
 
         public function pengerjaan($id, $lamaPengerjaan, $mulai, $jam )
         {
-            if($mulai ){
+            // if($mulai ){
 
 
                 $this->db->where('idSample', $id);
@@ -140,7 +140,15 @@
                 $akhirPengerjaan = date('Y-m-d', strtotime("+$pengerjaan day", $awalPengerjaan) ) ;
 
                 $this->db->where("tglLibur BETWEEN '$mulai' AND '$akhirPengerjaan'");
-                $libur = $this->db->get('harilibur')->num_rows();
+                $liburan = $this->db->get('harilibur')->result_array();
+                $libur = count($liburan) ;
+
+                $ket = false ;
+                foreach($liburan as $lbr) {
+                    if($lbr['tglLibur'] == date('Y-m-d')) {
+                        $ket = true ;
+                    }
+                }
 
                 //mengitung tanggal final
                 $awalPengerjaan = strtotime($mulai) ;
@@ -169,27 +177,35 @@
                 
                 
 
+                    // $data = [
+                    //     'awalPengerjaan' => date('Y-m-d' ,$awalPengerjaan),
+                    //     'akhirPengerjaan' => $akhirPengerjaan,
+                    //     'lamaPengerjaan' => $lamaPengerjaan ,
+                    //     'penundaan' => $jumlahHariDataKurang,
+                    //     'libur' => $libur ,
+                    //     'total' => $total,
+                    //     'waktuBerjalan' =>  $total - $waktuBerjalan  
+                    // ];
+
                     $data = [
-                        'awalPengerjaan' => date('Y-m-d' ,$awalPengerjaan),
-                        'akhirPengerjaan' => $akhirPengerjaan,
-                        'lamaPengerjaan' => $lamaPengerjaan ,
-                        'penundaan' => $jumlahHariDataKurang,
                         'libur' => $libur ,
-                        'total' => $total,
-                        'waktuBerjalan' =>  $total - $waktuBerjalan  
-                    ];
+                        'penundaan' => $jumlahHariDataKurang,
+                        'total' => $total - $libur -  $jumlahHariDataKurang,
+                        'waktuBerjalan' =>  $total - $waktuBerjalan - ($libur -  $jumlahHariDataKurang),
+                        'ket' => $ket
+                    ] ;
             
-            }else{
+            // }else{
 
-                $data = [
-                    'lamaPengerjaan' => $lamaPengerjaan ,
-                    'penundaan' => 0,
-                    'libur' => 0 ,
-                    'total' => $lamaPengerjaan,
-                    'waktuBerjalan' => 0 
-                ];
+            //     $data = [
+            //         'lamaPengerjaan' => $lamaPengerjaan ,
+            //         'penundaan' => 0,
+            //         'libur' => 0 ,
+            //         'total' => $lamaPengerjaan,
+            //         'waktuBerjalan' => 0 
+            //     ];
 
-            }
+            // }
 
             return $data ;
 

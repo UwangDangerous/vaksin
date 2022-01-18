@@ -50,7 +50,7 @@
             return $this->db->get('_buktiBayar')->row_array();
         }
 
-        public function getDetailSample($id) 
+        public function getDetailSample($idSurat,$id) 
         {
             $this->db->where('_sample.idSample', $id);
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
@@ -102,6 +102,20 @@
         {
             $this->db->where('idSample', $idSample);
             return $this->db->get('prosespengerjaan')->row_array();
+        }
+
+        public function getBatch($id)
+        {
+            $this->db->where('idSample',$id);
+            return $this->db->get('sample_batch')->result_array();
+        }
+
+        public function getDataDukungBatch($id)
+        {
+            $this->db->where('idBatch', $id);
+            $this->db->join('_jenisDataDukung', '_datadukung_batch.idJenisDataDukung = _jenisDataDukung.idJenisDataDukung');
+            $this->db->select('namaJenisDataDukung, fileDataDukung');
+            return $this->db->get('_datadukung_batch')->result_array();
         }
         
     }

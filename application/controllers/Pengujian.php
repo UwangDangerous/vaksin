@@ -53,7 +53,7 @@
             $query = [
                 'idSample' => $this->input->post('id'),
                 'tgl_selesai' => date('Y-m-d'),
-                'jam_selesai' => date('h:i:s')
+                'jam_selesai' => date('G:i:s')
             ] ;
 
             if($this->db->insert('prosespengerjaan', $query)){

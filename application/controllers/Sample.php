@@ -104,7 +104,7 @@
             $data['judul'] = 'Bukti Bayar '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Bukti Bayar'; 
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Bukti Bayar'; 
-            $data['buktiBayar'] = $this->Sample_model->getBuktiBayar();;
+            $data['buktiBayar'] = $this->Sample_model->getBuktiBayar();
             if( $this->session->userdata('key') != null )
             {
                 $this->load->view('temp/dashboardHeader',$data);
@@ -139,11 +139,16 @@
             if($status == 1) {
                 $this->db->set($query);
                 if( $this->db->update('_buktiBayar') ){
+                    if($this->input->post('proses') == 1) {
+                        $valid = 'Pembayaran Valid - (Awal Pengerjaan)' ;
+                    }else{
+                        $valid = 'Pembayaran Valid' ;
+                    }
                     $query_riwayat = [
                         'idSample' => $id ,
                         'tgl_riwayat' => date('Y-m-d'),
                         'jam_riwayat' => date('h:i:s'), 
-                        'keteranganRiwayat' => 'Pembayaran Valid'
+                        'keteranganRiwayat' => $valid 
                     ];
 
                     if($this->db->insert('riwayatpekerjaan', $query_riwayat) ) {

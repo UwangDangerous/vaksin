@@ -132,7 +132,7 @@
             $this->db->join('_sample', '_sample.idSample = _buktibayar.idSample');
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
             $this->db->join('eksuser', '_surat.idEU = eksuser.idEU');
-            $this->db->select('noSurat, idBuktiBayar, namaSurat, namaEU, namaSample, tgl_bayar, fileBuktiBayar,status_verifikasi_bayar, _sample.idSample as idSample');
+            $this->db->select('noSurat, idBuktiBayar, namaSurat, namaEU, namaSample, tgl_bayar, fileBuktiBayar,status_verifikasi_bayar, _sample.idSample as idSample, _sample.idProses');
             return $this->db->get('_buktibayar')->result_array();
         }
     }

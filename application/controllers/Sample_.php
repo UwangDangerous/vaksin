@@ -420,6 +420,34 @@
             $this->session->set_flashdata($pesan);
             redirect("sample_/index/$idSurat/$id") ;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public function cobaTampil($id) 
+        {
+            $this->load->model('_Date');
+            $data['id'] = $id ;
+
+            $this->db->where('idSample', $id);
+            $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
+            $this->db->select('tgl_pengiriman,tgl_kirim_surat');
+            $tgl = $this->db->get('_sample')->row_array();
+            $data['tgl_pengiriman'] = $tgl['tgl_pengiriman'] ;
+            $data['tgl_kirim_surat'] = $tgl['tgl_kirim_surat'] ;
+            
+            $this->load->view('sample_user/js/cobaTampil',$data) ;
+        }
     }
 
 ?>

@@ -152,6 +152,8 @@
             return $this->db->get('petugas')->num_rows();
         }
 
+        
+
     }
 
 ?>

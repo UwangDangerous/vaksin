@@ -68,41 +68,43 @@
                 $col        = 9 ;
                 $btn = true ; 
             else :
-                $judulModal = 'Bukti Bayar '.$row['namaSample'] ; 
+                $judulModal = 'Bukti Bayar Sampel '.$row['namaSample'] ; 
             endif ; 
          ?>
 
         <!-- Modal -->
-        <div class="modal fade" id="bukti_<?= $row['idBuktiBayar'] ; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><?= $judulModal ; ?></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-<?= $col ;?>">
-                                <iframe src="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $row['fileBuktiBayar']; ?>" width='100%' height='400px'></iframe>
-                            </div>
-                            <?php if($btn == true) : ?>
-                                <div class="col-md-2">
-                                    <form action="<?= base_url(); ?>sample/verifikasi_pembayaran" method='post'>
-                                        <input type="hidden" name='id' value='<?= $row['idBuktiBayar'];?> '>
-                                        <input type="hidden" name='idSample' value='<?= $row['idSample'];?> '>
-                                        <input type="hidden" name='namaFile' value='<?= $row['fileBuktiBayar'];?> '>
-                                        <input type='submit' class="btn btn-primary" name='terima' value='Pembayaran Benar' onclick="return confirm('Apakah Anda Yakin?');"> <br> <br>
-                                        <input type='submit' class="btn btn-danger" name='tolak' value='Pembayaran Salah' onclick="return confirm('Data akan di hapus, Apakah Anda Yakin?');">
-                                    </form>
+            <div class="modal fade" id="bukti_<?= $row['idBuktiBayar'] ; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><?= $judulModal ; ?></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-<?= $col ;?>">
+                                    <iframe src="<?= base_url(); ?>assets/file-upload/bukti-bayar/<?= $row['fileBuktiBayar']; ?>" width='100%' height='400px'></iframe>
                                 </div>
-                            <?php endif ; ?>
+                                <?php if($btn == true) : ?>
+                                    <div class="col-md-2">
+                                        <form action="<?= base_url(); ?>sample/verifikasi_pembayaran" method='post'>
+                                            <input type="hidden" name='id' value='<?= $row['idBuktiBayar'];?> '>
+                                            <input type="hidden" name='idSample' value='<?= $row['idSample'];?> '>
+                                            <input type="hidden" name='namaFile' value='<?= $row['fileBuktiBayar'];?> '>
+                                            <input type="hidden" name='proses' value='<?= $row['idProses'] ?>'>
+                                            <input type='submit' class="btn btn-primary" name='terima' value='Pembayaran Benar' onclick="return confirm('Apakah Anda Yakin?');"> <br> <br>
+                                            <input type='submit' class="btn btn-danger" name='tolak' value='Pembayaran Salah' onclick="return confirm('Data akan di hapus, Apakah Anda Yakin?');">
+                                        </form>
+                                    </div>
+                                <?php endif ; ?>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <!-- Modal -->
        <?php endforeach ; ?>
     </tbody>
 </table>

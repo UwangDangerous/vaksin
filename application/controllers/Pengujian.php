@@ -57,6 +57,13 @@
             ] ;
 
             if($this->db->insert('prosespengerjaan', $query)){
+                $query_riwayat = [
+                    'idSample' => $this->input->post('id'),
+                    'tgl_riwayat' => date('Y-m-d'),
+                    'jam_riwayat' => date('G:i:s'),
+                    'keteranganRiwayat' => 'Pengujian Selesai ( Awal Pengerjaan Dokumen Pelulusan )'
+                ];
+                $this->db->insert('riwayatpekerjaan', $query_riwayat);
                 $pesan = [
                     'pesan' => 'Data Berhasil Disimpan' ,
                     'warna' => 'success' 

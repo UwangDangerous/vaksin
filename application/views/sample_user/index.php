@@ -270,9 +270,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div id="cobaTampil"></div>
+                                    <div id="cobaTampil<?= $row['idSample']; ?>"></div>
                                     <script>
-                                        $('#cobaTampil').load("<?= base_url() ;?>sample_/cobaTampil/<?= $row['idSample'] ;?>") ;
+                                        $('#cobaTampil<?= $row['idSample']; ?>').load("<?= base_url() ;?>sample_/cobaTampil/<?= $row['idSample'] ;?>") ;
                                     </script>
                                 </div>
                                 <div class="modal-footer">

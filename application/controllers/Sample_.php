@@ -187,7 +187,7 @@
             }
 
             $this->session->set_flashdata( $pesan );
-            redirect("sample_/batch/$idSurat/".$this->input->post('idSample') );
+            redirect("sample_/batch_add/$idSurat/".$this->input->post('idSample') );
 
             
         }
@@ -285,7 +285,7 @@
             }
 
             $this->session->set_flashdata( $pesan );
-            redirect("sample_/batch/$idSurat/$idSample");
+            redirect("sample_/batch_add/$idSurat/$idSample");
 
             
         }
@@ -293,7 +293,7 @@
         public function uploadDataDukungBatch($idSurat,$idSample) 
         {
             $this->load->model('_Upload');
-            $upload = $this->_Upload->uploadEksUser("berkas",'assets/file-upload/data-dukung','pdf','sample_/batch/'.$idSurat.'/'.$idSample, $this->input->post('namaJenisDataDukung').'_batch');
+            $upload = $this->_Upload->uploadEksUser("berkas",'assets/file-upload/data-dukung','pdf','sample_/batch_add/'.$idSurat.'/'.$idSample, $this->input->post('namaJenisDataDukung').'_batch');
             $query = [
                 'idBatch' => $this->input->post('idBatch') ,
                 'idJenisDataDukung' => $this->input->post('idJenisDataDukung') ,
@@ -314,7 +314,7 @@
             }
 
             $this->session->set_flashdata($pesan);
-            redirect("sample_/batch/$idSurat/$idSample") ;
+            redirect("sample_/batch_add/$idSurat/$idSample") ;
 
         }
 

@@ -90,15 +90,15 @@
                                     <td><?= $bukti['jam_verifikasi_bayar'] ; ?></td>
                                 <!-- 8 -->
                                 
-                                <?php $pengerjaan = $this->_Date->pengerjaan(
-                                    $row['idSample'],
-                                    $row['waktuPengujian'],
-                                    $bukti['tgl_verifikasi_bayar'],
-                                    $bukti['jam_verifikasi_bayar']
-                                ); ?>
-
-                                <?php var_dump($pengerjaan) ; ?>
                                 <!-- 9 -->
+                                <?php if($row['idJenisDokumen'] == 1) : ?>
+                                    <?php $pengerjaan = $this->_Date->pengerjaan(
+                                        $row['idSample'],
+                                        $row['waktuPengujian'],
+                                        $bukti['tgl_verifikasi_bayar'],
+                                        $bukti['jam_verifikasi_bayar']
+                                    ); ?>
+                                
                                     <?php if($pengerjaan['ket'] == true) : ?>
                                         <td>
                                             <i class='text-danger'>Sedang Libur</i>
@@ -118,27 +118,92 @@
                                         </td>
                                     <?php endif ; ?>
                                     <td><?= $row['namaProses']; ?></td>
+                                <?php else : ?>
+                                    <?php if($row['idProses'] == 0) : ?>
+                                        <td colspan=2>
+                                            <a href="" class='badge badge-primary' data-toggle='modal' data-target='#ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>' data-toggle='tooltip' title='Pilih Pekerjaan'> <i class="fa fa-pen"></i> </a>
+                                        </td>
+                                    <?php elseif($row['idProses'] == 1) : ?>
+                                        <!-- 9 -->
+                                            <?php $pengerjaan = $this->_Date->pengerjaan(
+                                                $row['idSample'],
+                                                $row['waktuPengujian'],
+                                                $bukti['tgl_verifikasi_bayar'],
+                                                $bukti['jam_verifikasi_bayar']
+                                            ); ?>
+                                        
+                                            <?php if($pengerjaan['ket'] == true) : ?>
+                                                <td>
+                                                    <i class='text-danger'>Sedang Libur</i>
+                                                </td>
+                                            <?php else : ?>
+                                                <?php if($pengerjaan['waktuBerjalan'] == $pengerjaan['total']) : ?>
+                                                    <td class='text-warning'>
+                                                <?php elseif($pengerjaan['waktuBerjalan'] > $pengerjaan['total']) : ?>
+                                                    <td class='text-danger'>
+                                                <?php else : ?> 
+                                                    <td>
+                                                <?php endif ; ?>
+                                                    <?= $pengerjaan['waktuBerjalan']; ?>
+                                                    /
+                                                    <?= $pengerjaan['total']; ?>
+                                                    hari
+                                                </td>
+                                            <?php endif ; ?>
+                                            <td><?= $row['namaProses']; ?></td>
+                                        <!-- 9 -->
+                                    <?php elseif($row['idProses'] == 2) : ?>
+                                        <?php 
+                                            $this->db->where('idSample', $row['idSample']);
+                                            $hasilPengujian = $this->db->get('prosespengerjaan')->row_array() ;
+                                        ?>
+                                        <?php if($hasilPengujian) : ?>
+                                            <?php $pengerjaan = $this->_Date->pengerjaan(
+                                                $row['idSample'],
+                                                $row['waktuPengujian'],
+                                                $hasilPengujian['tgl_selesai'],
+                                                $hasilPengujian['jam_selesai']
+                                            ); ?>
+                                            <?php if($pengerjaan['ket'] == true) : ?>
+                                                <td>
+                                                    <i class='text-danger'>Sedang Libur</i>
+                                                </td>
+                                            <?php else : ?>
+                                                <?php if($pengerjaan['waktuBerjalan'] == $pengerjaan['total']) : ?>
+                                                    <td class='text-warning'>
+                                                <?php elseif($pengerjaan['waktuBerjalan'] > $pengerjaan['total']) : ?>
+                                                    <td class='text-danger'>
+                                                <?php else : ?> 
+                                                    <td>
+                                                <?php endif ; ?>
+                                                    <?= $pengerjaan['waktuBerjalan']; ?>
+                                                    /
+                                                    <?= $pengerjaan['total']; ?>
+                                                    hari
+                                                </td>
+                                            <?php endif ; ?>
+                                            <td><?= $row['namaProses']; ?></td>
+                                        <?php else : ?>
+                                            <td colspan=2>
+                                                <i class="text-danger">Menunggu Hasil Pengujian</i>
+                                            </td>
+                                        <?php endif ; ?>
+                                    <?php endif ; ?>
+                                <?php endif ; ?>
                                 <!-- 9 -->
+
                             <?php else : ?>
                                 <td>
                                     <a href="<?= base_url(); ?>sample/buktiBayar?cari=<?= $row['idSample']; ?>" class="badge badge-warning">Verifikasi</a>    
                                 </td>
-                                <td><?= $this->_Date->formatTanggal($bukti['tgl_bayar']); ?></td>
-                                <td><?= $bukti['jam_bayar'] ; ?></td>
+                                <td class='text-warning'><?= $this->_Date->formatTanggal($bukti['tgl_bayar']); ?></td>
+                                <td class='text-warning'><?= $bukti['jam_bayar'] ; ?></td>
+                                <td colspan=2>-</td>
                             <?php endif ; ?>
                         <?php else : ?>
                             <!-- 7 -->
-                                <td colspan='3'> <i class="text-danger"> Kosong </i> </td>
+                                <td colspan='5'> <i class="text-danger"> Kosong </i> </td>
                             <!-- 7 -->
-                        <?php endif ; ?>
-                        <?php if($row['idProses'] == 0) : ?>
-                            <td>
-                                <a href="" id="" class='badge badge-primary' data-toggle='modal' data-target='#ver<?= $row['idSample'] ?><?= $row['idProses'] ;?>' data-toggle='tooltip' title='verifikasi'> <i class="fa fa-pen"></i> </a>
-                            </td>
-                        <?php elseif($row['idProses'] == 2) : ?>
-                            <td colspan=2>
-                                <i class="text-danger">Menunggu Hasil Pengujian</i>
-                            </td>
                         <?php endif ; ?>
 
                         <!-- 10 -->
@@ -172,13 +237,184 @@
                                     </div>
                                 </div>
                             <!-- acordion -->
+                            <!-- Modal Tambah-->
+                            <div class="modal fade" id="petugas<?= $row['idSample'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+
+                                            <form action="<?= base_url(); ?>petugas/tambahPetugas" method='post'> 
+                                                <input type="hidden" value="<?= $row['idSample']; ?>" name='idSample'>
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Pilih Petugas Evaluator dan Verifikator</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label for="evaluator">Evaluator</label></div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" id="evaluator" name='evaluator'>
+                                                                            <option value="">-pilih-</option>
+                                                                            <?php foreach ($this->Petugas_model->getPilihPetugas(3) as $eva) : ?>
+                                                                                <option value="<?= $eva['idIU']; ?>"><?= $eva['namaIU']; ?></option>
+                                                                            <?php endforeach ; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label for="verifikator">Verifikator</label></div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" id="verifikator" name='verifikator'>
+                                                                            <option value="">-pilih-</option>
+                                                                            <?php foreach ($this->Petugas_model->getPilihPetugas(4) as $ver) : ?>
+                                                                                <option value="<?= $ver['idIU']; ?>"><?= $ver['namaIU']; ?></option>
+                                                                            <?php endforeach ; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+
+                                                        <li class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-md-4"><label for="ve">Evaluator dan Verifikator</label></div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" id="ve" name='ve'>
+                                                                            <option value="">-pilih-</option>
+                                                                            <?php foreach ($this->Petugas_model->getPilihPetugas(5) as $ve) : ?>
+                                                                                <option value="<?= $ve['idIU']; ?>"><?= $ve['namaIU']; ?></option>
+                                                                            <?php endforeach ; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <button class="btn btn-primary" type='submit'>Simpan</button> <br><br>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- Modal Tambah-->
+
+                            <!-- Modal View Petugas-->
+                                <div class="modal fade" id="viewPetugas<?= $row['idSample'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            
+                                            <!-- <input type="hidden" value="<?//= $row['idSample']; ?>" name='idSample'> -->
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Petugas Evaluator dan Verifikator <?= $row['namaSample']; ?></h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item">
+                                                        <?php $pe = $this->Petugas_model->getDataPetugas(3,$row['idSample'])['idIU'] ; ?>
+                                                        <?php $idPE = $this->Petugas_model->getDataPetugas(3,$row['idSample'])['idPetugas'] ; ?>
+                                                        
+                                                        <?php if($pe) : ?>
+                                                            <form action="<?= base_url(); ?>petugas/ubahPetugasSusulan/3" method='post'>
+                                                            <input type="hidden" value="<?= $idPE; ?>" name='idPetugas'>
+                                                        <?php else : ?>
+                                                            <form action="<?= base_url(); ?>petugas/tambahPetugasSusulan/3" method='post'> 
+                                                        <?php endif ; ?>
+
+                                                        <div class="row">
+                                                            <div class="col-md-2"><label for="evaluator">Evaluator</label></div>
+                                                            <div class="col-md-8">
+                                                                <div class="form-group">
+
+                                                                    <input type="hidden" value="<?= $row['idSample']; ?>" name='idSample'>
+                                                                    <select class="form-control" id="evaluator" name='evaluator'>
+                                                                        <option value="">-pilih-</option>
+                                                                        <?php foreach ($this->Petugas_model->getPilihPetugas(3) as $eva) : ?>
+                                                                            <?php if($eva['idIU'] == $pe = $this->Petugas_model->getDataPetugas(3,$row['idSample'])['idIU']) : ?>
+                                                                                <option selected value="<?= $eva['idIU']; ?>"><?= $eva['namaIU']; ?></option>
+                                                                            <?php else : ?>
+                                                                                <option value="<?= $eva['idIU']; ?>"><?= $eva['namaIU']; ?></option>
+                                                                            <?php endif ; ?>
+                                                                        <?php endforeach ; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                    <?php if($pe) : ?>
+                                                                    <button type='submit' class="btn btn-success"><i class="fa fa-edit"></i></button>
+                                                                <?php else : ?>
+                                                                    <button type='submit' class="btn btn-primary"><i class="fa fa-pen"></i></button>
+                                                                <?php endif ; ?>
+                                                            </div>
+                                                        </div>
+                                                        </form>
+                                                    </li>
+
+                                                    <li class="list-group-item">
+                                                        <?php $pv = $this->Petugas_model->getDataPetugas(4,$row['idSample'])['idIU'] ; ?>
+                                                        <?php $idPV = $this->Petugas_model->getDataPetugas(4,$row['idSample'])['idPetugas'] ; ?>
+
+                                                        <?php if($pv) : ?>
+                                                            <form action="<?= base_url(); ?>petugas/ubahPetugasSusulan/4" method='post'>
+                                                            <input type="hidden" value="<?= $idPV; ?>" name='idPetugas'>
+                                                        <?php else : ?>
+                                                            <form action="<?= base_url(); ?>petugas/tambahPetugasSusulan/4" method='post'> 
+                                                        <?php endif ; ?>
+
+                                                            <input type="hidden" value="<?= $row['idSample']; ?>" name='idSample'>
+                                                            <div class="row">
+                                                                <div class="col-md-2"><label for="verifikator">Verifikator</label></div>
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" id="verifikator" name='verifikator'>
+                                                                            <option value="">-pilih-</option>
+                                                                            <?php foreach ($this->Petugas_model->getPilihPetugas(4) as $ver) : ?>
+                                                                                <?php if($ver['idIU'] == $pv ) : ?>
+                                                                                    <option selected value="<?= $ver['idIU']; ?>"><?= $ver['namaIU']; ?></option>
+                                                                                <?php else : ?>
+                                                                                    <option value="<?= $ver['idIU']; ?>"><?= $ver['namaIU']; ?></option>
+                                                                                <?php endif ; ?>
+                                                                            <?php endforeach ; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <?php if($pv) : ?>
+                                                                        <button type='submit' class="btn btn-success"><i class="fa fa-edit"></i></button>
+                                                                    <?php else : ?>
+                                                                        <button type='submit' class="btn btn-primary"><i class="fa fa-pen"></i></button>
+                                                                    <?php endif ; ?>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            <!-- Modal View Petugas-->
                                 
                                 <!-- <a href="" class="badge badge-primary" data-toggle='tooltip' title='1'><i class="fa fa-pen"></i></a>
                                 <a href="" class="badge badge-success" data-toggle='tooltip' title='2'><i class="fa fa-pen"></i></a>
                                 <a href="" class="badge badge-warning" data-toggle='tooltip' title='4'><i class="fa fa-pen"></i></a>
                                 <a href="" class="badge badge-danger" data-toggle='tooltip' title='3'><i class="fa fa-pen"></i></a>
                                 <a href="" class="badge badge-secondary" data-toggle='tooltip' title='5'><i class="fa fa-pen"></i></a> -->
-                            </td>
+                        </td>
                         <!-- 10 -->
                         
                                 

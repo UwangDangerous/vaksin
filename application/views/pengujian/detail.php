@@ -19,7 +19,15 @@
                     <td class = 'align-top'> : </td>
                     <td class='d-flex justify-content-between'> 
                         <?= $pengujian['namaSample']; ?> 
-                        <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#modelTambah' data-toggle='tooltip' title='Tambah Hasil Pengujian'> <i class="fa fa-pen"></i> </a>
+                        <?php 
+                            $this->db->where('idSample', $id);
+                            $hasilPengujian = $this->db->get('prosespengerjaan')->num_rows() ;
+                        ?>
+                        <?php if($hasilPengujian > 0) : ?>
+                            <i> Pengujian Selesai </i>
+                        <?php else : ?>
+                            <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#modelTambah' data-toggle='tooltip' title='Tambah Hasil Pengujian'> <i class="fa fa-pen"></i> </a>
+                        <?php endif ; ?>
                     </td>
                 </tr>
                 <tr>
@@ -57,7 +65,7 @@
                                                     <?php foreach ($dataDukung as $dd) : ?>
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                                             <?= $dd['namaJenisDataDukung']; ?>
-                                                            <a href='<?= base_url() ; ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung']; ?>' class="badge badge-primary ml-4" data-toggle='tooltip' title='Tampilkan <?= $dd['namaJenisDataDukung'] ?>'>
+                                                            <a href='<?= base_url() ; ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung']; ?>' class="badge badge-primary ml-4" data-toggle='tooltip' title='Tampilkan <?= $dd['namaJenisDataDukung'] ?>' target='blank'>
                                                                 <i class="fa fa-eye"></i>
                                                             </a>
                                                         </li>

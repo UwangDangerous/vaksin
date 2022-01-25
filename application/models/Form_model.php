@@ -19,6 +19,24 @@
             $this->db->where('idJenisSample', $id) ;
             return $this->db->get('tbl_proses')->result_array() ;
         }
+
+        public function getDataHeader($id)
+        {
+            $this->db->where('id_tbl_proses', $id) ;
+            return $this->db->get('tbl_proses_header')->result_array() ;
+        }
+
+        public function getDataKolom($id)
+        {
+            $this->db->where('id_tbl_proses', $id) ;
+            return $this->db->get('tbl_proses_kolom')->result_array() ;
+        }
+
+        public function getDataFooter($id)
+        {
+            $this->db->where('id_tbl_proses', $id) ;
+            return $this->db->get('tbl_proses_footer')->result_array() ;
+        }
     }
 
 ?>

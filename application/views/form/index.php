@@ -123,30 +123,13 @@
                     <div class="col-md-4">
                         <div class="myscroll">
                             <ul class="list-group">
-                                <li class='list-group-item d-flex justify-content-between align-items-center'>
-                                    Tambah Tabel
-                                    <a href="#tabel" class="badge badge-primary" data-toggle='modal' data-target='#modalTabel' data-toggle='tooltip' title='Tambah Tabel'><fa class="fa fa-plus"></fa> </a>
-                                </li>
-                                <?php foreach ($tabel as $tbl) : ?>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <?= $tbl['nama_tbl_proses']; ?>
-
-                                        <a href="#tabel" class="badge badge-success" data-toggle='tooltip' title='Tampilkan Tabel'><fa class="fa fa-eye"></fa> </a>
-                                            
-                                    </li>
-                                    
-                                    <script>
-                                        $(document).ready(function() {
-
-                                        });
-                                    </script>
-                                <?php endforeach ; ?>
+                                <div id="listTabel"></div> <!-- ajax -->
                             </ul>
                         </div>
                     </div>
 
                     <div class="col-md-8">
-                        <div id="tabel">
+                        <div id="tampilTabel"> <!-- ajax -->
                         </div>
                     </div>
                 </div>
@@ -155,3 +138,56 @@
     </div>
 </div>
 <!-- tabel form -->
+
+<!-- Modal -->
+<div class="modal fade" id="modalTabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Tabel</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" id='tambahTabel'>
+
+                <div class="modal-body">
+                    <label for="namaTabel">Nama Tabel</label>
+                    <input type="text" name="namaTabel" id="namaTabel" class='form-control'> 
+
+                    <label for="penugasan">Penugasan</label>
+                    <select class="form-control" id="penugasan" name='penugasan'>
+                        <?php foreach($tugas_tabel as $t) : ?>
+                            <?php $t = explode('|', $t) ; ?>
+                            <option value='<?= $t[0] ; ?>'> <?= $t[1]; ?> </option>
+                        <?php endforeach ; ?>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $("#listTabel").load('<?= base_url(); ?>form/listTabel/<?= $idJenisSample ; ?>') ;
+
+        $("#tambahTabel").submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '<?= base_url(); ?>form/tambahTabel/<?= $idJenisSample ; ?>',
+                type: 'post',
+                data: $(this).serialize(),             
+                success: function(data) {               
+                    document.getElementById("tambahTabel").reset();
+                    //   $('#tampil').load('tampil.php'); 
+                    $('#listTabel').html(data) ;      
+                }
+            });
+        });
+    }) ;
+</script>

@@ -15,8 +15,9 @@
             $data['header'] = 'Form Evaluasi'; 
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Form Evaluasi'; 
             $data['general_informasi'] = $this->db->get('tbl_general_informasi')->result_array() ;
-            $data['tabel'] = $this->Form_model->getDataTabel($id) ;
+            $data['idJenisSample'] = $id ;
             $data['jenisSample'] = $this->Form_model->jenisSample($id);
+            $data['tugas_tabel'] = ['1|Evaluasi','2|Pihak Ke 3'] ;
             if( $this->session->userdata('key') != null )
             {
                 $this->load->view('temp/dashboardHeader',$data);
@@ -73,14 +74,158 @@
         // general informasi
 
 
+
+        
         // tabel
             public function tabel($id)
             {
                 $this->db->where('id_tbl_proses', $id) ;
+                $data['tabel'] = $this->db->get('tbl_proses')->row_array() ;
+                $data['header'] = $this->Form_model->getDataHeader($id) ;
+                $data['kolom'] = $this->Form_model->getDataKolom($id) ;
+                $data['footer'] = $this->Form_model->getDataFooter($id) ;
+
+                $this->load->view('form/tabelproses', $data) ;
+            }
+
+            public function listTabel($id)
+            {
+                $this->db->where('idJenisSample', $id) ;
                 $data['tabel'] = $this->db->get('tbl_proses')->result_array() ;
 
-                // $this->load->view()
+                $this->load->view('form/tabel/listTabel', $data) ;
             }
+
+            public function tambahTabel($id)
+            {
+                $query = [
+                    'idJenisSample'     => $id ,
+                    'nama_tbl_proses'   => $this->input->post('namaTabel', true),
+                    'tugasTabel'        => $this->input->post('penugasan')
+                ] ;
+
+                
+                $this->db->insert('tbl_proses', $query) ;
+
+                $pesan = [
+                    'pesan_tbl' => 'data berhasil ditambahkan', 
+                    'warna_tbl' => 'success'
+                ] ;
+
+                $this->session->set_flashdata($pesan) ;
+                $this->listTabel($id) ; 
+            } 
+
+            // header
+                public function listHeader($id)
+                {
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $data['header'] = $this->db->get('tbl_proses_header')->result_array() ;
+
+                    $this->load->view('form/tabel/listHeader', $data) ;
+                }
+
+                public function tambahHeader($id) 
+                {
+                    $query = [
+                        'id_tbl_proses' => $id ,
+                        'nama_tbl_header' => $this->input->post('namaHeader')
+                    ];
+
+                    if($this->db->insert('tbl_proses_header', $query)) {
+                        $pesan = [
+                            'pesan_header' => 'header berhasil ditambahkan',
+                            'warna_header' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_header' => 'header gagal ditambahkan',
+                            'warna_header' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan);
+                    $this->listHeader($id) ;
+                }
+
+            // header
+
+
+
+
+
+
+            // kolom
+                public function listKolom($id)
+                {
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $data['kolom'] = $this->db->get('tbl_proses_kolom')->result_array() ;
+
+                    $this->load->view('form/tabel/listKolom', $data) ;
+                }
+
+                public function tambahKolom($id) 
+                {
+                    $query = [
+                        'id_tbl_proses' => $id ,
+                        'nama_kolom' => $this->input->post('namaKolom')
+                    ];
+
+                    if($this->db->insert('tbl_proses_kolom', $query)) {
+                        $pesan = [
+                            'pesan_kolom' => 'kolom berhasil ditambahkan',
+                            'warna_kolom' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_kolom' => 'kolom gagal ditambahkan',
+                            'warna_kolom' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan);
+                    $this->listKolom($id) ;
+                }
+            // kolom
+
+
+
+
+            
+            // footer
+                public function listFooter($id)
+                {
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $data['footer'] = $this->db->get('tbl_proses_footer')->result_array() ;
+
+                    $this->load->view('form/tabel/listFooter', $data) ;
+                }
+
+                public function tambahFooter($id) 
+                {
+                    // echo 'ok' ;
+                    $query = [
+                        'id_tbl_proses' => $id ,
+                        'nama_tbl_footer' => $this->input->post('namaFooter')
+                    ];
+
+                    if($this->db->insert('tbl_proses_footer', $query)) {
+                        $pesan = [
+                            'pesan_footer' => 'footer berhasil ditambahkan',
+                            'warna_footer' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_footer' => 'footer gagal ditambahkan',
+                            'warna_footer' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan);
+                    $this->listFooter($id) ;
+                }
+            // footer
+
         // tabel
 
 
@@ -113,10 +258,10 @@
 
 
 
-        public function tabelProses($id) 
-        {
-            echo 'ok' ;
-        }
+        // public function tabelProses($id) 
+        // {
+        //     echo 'ok' ;
+        // }
     }
 
 ?>

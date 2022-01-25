@@ -63,25 +63,13 @@
                                         <a class="nav-link" href="<?= base_url(); ?>libur">
                                             <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div> Libur Nasional
                                         </a>
-                                    </nav>
-                                </div>
-                            <!-- master data -->
-
-                            <!-- Form -->
-                                <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#form" aria-expanded="false" aria-controls="form">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
-                                    Form
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="form" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="<?= base_url(); ?>form_gi">
                                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                             General Information
                                         </a>
                                     </nav>
                                 </div>
-                            <!-- form -->
+                            <!-- master data -->
 
                             <!-- user -->
                                 <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#user" aria-expanded="false" aria-controls="user">

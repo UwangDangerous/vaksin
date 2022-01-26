@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function() {
             $("#btnTampilTabel<?= $tbl['id_tbl_proses'];?>").click(function() {
-                $("#tampilTabel").load("<?= base_url(); ?>form/tabel/<?= $tbl['id_tbl_proses'];?>") ;
+                $("#tampilTabel").load("<?= base_url(); ?>form/tabel/<?= $tbl['id_tbl_proses'];?>/<?= $idJS;?>") ;
             });
         });
     </script>

@@ -6,7 +6,7 @@
                 <a href="tabel" class="btn btn-success mr-2" data-toggle='tooltip' title='ubah tabel'>
                     <i class="fa fa-edit"></i>
                 </a> <!-- ubah hapus -->
-                <a href="#tabel" class="btn btn-danger" data-toggle='tooltip' title='hapus tabel' onclick="return confirm('yakin?')">
+                <a href="#tabel" class="btn btn-danger" data-toggle='tooltip' title='hapus tabel' onclick="return confirm('yakin?')" id='hapusTabel'>
                     <i class="fa fa-trash"></i>
                 </a>
             </div>
@@ -17,15 +17,17 @@
         <h5 class="text-secondary">
             Header  <a href="#header" class="badge badge-primary" data-toggle='modal' data-target='#headerTambah<?= $tabel['id_tbl_proses']; ?>' data-toggle='tooltip' title='Tambah Tabel Header'> <i class="fa fa-plus"></i> </a>
         </h5>
-        <?php if($header) : ?>
-            <ul class="list-group" id='header'>
-                <?php foreach ($header as $row) : ?>
-                    <li class='list-group-item'><?= $row['nama_tbl_header']; ?></li>
-                <?php endforeach ; ?>
-            </ul>
-        <?php else : ?>
-            <i class="text-warning">kosong</i>
-        <?php endif ; ?>
+        <div id='header'>
+            <?php if($header) : ?>
+                <ul class="list-group">
+                    <?php foreach ($header as $row) : ?>
+                        <li class='list-group-item'><?= $row['nama_tbl_header']; ?></li>
+                    <?php endforeach ; ?>
+                </ul>
+            <?php else : ?>
+                <i class="text-warning">kosong</i>
+            <?php endif ; ?>
+        </div>
     <!-- header -->
 
 
@@ -38,25 +40,34 @@
             Kolom Tabel  <a href="#kolom" class="badge badge-primary" data-toggle='modal' data-target='#kolomTambah<?= $tabel['id_tbl_proses']; ?>' data-toggle='tooltip' title='Tambah Kolom Tabel'> <i class="fa fa-plus"></i> </a>
         </h5>
 
-        <?php if($kolom) : ?>
+        <div class="table-responsive" id='kolom'>
+            <?php if($kolom) : ?>
             
-            <div class="table-responsive" id='kolom'>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>No</th>
+                            <?php $noKolom = count($kolom) + 1 ; ?>
                             <?php foreach ($kolom as $klm) : ?>
                                 <th><?= $klm['nama_kolom']; ?></th>
                             <?php endforeach ; ?>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr>
+                            <?php for($i = 0; $i < $noKolom ; $i++ ):?>
+                                <td></td>
+                            <?php endfor ; ?>
+                        </tr>
+                    </tbody>
                 </table>
-            </div>
-
-        <?php else:  ?>
-
-            <i class="text-warning">kosong</i>
-
-        <?php endif ; ?>
+                
+            <?php else:  ?>
+                    
+                    <i class="text-warning">kosong</i>
+                    
+            <?php endif ; ?>
+        </div>
     <!-- kolom -->
 
 
@@ -82,7 +93,6 @@
 
 <script>
     $(document).ready(function() {
-
         $("#formHeader").submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -95,7 +105,9 @@
                 }
             });
         });
+    }) ;
 
+    $(document).ready(function() {
         $("#formKolom").submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -108,7 +120,9 @@
                 }
             });
         });
+    }) ;
 
+    $(document).ready(function() {
         $("#formFooter").submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -118,6 +132,20 @@
                 success: function(data) {      
                     document.getElementById("formFooter").reset();
                     $('#footer').html(data) ; 
+                }
+            });
+        });
+    }) ;
+
+    $(document).ready(function() {
+        $("#hapusTabel").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '<?= base_url(); ?>form/hapusTabel/<?= $tabel['id_tbl_proses']; ?>/<?= $idJS;?>',
+                data: $(this).serialize(),             
+                success: function(data) {      
+                    $('#listTabel').html(data) ; 
+                    $('#tampilTabel').html('') ; 
                 }
             });
         });

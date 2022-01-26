@@ -11,6 +11,13 @@
                 <td>:</td>
                 <td><?= $jenisSample['waktuPengujian']; ?></td>
             </tr>
+            <tr>
+                <td>Tampilkan Form</td>
+                <td>:</td>
+                <td>
+                    <a href="<?= base_url(); ?>form/form/<?= $jenisSample['idJenisSample'];?>" target='blank' class="badge badge-secondary"><i class="fa fa-file"></i></a>
+                </td>
+            </tr>
         </table>
     </h3>
 </div>
@@ -108,35 +115,35 @@
 <!-- general informasi -->
 
 <!-- tabel form -->
-<div class="accordion mt-3" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-                <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#tabel">
-                Tabel
-                </button>
-            </h5>
-        </div>
-        <div id="tabel" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="myscroll">
-                            <ul class="list-group">
-                                <div id="listTabel"></div> <!-- ajax -->
-                            </ul>
+    <div class="accordion mt-3" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#tabel">
+                    Tabel
+                    </button>
+                </h5>
+            </div>
+            <div id="tabel" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="myscroll">
+                                <ul class="list-group">
+                                    <div id="listTabel"></div> <!-- ajax -->
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-8">
-                        <div id="tampilTabel"> <!-- ajax -->
+                        <div class="col-md-8">
+                            <div id="tampilTabel"> <!-- ajax -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 <!-- tabel form -->
 
 <!-- Modal -->

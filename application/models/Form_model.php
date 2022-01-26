@@ -37,6 +37,36 @@
             $this->db->where('id_tbl_proses', $id) ;
             return $this->db->get('tbl_proses_footer')->result_array() ;
         }
+
+
+
+
+        // untuk form
+            public function getDataForGI($id)
+            {
+                $this->db->where('idJenisSample', $id) ;
+                $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
+                return $this->db->get('tbl_gi_used')->result_array() ;
+            }
+
+            public function getDataForTabel($id)
+            {
+                $this->db->where('idJenisSample', $id) ;
+                return $this->db->get('tbl_proses')->result_array() ;
+            }
+
+            public function getDataForTabelHeader($id)
+            {
+                $this->db->where('id_tbl_proses', $id) ;
+                return $this->db->get('tbl_proses_header')->result_array() ;
+            }
+
+            public function getDataForTabelKolom($id)
+            {
+                $this->db->where('id_tbl_proses', $id) ;
+                return $this->db->get('tbl_proses_kolom')->result_array() ;
+            }
+        // untuk form
     }
 
 ?>

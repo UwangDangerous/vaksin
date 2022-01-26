@@ -29,6 +29,33 @@
             }
         }
 
+        
+        public function form($id) 
+        {
+            $this->db->where('idJenisSample', $id) ;
+            $this->db->select('jenisSample') ;
+            $judul = $this->db->get('_jenisSample')->row_array() ;
+            $judul = $judul['jenisSample'] ;
+
+            $data['judul'] = 'Form '.$judul.' '. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'Form '.$judul; 
+            $data['bread'] = 'Dashboard / <a href="'.base_url().'form/index/'.$id.'"> Form Evaluasi </a> / Form'; 
+            
+            $data['general_informasi'] = $this->Form_model->getDataForGI($id);
+            $data['tabelProses'] = $this->Form_model->getDataForTabel($id) ;
+
+            $data['tugas_tabel'] = ['1|Evaluasi','2|Pihak Ke 3'] ;
+            if( $this->session->userdata('key') != null )
+            {
+                $this->load->view('temp/dashboardHeader',$data);
+                $this->load->view('form/form');
+                $this->load->view('temp/dashboardFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
+                redirect('auth/inuser') ;
+            }
+        }
+
 
 
         // general informasi
@@ -77,13 +104,14 @@
 
         
         // tabel
-            public function tabel($id)
+            public function tabel($id,$idJS = 0)
             {
                 $this->db->where('id_tbl_proses', $id) ;
                 $data['tabel'] = $this->db->get('tbl_proses')->row_array() ;
                 $data['header'] = $this->Form_model->getDataHeader($id) ;
                 $data['kolom'] = $this->Form_model->getDataKolom($id) ;
                 $data['footer'] = $this->Form_model->getDataFooter($id) ;
+                $data['idJS'] = $idJS ;
 
                 $this->load->view('form/tabelproses', $data) ;
             }
@@ -92,6 +120,7 @@
             {
                 $this->db->where('idJenisSample', $id) ;
                 $data['tabel'] = $this->db->get('tbl_proses')->result_array() ;
+                $data['idJS'] = $id ;
 
                 $this->load->view('form/tabel/listTabel', $data) ;
             }
@@ -115,6 +144,35 @@
                 $this->session->set_flashdata($pesan) ;
                 $this->listTabel($id) ; 
             } 
+
+            public function hapusTabel($id,$idJS)
+            {
+                $this->db->where('id_tbl_proses', $id) ;
+                if($this->db->delete('tbl_proses')) {
+
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $this->db->delete('tbl_proses_header') ;
+
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $this->db->delete('tbl_proses_kolom') ;
+
+                    $this->db->where('id_tbl_proses', $id) ;
+                    $this->db->delete('tbl_proses_footer') ;
+
+                    $pesan = [
+                        'pesan_tbl' => 'berhasil di hapus',
+                        'warna_tbl' => 'success'
+                    ];
+                }else{
+                    $pesan = [
+                        'pesan_tbl' => 'gagal di hapus',
+                        'warna_tbl' => 'danger'
+                    ];
+                }
+
+                $this->session->set_flashdata($pesan) ;
+                $this->listTabel($idJS) ;
+            }
 
             // header
                 public function listHeader($id)

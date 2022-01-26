@@ -154,6 +154,70 @@
 
         
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // form
+
+            public function getDataForGI($id)
+            {
+                $this->db->where('idJenisSample', $id) ;
+                $this->db->where('tugasGI', 2) ;
+                $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
+                return $this->db->get('tbl_gi_used')->result_array() ;
+            }
+
+            public function getDataForTabel($id)
+            {
+                $this->db->where('idJenisSample', $id) ;
+                $this->db->where('tugasTabel', 2) ;
+                return $this->db->get('tbl_proses')->result_array() ;
+            }
+
+            public function getDataForTabelHeader($id)
+            {
+                $this->db->where('id_tbl_proses', $id) ;
+                return $this->db->get('tbl_proses_header')->result_array() ;
+            }
+
+            public function getDataForTabelKolom($id)
+            {
+                $this->db->where('id_tbl_proses', $id) ;
+                return $this->db->get('tbl_proses_kolom')->result_array() ;
+            }
+
+            // general informasi
+                public function getData_GI_Use($id)
+                {
+                    $this->db->where('idGI', $id) ;
+                    $this->db->select('id_gi_used') ;
+                    return $this->db->get('tbl_gi_used')->row_array()['id_gi_used'] ;
+                }
+            // general informasi
+
+        // form
+
     }
 
 ?>

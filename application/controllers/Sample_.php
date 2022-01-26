@@ -448,6 +448,168 @@
             
             $this->load->view('sample_user/js/cobaTampil',$data) ;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // form
+            public function form($id, $idSurat, $idSample) //$id = $idJenisSample
+            {
+                $data['judul'] = 'Lengkapi Data '. $this->session->userdata('namaLevel'); 
+                $data['header'] = 'Lengkapi Data'; 
+                $data['bread'] = 'Dashboard / Riwayat Surat / <a href="'.base_url().'sample_/index/'.$idSurat.'">  Informasi Sample </a> / Lengkapi Dokumen '; 
+
+                $data['id'] = $id ;
+                $data['idSample'] = $idSample ;
+
+                $data['tabelProses'] = $this->User_Sample_model->getDataForTabel($id) ;
+                
+                if( $this->session->userdata('eksId') != null )
+                {
+                    $this->load->view('temp/dsbHeader',$data);
+                    $this->load->view('sample_user/form/index');
+                    $this->load->view('temp/dsbFooter');
+                }else{
+                    $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+                    redirect('auth') ;
+                }
+            }
+            
+            // general informasi
+                public function general_informasi($id, $idSample) 
+                {
+                    $data['id'] = $id ;
+                    $data['idSample'] = $idSample ;
+                    $data['general_informasi'] = $this->User_Sample_model->getDataForGI($id);
+                    $this->load->view('sample_user/form/general_informasi', $data) ;
+                }
+
+                public function tambah_gi($id, $idSample) 
+                {
+                    if($this->input->post('isi_gi') == '') {
+                        $pesan = [
+                            'pesan_isi' => 'Form Tidak Boleh Kosong' ,
+                            'warna_isi' =>'danger'
+                        ];
+                    }else{
+                        $query = [
+                            'idSample' => $idSample,
+                            'id_gi_used' => $this->input->post('id_isi_gi'),
+                            'isi_gi' => $this->input->post('isi_gi')
+                        ] ;
+        
+                        if($this->db->insert('isi_tbl_gi', $query)) {
+                            $pesan = [
+                                'pesan_isi' => 'Data Berhasil Di Tambahkan' ,
+                                'warna_isi' =>'success'
+                            ];
+                        }else{
+                            $pesan = [
+                                'pesan_isi' => 'Data Gagal Di Tambahkan' ,
+                                'warna_isi' =>'danger'
+                            ];
+                        }
+                    }
+
+                    $this->session->set_flashdata($pesan) ;
+                    $this->general_informasi($id, $idSample) ;
+                }
+
+                public function ubah_gi($id, $idSample) 
+                {
+                    $this->db->where('id_isi_gi', $this->input->post('id_isi_gi') );
+                    if($this->db->update('isi_tbl_gi', ['isi_gi' => $this->input->post('isi_gi')] ) ) {
+                        $pesan = [
+                            'pesan_isi' => 'Data Berhasil Di Ubah' ,
+                            'warna_isi' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_isi' => 'Data Gagal Di Ubah' ,
+                            'warna_isi' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan) ;
+                    $this->general_informasi($id, $idSample) ;
+                }
+
+                public function hapus_gi($id, $idSample, $idIsi)
+                {
+                    $this->db->where('id_isi_gi', $idIsi) ;
+                    if($this->db->delete('isi_tbl_gi')) {
+                        $pesan = [
+                            'pesan_isi' => 'Data Berhasil Di Hapus' ,
+                            'warna_isi' =>'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_isi' => 'Data Gagal Di Hapus' ,
+                            'warna_isi' =>'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan) ;
+                    $this->general_informasi($id, $idSample) ;
+                }
+            // general informasi
+
+            //tabel 
+            //tabel 
+
+
+        // form
     }
 
 ?>

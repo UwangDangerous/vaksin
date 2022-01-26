@@ -82,30 +82,42 @@
                 </td>
                 <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
                 <td>
-                    <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
-                        <i class="fa fa-pen"></i>
-                    </a>
+                    <div class="dropdown" id='dd'>
+                        <a href='#' class="badge badge-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="flip">
+                            <i class="fa fa-bars"></i>
+                        </a>
 
-                    
-                    <?php $petugas = $this->User_Sample_model->getInfoPetugas($row['idSample']) ; ?>
-                    <?php if($petugas == 0) : ?>
-                        <a href="#" class="badge badge-success" data-toggle='modal' data-target='#edit<?= $row['idSample'];?>' data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
-                        <a href="<?= base_url() ; ?>sample_/hapus/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample" onclick="return confirm(' Apakah Anda Yakin ? ');"> <i class="fa fa-trash"></i> </a>
-                    <?php else : ?>
-                        <!-- nanti di ganti informasi pekerjaan diganti -->
-                        <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
-                    <?php endif ; ?>
-                    <!-- informasi pekerjaan -->
-                    <a href="#" class="badge badge-warning" data-toggle="modal" data-target="#informasi<?= $row['idSample'] ;?>" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
+                        <div class="dropdown-menu pl-3" style='width:180px ;' aria-labelledby="dropdownMenuButton">
+                            <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
+                                <i class="fa fa-pen"></i>
+                            </a>
 
-                    <!-- bukti bayar -->
-                    <?php if($batch > 0) : ?>
-                        <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>
-                            <a href='#' data-toggle='tooltip' title='sudah upload bukti bayar' class='badge badge-success' > <i class="fa fa-check"></i> </a>
-                        <?php else : ?>
-                            <a href='#' data-toggle="modal" data-target="#pembayaran<?= $row['idSample'] ;?>" data-toggle='tooltip' title='upload bukti pembayaran bayar' class='badge badge-secondary'> <i class="fa fa-upload"></i> </a>
-                        <?php endif ; ?>
-                    <?php endif ; ?>
+                            <a href="<?=base_url();?>sample_/form/<?= $row['idJenisSample']; ?>/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-secondary" data-toggle='tooltip' title='Lengkapi Data'>
+                                <i class="fa fa-file"></i>
+                            </a>
+
+                            
+                            <?php $petugas = $this->User_Sample_model->getInfoPetugas($row['idSample']) ; ?>
+                            <?php if($petugas == 0) : ?>
+                                <a href="#" class="badge badge-success" data-toggle='modal' data-target='#edit<?= $row['idSample'];?>' data-toggle='tooltip' title='Ubah Data Sample'> <i class="fa fa-edit"></i> </a>
+                                <a href="<?= base_url() ; ?>sample_/hapus/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data Sample" onclick="return confirm(' Apakah Anda Yakin ? ');"> <i class="fa fa-trash"></i> </a>
+                            <?php else : ?>
+                                <!-- nanti di ganti informasi pekerjaan diganti -->
+                                <a href="#" class="badge badge-warning" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
+                            <?php endif ; ?>
+                            <!-- informasi pekerjaan -->
+                            <a href="#" class="badge badge-warning" data-toggle="modal" data-target="#informasi<?= $row['idSample'] ;?>" data-toggle='tooltip' title='Riwayat Pekerjaan'> <i class="fa fa-clipboard"></i> </a>
+
+                            <!-- bukti bayar -->
+                            <?php if($batch > 0) : ?>
+                                <?php if($this->User_Sample_model->cekBuktiBayar($row['idSample'])) : ?>
+                                    <a href='#' data-toggle='tooltip' title='sudah upload bukti bayar' class='badge badge-success' > <i class="fa fa-check"></i> </a>
+                                <?php else : ?>
+                                    <a href='#' data-toggle="modal" data-target="#pembayaran<?= $row['idSample'] ;?>" data-toggle='tooltip' title='upload bukti pembayaran bayar' class='badge badge-info'> <i class="fa fa-upload"></i> </a>
+                                <?php endif ; ?>
+                            <?php endif ; ?>
+                        </div>
+                    </div>
                 </td>
 
                 <!-- bukti bayar -->

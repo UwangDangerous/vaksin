@@ -605,7 +605,126 @@
                 }
             // general informasi
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             //tabel 
+                public function tabel($id, $idSample)
+                {
+                    $data['id'] = $id ;
+                    $data['idSample'] = $idSample ;
+                    $data['tabelProses'] = $this->User_Sample_model->getDataForTabel($id);
+                    $this->load->view('sample_user/form/tabel', $data) ;
+                }
+
+                // header
+                    public function header($idTbl, $id, $idSample) //id tabel proses , id jenis sample, idsample
+                    {
+                        $data['id'] = $id ;
+                        $data['idTbl'] = $idTbl ;
+                        $data['idSample'] = $idSample ;
+                        $data['header'] =$this->User_Sample_model->getDataForTabelHeader($idTbl) ;
+                        $this->load->view('sample_user/form/tabel/header', $data);
+                    }
+
+                    public function tambah_tbl_header($idTbl, $id, $idSample)
+                    {
+                        $query = [
+                            'idSample' => $idSample,
+                            'id_tbl_header' => $this->input->post('idHeader'),
+                            'isi_header' => $this->input->post('namaHeader')
+                        ];
+
+                        if($this->db->insert('isi_tbl_proses_header', $query) ) {
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Berhasil Disimpan' ,
+                                "warna_isi_header_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Gagal Disimpan' ,
+                                "warna_isi_header_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->header($idTbl, $id, $idSample);
+                    }
+
+                    public function hapus_tbl_header($idTbl, $id, $idSample, $id_isi_Header)
+                    {
+                        $this->db->where('id_isi_tbl_header', $id_isi_Header);
+                        if($this->db->delete('isi_tbl_proses_header') ) {
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Berhasil Di Hapus' ,
+                                "warna_isi_header_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Gagal Di Hapus' ,
+                                "warna_isi_header_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->header($idTbl, $id, $idSample);
+                    }
+
+                    public function ubah_tbl_header($idTbl, $id, $idSample, $id_isi_Header)
+                    {
+                        $this->db->where('id_isi_tbl_header', $id_isi_Header);
+                        $this->db->set('isi_header', $this->input->post('namaHeader'));
+                        if($this->db->update('isi_tbl_proses_header') ) {
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Berhasil Di Ubah' ,
+                                "warna_isi_header_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_header_$idTbl" => 'Data Gagal Di Ubah' ,
+                                "warna_isi_header_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->header($idTbl, $id, $idSample);
+                    }
+                // header
+
+                // footer
+                
+                // footer
+                
             //tabel 
 
 

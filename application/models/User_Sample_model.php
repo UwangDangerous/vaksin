@@ -207,6 +207,13 @@
                 return $this->db->get('tbl_proses_kolom')->result_array() ;
             }
 
+            public function cekIsiDataHeader($idHeader, $idSample)
+            {
+                $this->db->where('idSample', $idSample);
+                $this->db->where('id_tbl_header', $idHeader);
+                return $this->db->get('isi_tbl_proses_header')->row_array();
+            }
+
             // general informasi
                 public function getData_GI_Use($id)
                 {

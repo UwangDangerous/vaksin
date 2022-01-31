@@ -34,10 +34,10 @@
                                 <input type="text" class="form-control" name='isi_gi' value='<?= $isi_gi_used['isi_gi']; ?>'>
 
                                 <div class="input-group-append" id="button-addon4">
-                                    <button class="btn btn-outline-success" type="submit" onclick="return confirm('ingin ubah data?');" data-toggle='tooltip' title='Ubah Data'> <i class="fa fa-edit"></i> </button>
+                                    <button class="btn btn-outline-success" type="submit" data-toggle='tooltip' title='Ubah Data General Informasi'> <i class="fa fa-edit"></i> </button>
 
                                     <!-- hapus -->
-                                    <button class="btn btn-outline-danger" type="button" id='hapus_gi<?= $isi_gi_used['id_isi_gi']; ?>' data-toggle='tooltip' title='Hapus' onclick="return confirm('yakin? ingin ubah data?');"> <i class="fa fa-trash"></i> </button>
+                                    <button class="btn btn-outline-danger" type="button" id='hapus_gi<?= $isi_gi_used['id_isi_gi']; ?>' data-toggle='tooltip' title='Hapus General Informasi' > <i class="fa fa-trash"></i> </button>
 
                                 </div>
                             </div>
@@ -45,30 +45,38 @@
 
                         <script>
                             $("#hapus_gi<?= $isi_gi_used['id_isi_gi']; ?>").click(function(e){
-                                e.preventDefault();
-                                $.ajax({
-                                    url: '<?= base_url(); ?>sample_/hapus_gi/<?= $id; ?>/<?= $idSample; ?>/<?= $isi_gi_used['id_isi_gi']; ?>',
-                                    type: 'post',
-                                    data: $(this).serialize(),             
-                                    success: function(data) {               
-                                        //   $('#tampil').load('tampil.php'); 
-                                        $('#general_informasi').html(data) ;      
-                                    }
-                                });
+                                if(confirm("hapus data?")){
+                                        e.preventDefault();
+                                        $.ajax({
+                                            url: '<?= base_url(); ?>sample_/hapus_gi/<?= $id; ?>/<?= $idSample; ?>/<?= $isi_gi_used['id_isi_gi']; ?>',
+                                            type: 'post',
+                                            data: $(this).serialize(),             
+                                            success: function(data) {               
+                                                //   $('#tampil').load('tampil.php'); 
+                                                $('#general_informasi').html(data) ;      
+                                            }
+                                        });
+                                }else{
+                                    return false;
+                                }
                             }); 
 
                             $("#ubah_form_isi_gi<?= $isi_gi_used['id_isi_gi']; ?>").submit(function(e){
-                                e.preventDefault();
-                                $.ajax({
-                                    url: '<?= base_url(); ?>sample_/ubah_gi/<?= $id; ?>/<?= $idSample; ?>',
-                                    type: 'post',
-                                    data: $(this).serialize(),             
-                                    success: function(data) {               
-                                        document.getElementById("ubah_form_isi_gi<?= $isi_gi_used['id_isi_gi']; ?>").reset();
-                                        //   $('#tampil').load('tampil.php'); 
-                                        $('#general_informasi').html(data) ;      
-                                    }
-                                });
+                                if(confirm("hapus data?")){
+                                    e.preventDefault();
+                                    $.ajax({
+                                        url: '<?= base_url(); ?>sample_/ubah_gi/<?= $id; ?>/<?= $idSample; ?>',
+                                        type: 'post',
+                                        data: $(this).serialize(),             
+                                        success: function(data) {               
+                                            document.getElementById("ubah_form_isi_gi<?= $isi_gi_used['id_isi_gi']; ?>").reset();
+                                            //   $('#tampil').load('tampil.php'); 
+                                            $('#general_informasi').html(data) ;      
+                                        }
+                                    });
+                                }else{
+                                    return false ;
+                                }
                             });
                         </script>
 
@@ -80,7 +88,7 @@
                             <input type="hidden" value='<?= $gi_used; ?>' name='id_isi_gi'>
                                 <input type="text" class="form-control" name='isi_gi'>
                                 <div class="input-group-append" id="button-addon4">
-                                    <button class="btn btn-outline-primary" type="submit" data-toggle='tooltip' title='Simpan'> <i class="fa fa-save"></i> </button>
+                                    <button class="btn btn-outline-primary" type="submit" data-toggle='tooltip' title='Simpan General Informasi'> <i class="fa fa-save"></i> </button>
                                 </div>
                             </div>
                         </form>

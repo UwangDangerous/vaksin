@@ -46,7 +46,6 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <?php $noKolom = count($kolom) + 1 ; ?>
                             <?php foreach ($kolom as $klm) : ?>
                                 <th><?= $klm['nama_kolom']; ?></th>
@@ -78,15 +77,17 @@
         <h5 class="text-secondary">
             Footer  <a href="#footer" class="badge badge-primary" data-toggle='modal' data-target='#footerTambah<?= $tabel['id_tbl_proses']; ?>' data-toggle='tooltip' title='Tambah Tabel Footer'> <i class="fa fa-plus"></i> </a>
         </h5>
-        <?php if($footer) : ?>
-            <ul class="list-group" id='footer'>
-                <?php foreach ($footer as $row) : ?>
-                    <li class='list-group-item'><?= $row['nama_tbl_footer']; ?></li>
-                <?php endforeach ; ?>
-            </ul>
-        <?php else : ?>
-            <i class="text-warning">kosong</i>
-        <?php endif ; ?>
+        <div id='footer'>
+            <?php if($footer) : ?>
+                <ul class="list-group">
+                    <?php foreach ($footer as $row) : ?>
+                        <li class='list-group-item'><?= $row['nama_tbl_footer']; ?></li>
+                    <?php endforeach ; ?>
+                </ul>
+            <?php else : ?>
+                <i class="text-warning">kosong</i>
+            <?php endif ; ?>
+        </div>
     <!-- footer -->
 
 </div>

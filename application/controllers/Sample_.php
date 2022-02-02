@@ -721,8 +721,90 @@
                     }
                 // header
 
-                // footer
                 
+                // kolom
+                    public function kolom($idTbl, $id, $idSample) 
+                    {
+                        $data['id'] = $id ;
+                        $data['idTbl'] = $idTbl ;
+                        $data['idSample'] = $idSample ;
+                        $data['kolom'] =$this->User_Sample_model->getDataForTabelKolom($idTbl) ;
+                        $this->load->view('sample_user/form/tabel/kolom', $data);  
+                    }
+                // kolom
+
+
+                // footer
+                    public function footer($idTbl, $id, $idSample)
+                    {
+                        $data['id'] = $id ;
+                        $data['idTbl'] = $idTbl ;
+                        $data['idSample'] = $idSample ;
+                        $data['footer'] =$this->User_Sample_model->getDataForTabelFooter($idTbl) ;
+                        $this->load->view('sample_user/form/tabel/footer', $data);
+                    }
+
+                    public function tambah_tbl_footer($idTbl, $id, $idSample)
+                    {
+                        $query = [
+                            'idSample' => $idSample,
+                            'id_tbl_footer' => $this->input->post('idFooter'),
+                            'isi_footer' => $this->input->post('namaFooter')
+                        ];
+
+                        if($this->db->insert('isi_tbl_proses_footer', $query) ) {
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Berhasil Disimpan' ,
+                                "warna_isi_footer_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Gagal Disimpan' ,
+                                "warna_isi_footer_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->footer($idTbl, $id, $idSample);
+                    }
+
+                    public function hapus_tbl_footer($idTbl, $id, $idSample, $id_isi_Footer)
+                    {
+                        $this->db->where('id_isi_tbl_footer', $id_isi_Footer);
+                        if($this->db->delete('isi_tbl_proses_footer') ) {
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Berhasil Di Hapus' ,
+                                "warna_isi_footer_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Gagal Di Hapus' ,
+                                "warna_isi_footer_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->footer($idTbl, $id, $idSample);
+                    }
+
+                    public function ubah_tbl_footer($idTbl, $id, $idSample, $id_isi_Footer)
+                    {
+                        $this->db->where('id_isi_tbl_footer', $id_isi_Footer);
+                        if($this->db->update('isi_tbl_proses_footer',['isi_footer' => $this->input->post('namaFooter')]) ) {
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Berhasil Di Hapus' ,
+                                "warna_isi_footer_$idTbl" => 'success' 
+                            ] ;
+                        }else{
+                            $pesan = [
+                                "pesan_isi_footer_$idTbl" => 'Data Gagal Di Hapus' ,
+                                "warna_isi_footer_$idTbl" => 'danger' 
+                            ] ;
+                        }
+
+                        $this->session->set_flashdata($pesan);
+                        $this->footer($idTbl, $id, $idSample);
+                    }
                 // footer
                 
             //tabel 

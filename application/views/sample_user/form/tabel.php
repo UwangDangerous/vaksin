@@ -4,13 +4,13 @@
     
     <h2>Summary Protocol</h2> <br>
     <?php foreach ($tabelProses as $row) : ?>
-        <div class="card p-2 mb-2">
+        <div class="card p-2 mb-4">
             <?php $idTbl = $row['id_tbl_proses'] ; ?> 
             <h5><?= $row['nama_tbl_proses']; ?></h5> 
 
             <div id="header<?= $idTbl; ?>"> <!-- oke header id -->  </div>
 
-            <br>
+            <div id="kolom<?= $idTbl; ?>"></div>
 
             <div id="footer<?= $idTbl; ?>"></div>
             
@@ -18,6 +18,8 @@
                 $(document).ready(function(){
                     $("#header<?= $idTbl; ?>").load("<?= base_url(); ?>sample_/header/<?= $idTbl; ?>/<?= $id; ?>/<?= $idSample;?>") ;
 
+                    $("#kolom<?= $idTbl; ?>").load("<?= base_url(); ?>sample_/kolom/<?= $idTbl; ?>/<?= $id; ?>/<?= $idSample;?>") ;
+                    
                     $("#footer<?= $idTbl; ?>").load("<?= base_url(); ?>sample_/footer/<?= $idTbl; ?>/<?= $id; ?>/<?= $idSample;?>") ;
             
                 });

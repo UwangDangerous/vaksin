@@ -180,41 +180,15 @@
 
         // form
 
-            public function getDataForGI($id)
-            {
-                $this->db->where('idJenisSample', $id) ;
-                $this->db->where('tugasGI', 2) ;
-                $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
-                return $this->db->get('tbl_gi_used')->result_array() ;
-            }
-
-            public function getDataForTabel($id)
-            {
-                $this->db->where('idJenisSample', $id) ;
-                $this->db->where('tugasTabel', 2) ;
-                return $this->db->get('tbl_proses')->result_array() ;
-            }
-
-            public function getDataForTabelHeader($id)
-            {
-                $this->db->where('id_tbl_proses', $id) ;
-                return $this->db->get('tbl_proses_header')->result_array() ;
-            }
-
-            public function getDataForTabelKolom($id)
-            {
-                $this->db->where('id_tbl_proses', $id) ;
-                return $this->db->get('tbl_proses_kolom')->result_array() ;
-            }
-
-            public function cekIsiDataHeader($idHeader, $idSample)
-            {
-                $this->db->where('idSample', $idSample);
-                $this->db->where('id_tbl_header', $idHeader);
-                return $this->db->get('isi_tbl_proses_header')->row_array();
-            }
-
+        
             // general informasi
+                public function getDataForGI($id)
+                {
+                    $this->db->where('idJenisSample', $id) ;
+                    $this->db->where('tugasGI', 2) ;
+                    $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
+                    return $this->db->get('tbl_gi_used')->result_array() ;
+                }
                 public function getData_GI_Use($id)
                 {
                     $this->db->where('idGI', $id) ;
@@ -222,6 +196,52 @@
                     return $this->db->get('tbl_gi_used')->row_array()['id_gi_used'] ;
                 }
             // general informasi
+
+            // tabel
+                public function getDataForTabel($id)
+                {
+                    $this->db->where('idJenisSample', $id) ;
+                    $this->db->where('tugasTabel', 2) ;
+                    return $this->db->get('tbl_proses')->result_array() ;
+                }
+
+                // header
+                    public function getDataForTabelHeader($id)
+                    {
+                        $this->db->where('id_tbl_proses', $id) ;
+                        return $this->db->get('tbl_proses_header')->result_array() ;
+                    }
+
+                    public function cekIsiDataHeader($idHeader, $idSample)
+                    {
+                        $this->db->where('idSample', $idSample);
+                        $this->db->where('id_tbl_header', $idHeader);
+                        return $this->db->get('isi_tbl_proses_header')->row_array();
+                    }
+                // header
+
+                // kolom / body
+                    public function getDataForTabelKolom($id)
+                    {
+                        $this->db->where('id_tbl_proses', $id) ;
+                        return $this->db->get('tbl_proses_kolom')->result_array() ;
+                    }
+                // kolom / body
+
+                // footer
+                    public function getDataForTabelFooter($idTbl) 
+                    {
+                        $this->db->where('id_tbl_proses', $idTbl) ;
+                        return $this->db->get('tbl_proses_footer')->result_array() ;
+                    }
+
+                    public function cekIsiDataFooter($idFooter, $idSample) 
+                    {
+                        $this->db->where('idSample', $idSample);
+                        $this->db->where('id_tbl_footer', $idFooter);
+                        return $this->db->get('isi_tbl_proses_footer')->row_array();
+                    }
+                // footer
 
         // form
 

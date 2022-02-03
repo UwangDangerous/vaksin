@@ -226,6 +226,14 @@
                         $this->db->where('id_tbl_proses', $id) ;
                         return $this->db->get('tbl_proses_kolom')->result_array() ;
                     }
+
+                    public function getDataFor_Isi_kolom_array($idTbl, $idSample)
+                    {
+                        $this->db->where('id_tbl_proses', $idTbl);
+                        $this->db->where('idSample', $idSample);
+                        $this->db->join('tbl_proses_kolom', 'tbl_proses_kolom.id_kolom = isi_tbl_kolom.id_kolom');
+                        return $this->db->get('isi_tbl_kolom')->result_array();
+                    }
                 // kolom / body
 
                 // footer

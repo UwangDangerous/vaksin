@@ -731,6 +731,86 @@
                         $data['kolom'] =$this->User_Sample_model->getDataForTabelKolom($idTbl) ;
                         $this->load->view('sample_user/form/tabel/kolom', $data);  
                     }
+
+                    public function isi_kolom($idTbl, $id, $idSample) {
+                        $data['id'] = $id ;
+                        $data['idTbl'] = $idTbl ;
+                        $data['idSample'] = $idSample ;
+                        $data['kolom'] =$this->User_Sample_model->getDataForTabelKolom($idTbl) ;
+                        $this->load->view('sample_user/form/tabel/isi_kolom',$data);
+                    }
+
+                    public function tambahIsiKolom($idTbl, $id, $idSample) 
+                    {
+                        $ArrayIDK = $this->input->post('ArrayIDK');
+                        $ArrayIDK = explode(',',$ArrayIDK) ;
+                        foreach($ArrayIDK as $Arr) {
+                            if($this->input->post("isi_kolom_$Arr") == null){
+                                $isi = '-' ;
+                            }else{
+                                $isi = $this->input->post("isi_kolom_$Arr")  ;
+                            }
+                            $query = [
+                                'id_kolom' => $Arr ,
+                                'idSample' => $idSample,
+                                'isi_kolom' => $isi
+                            ] ;
+
+                            $this->db->insert('isi_tbl_kolom', $query);
+                        }
+
+                        $pesan = [
+                            'pesan_kolom'.$idTbl => 'Data Berhasil DiSimpan' ,
+                            'warna_kolom'.$idTbl => 'success'
+                        ];
+                        $this->session->set_flashdata($pesan);
+                        $this->isi_kolom($idTbl, $id, $idSample);
+                    }
+
+                    public function ubahIsiKolom($idTbl, $id, $idSample,$idKolom) 
+                    {
+                        if($this->input->post("text_isi_kolom_$idKolom") == null) {
+                            $isi = '-' ;
+                        }else{
+                            $isi = $this->input->post("text_isi_kolom_$idKolom") ;
+                        }
+                        $this->db->where('id_isi_tbl_kolom', $idKolom);
+                        $this->db->set(['isi_kolom' => $isi]);
+                        if($this->db->update('isi_tbl_kolom')) {
+                            $pesan = [
+                                'pesan_kolom'.$idTbl => 'Data Berhasil Di Ubah' ,
+                                'warna_kolom'.$idTbl => 'success'
+                            ];
+                        }else{
+                            $pesan = [
+                                'pesan_kolom'.$idTbl => 'Data Gagal Di Ubah' ,
+                                'warna_kolom'.$idTbl => 'danger'
+                            ];
+                        }
+                        
+                        $this->session->set_flashdata($pesan);
+                        $this->isi_kolom($idTbl, $id, $idSample);
+                        // echo 'ok' ;
+                    }
+
+                    public function hapusIsiKolom($idTbl, $id, $idSample,$ArrayIDK) 
+                    {
+                        $ArrayIDK = explode('%7C',$ArrayIDK) ;
+                        foreach($ArrayIDK as $Arr) {
+                            $this->db->where('id_isi_tbl_kolom', $Arr);
+                            $this->db->delete('isi_tbl_kolom');
+                            echo $Arr ;
+                        }
+                        
+                        $pesan = [
+                            'pesan_kolom'.$idTbl => 'Data Berhasil Di Hapus' ,
+                            'warna_kolom'.$idTbl => 'success'
+                        ];
+                        // echo 'ok' ;
+                        $this->session->set_flashdata($pesan);
+                        $this->isi_kolom($idTbl, $id, $idSample);
+                    }
+
                 // kolom
 
 

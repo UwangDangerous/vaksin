@@ -1,33 +1,72 @@
 <?php if($kolom) : ?>
     <div class="table-responsive pt-2">
-        <table class="table table-bordered table-striped text-center">
-            <thead>
-                <tr>
-                    <th>No</th>
+        <!-- Button trigger modal -->
+        <button type="button" data-toggle="modal" data-target="#modalTambah<?= $idTbl; ?>"  class="btn btn-outline-primary mb-2" data-toogle='tooltip' title='Simpan'>
+            <i class="fa fa-save"></i>
+        </button> 
+        
+        <div id="isi_kolom_query<?= $idTbl; ?>"> </div>
 
-                    <?php $jmlKolom = count($kolom) ; ?>
-                    <?php $idKolom = [] ; ?>
-                    <?php foreach ($kolom as $k) : ?>
-                        <th><?= $k['nama_kolom']; ?></th>
-                        <?php $idKolom[] = $k['id_kolom'] ?>
-                    <?php endforeach ; ?>
-
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <?php foreach ($idKolom as $idk) : ?>
-                        <td>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-                            
-                            <div class="d-flex justify-content-left pt-2">
-                                <button class="btn btn-outline-primary" data-toogle='tooltip' title='Simpan'><i class="fa fa-save"></i></button>
-                                <button class="btn btn-outline-success" data-toogle='tooltip' title='Ubah Data'><i class="fa fa-edit"></i></button>
-                                <button class="btn btn-outline-danger" data-toogle='tooltip' title='Hapus'><i class="fa fa-trash"></i></button>
-                            </div>
-                        </td>
-                    <?php endforeach ; ?>
-                </tr>
-            </thead>
-        </table>
+        <?php $jmlKolom = count($kolom) ; ?>
+        <?php $idKolom = [] ; ?>
+        <?php foreach ($kolom as $k) : ?>
+            <?php $idKolom[] = $k['id_kolom'].'|'.$k['nama_kolom'] ?>
+        <?php endforeach ; ?>
     </div>
+
+    
+
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="modalTambah<?= $idTbl; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method='post' id='simpanIsiKolom_<?= $idTbl;?>'>
+                    <div class="modal-body">
+                        <?php $ArrayIDK = '' ; ?>
+                        <?php foreach ($idKolom as $idk) : ?>
+                            <td>
+                                <?php $idk = explode('|', $idk) ; ?>
+                                <label for="isi_kolom<?= $idk[0];?>"><?= $idk[1]; ?></label>
+                                <textarea class="form-control" rows="5" id='isi_kolom<?= $idk[0];?>' name='isi_kolom_<?= $idk[0] ?>'></textarea>
+
+                                <?php $ArrayIDK .= $idk[0].',' ; ?>
+                            </td>
+                        <?php endforeach ; ?>
+                        <input type="hidden" name='ArrayIDK' value='<?= rtrim($ArrayIDK,','); ?>'>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        $(document).ready(function(){
+            $("#isi_kolom_query<?= $idTbl; ?>").load("<?= base_url(); ?>sample_/isi_kolom/<?= $idTbl; ?>/<?= $id; ?>/<?= $idSample;?>") ;
+            
+            $("#simpanIsiKolom_<?= $idTbl;?>").submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: '<?= base_url(); ?>sample_/tambahIsiKolom/<?= $idTbl.'/'.$id.'/'.$idSample ;?>',
+                    type: 'post',
+                    data: $(this).serialize(),             
+                    success: function(data) {               
+                        document.getElementById("simpanIsiKolom_<?= $idTbl;?>").reset();
+                        $('#isi_kolom_query<?= $idTbl; ?>').html(data) ;      
+                    }
+                });
+            });
+        });
+
+    </script>
 <?php endif ; ?>

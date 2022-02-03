@@ -173,6 +173,8 @@
                                     </a> <!-- tambah dokumen --> 
                                 <?php endif ; ?>
                             <?php endif ; ?>
+                            
+                            <a href="<?= base_url(); ?>evaluasi/form/<?= $row['idJenisSample']; ?>/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-secondary" data-toogle='tooltip' title='form evaluasi'><i class="fa fa-file"></i></a>
                         </td>
                     </tr>
 

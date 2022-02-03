@@ -799,7 +799,7 @@
                         foreach($ArrayIDK as $Arr) {
                             $this->db->where('id_isi_tbl_kolom', $Arr);
                             $this->db->delete('isi_tbl_kolom');
-                            echo $Arr ;
+                            // echo $Arr ;
                         }
                         
                         $pesan = [

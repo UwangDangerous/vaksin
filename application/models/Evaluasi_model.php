@@ -13,94 +13,6 @@
             return $this->db->get('petugas')->result_array();
         }
 
-        // public function getDataSampleEvaluasi($id) 
-        // {
-        //     $this->db->where('idSample', $id );
-        //     return $this->db->get('sample')->row_array();
-        // }
-
-        // public function uploadHasilEvaluasi($id)
-        // {
-
-        //     if( $_FILES['berkas']['name'] ) {
-        //         $filename = explode("." , $_FILES['berkas']['name']) ;
-        //         $ekstensi = strtolower(end($filename)) ;
-        //         $config['upload_path'] = './assets/file-upload/hasil-evaluasi'; 
-        //         $config['allowed_types'] = 'pdf|zip';
-        //         $hashDate = substr(md5(date('Y-m-d H:i:s')),1,5) ;
-
-        //         $namaSurat = explode(' ',$this->input->post('namaSample'));
-        //         $namaSurat = preg_replace("/[^a-zA-Z]/", "", $namaSurat);
-        //         $nama = '' ;
-        //         $i = 0 ;
-        //         for($i; $i<count($namaSurat); $i++) {
-        //             $nama .= $namaSurat[$i].'_' ;
-        //         }
-
-        //         $berkas = 'Hasil_Evaluasi_Dokumen_'.rtrim($nama,'_').'_'.$hashDate ; 
-
-        //         $config['file_name'] = $berkas ;
-        //         $this->load->library('upload',$config);
-
-        //         if($this->upload->do_upload('berkas')){
-        //             $this->upload->initialize($config);
-        //         }else{
-        //             $pesan = [
-        //                 'pesan' => 'tipe file tidak sesuai',
-        //                 'warna' => 'danger'
-        //             ];
-        //             $this->session->set_flashdata($pesan);
-        //             redirect("evaluasi/tambah/$id") ;  
-        //         }
-
-        //         return $config['file_name'].'.'.$ekstensi ;
-        //     } else{
-        //         $pesan = [
-        //             'pesan' => 'berkas tidak boleh kosong',
-        //             'warna' => 'danger'
-        //         ];
-        //         $this->session->set_flashdata($pesan);
-        //         redirect("evaluasi/tambah/$id") ;   
-        //     }
-        // }
-
-        // public function addHasilEvaluasi($id) 
-        // {
-        //     $berkas = $this->uploadHasilEvaluasi($id);
-        //     $i = 0;
-        //     $fixVial = '' ;
-        //     for($i; $i<$this->input->post('jmlVial') ; $i++) {
-        //         if( $vial = $this->input->post("vial$i") ) {
-        //             $fixVial .= $vial.',';
-        //         }
-        //     } 
-
-        //     // var_dump(rtrim($fixVial, ',')) ;
-
-        //     $query = [
-        //         'idSample' => $this->input->post('idSample'),
-        //         'batch' => $this->input->post('batch'),
-        //         'vialLolos' => rtrim($fixVial,','),
-        //         'doses' => $this->input->post('doses'),
-        //         'tgl_expiry' => $this->input->post('tanggal'),
-        //         'hasilEvaluasi' => $berkas
-        //     ];
-
-        //     if($this->db->insert('evaluasi', $query)){
-        //         $this->session->set_flashdata(['pesan' => 'Data Berhasil Ditambahkan', 'warna' => 'success']);
-        //         redirect("evaluasi") ;
-        //     }else{
-        //         $this->session->set_flashdata(['pesan' => 'Data Gagal Ditambahkan', 'warna' => 'danger']);
-        //         redirect("evaluasi/tambah/$id/$petugas") ;
-        //     }
-        // }
-
-        // public function cekEvaluasi($id) 
-        // {
-        //     $this->db->where('idSample', $id);
-        //     return $this->db->get('evaluasi')->row_array();
-        // }
-
         public function getDataDukung($id) 
         {
             $this->db->where('idSample', $id);
@@ -134,6 +46,107 @@
             return $this->db->get('clockoff')->result_array() ;
         }
         
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // form
+            // general informasi
+                public function getDataForGI($id)
+                {
+                    $this->db->where('idJenisSample', $id) ;
+                    $this->db->where('tugasGI', 2) ;
+                    $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
+                    return $this->db->get('tbl_gi_used')->result_array() ;
+                }
+                public function getData_GI_Use($id)
+                {
+                    $this->db->where('idGI', $id) ;
+                    $this->db->select('id_gi_used') ;
+                    return $this->db->get('tbl_gi_used')->row_array()['id_gi_used'] ;
+                }
+            // general informasi
+
+            // tabel
+                public function getDataForTabel($id)
+                {
+                    $this->db->where('idJenisSample', $id) ;
+                    $this->db->where('tugasTabel', 2) ;
+                    return $this->db->get('tbl_proses')->result_array() ;
+                }
+
+                // header
+                    public function getDataForTabelHeader($id)
+                    {
+                        $this->db->where('id_tbl_proses', $id) ;
+                        return $this->db->get('tbl_proses_header')->result_array() ;
+                    }
+
+                    public function cekIsiDataHeader($idHeader, $idSample)
+                    {
+                        $this->db->where('idSample', $idSample);
+                        $this->db->where('id_tbl_header', $idHeader);
+                        return $this->db->get('isi_tbl_proses_header')->row_array();
+                    }
+                // header
+
+                // kolom / body
+                    public function getDataForTabelKolom($id)
+                    {
+                        $this->db->where('id_tbl_proses', $id) ;
+                        return $this->db->get('tbl_proses_kolom')->result_array() ;
+                    }
+
+                    public function getDataFor_Isi_kolom_array($idTbl, $idSample)
+                    {
+                        $this->db->where('id_tbl_proses', $idTbl);
+                        $this->db->where('idSample', $idSample);
+                        $this->db->join('tbl_proses_kolom', 'tbl_proses_kolom.id_kolom = isi_tbl_kolom.id_kolom');
+                        return $this->db->get('isi_tbl_kolom')->result_array();
+                    }
+                // kolom / body
+
+                // footer
+                    public function getDataForTabelFooter($idTbl) 
+                    {
+                        $this->db->where('id_tbl_proses', $idTbl) ;
+                        return $this->db->get('tbl_proses_footer')->result_array() ;
+                    }
+
+                    public function cekIsiDataFooter($idFooter, $idSample) 
+                    {
+                        $this->db->where('idSample', $idSample);
+                        $this->db->where('id_tbl_footer', $idFooter);
+                        return $this->db->get('isi_tbl_proses_footer')->row_array();
+                    }
+                // footer
+
+            // tabel
+        // form
     }
 
 ?>

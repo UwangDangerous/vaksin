@@ -13,17 +13,17 @@
     <table class="table table-bordered table-striped text-center">
         <thead>
             <tr>
-                <th>No</th>
+                <th class='align-middle'>No</th>
 
                 <?php $jmlKolom = count($kolom) ; ?>
                 <?php $idKolom = [] ; ?>
                 <?php foreach ($kolom as $k) : ?>
-                    <th><?= $k['nama_kolom']; ?></th>
+                    <th class='align-middle'><?= $k['nama_kolom']; ?></th>
                     <?php $idKolom[] = $k['id_kolom'].'|'.$k['nama_kolom'] ?>
                 <?php endforeach ; ?>
 
-                <th>Hapus</th>
-                <th>Pass / Available</th>
+                <th class='align-middle'>Hapus</th>
+                <th class='align-middle'>Pass / Available</th>
             </tr>
         </thead>
         <?php 
@@ -109,8 +109,12 @@
                         </script>
 
                         <td>
-                        <?= $hash_isi_kolom; ?><br>
-                            <input checked type="checkbox" class="form-check-input" name='ceklis_<?= $hash_isi_kolom; ?>'>
+                            <div id='ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>'>
+                            </div>
+
+                            <script>
+                                $("#ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>").load("<?= base_url(); ?>evaluasi/ceklis/<?= $hash_isi_kolom; ?>/<?= $idSample; ?>")
+                            </script>
                         </td>
                     </tr>
 

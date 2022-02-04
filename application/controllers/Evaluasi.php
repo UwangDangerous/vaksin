@@ -516,11 +516,35 @@
 
 
 
-            public function ceklis()
+            public function ceklis($hash, $idSample)
             {
-                echo $this->input->post('ceklis_67909');
+                $data['hash_isi_kolom'] = $hash;
+                $data['idSample'] = $idSample;
+                $data['ceklis'] = $this->Evaluasi_model->ceklis_pass($hash, $idSample) ;
+                $this->load->view('evaluasi/form/tabel/ceklis', $data);
+            }
+
+            public function tambah_ceklis($hash, $idSample)
+            {
+                $query = [
+                    'id_hash_isi_tbl_kolom' => $hash,
+                    'idSample' => $idSample
+                ] ;
+                $this->db->insert('isi_tbl_kolom_ceklis', $query);
+
+                $this->ceklis($hash, $idSample);
+            }
+
+            public function hapus_ceklis($hash, $idSample)
+            {
+                $this->db->where('id_hash_isi_tbl_kolom', $hash);
+                $this->db->where('idSample', $idSample);
+                $this->db->delete('isi_tbl_kolom_ceklis');
+
+                $this->ceklis($hash, $idSample);
             }
         // form
+
     }
 
 ?>

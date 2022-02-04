@@ -79,7 +79,7 @@
                 public function getDataForGI($id)
                 {
                     $this->db->where('idJenisSample', $id) ;
-                    $this->db->where('tugasGI', 2) ;
+                    // $this->db->where('tugasGI', 2) ;
                     $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
                     return $this->db->get('tbl_gi_used')->result_array() ;
                 }
@@ -95,7 +95,7 @@
                 public function getDataForTabel($id)
                 {
                     $this->db->where('idJenisSample', $id) ;
-                    $this->db->where('tugasTabel', 2) ;
+                    // $this->db->where('tugasTabel', 2) ;
                     return $this->db->get('tbl_proses')->result_array() ;
                 }
 
@@ -146,6 +146,15 @@
                 // footer
 
             // tabel
+
+            // ceklis
+                public function ceklis_pass($hash, $idSample) 
+                {
+                    $this->db->where('idSample', $idSample);
+                    $this->db->where('id_hash_isi_tbl_kolom', $hash);
+                    return $this->db->get('isi_tbl_kolom_ceklis')->row_array();
+                }
+            // ceklis
         // form
     }
 

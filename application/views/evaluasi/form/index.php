@@ -1,32 +1,26 @@
 <div class="card p-3">
-    <form action="<?= base_url(); ?>evaluasi/ceklis" method='post'>
+    <div class="row">
+        <div class="col">
+            <a href='<?= base_url(); ?>cetak/form_evaluasi/<?= $idSample; ?>' class="btn btn-primary"><i class="fa fa-print"></i></a>
 
-        <div class="row">
-            <div class="col">
-
-                <div id="general_informasi">
-                    <!-- _ general informasi-> -->
-                </div>
-                
-                
-                <div id="tabel">
-                    <!-- _tabel header -> tabel -> footer -->
-                </div>
+            <div id="general_informasi">
+                <!-- _ general informasi-> -->
+            </div>
+            
+            
+            <div id="tabel">
+                <!-- _tabel header -> tabel -> footer -->
             </div>
         </div>
-        
-
-
-        <script>
-            $(document).ready(function(){
-                $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idSample;?>") ;
-
-                $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idSample;?>") ;
-            });
-        </script>
-
-        <div class="text-right">
-            <button class="btn btn-primary">Selesai</button>
-        </div>
-    </form>
+    </div>
 </div>
+    
+
+
+    <script>
+        $(document).ready(function(){
+            $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idSample;?>") ;
+
+            $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idSample;?>") ;
+        });
+    </script>

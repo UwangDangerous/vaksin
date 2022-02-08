@@ -543,6 +543,81 @@
 
                 $this->ceklis($hash, $idSample);
             }
+
+            public function simpanNoCeklis($id,$idSample) 
+            {
+                if( $this->input->post('nomer_ceklis') != null) {
+                    $query = [
+                        'idSample' => $idSample,
+                        'nomer_ceklis' => $this->input->post('nomer_ceklis')
+                    ] ;
+
+                    if($this->db->insert('hasil_evaluasi', $query)){
+                        $pesan = [
+                            'pesan_check' => 'Data Berhasil Disimpan',
+                            'warna_check' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_check' => 'Data Gagal Disimpan',
+                            'warna_check' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan);
+                    $this->check($id,$idSample);
+                }else{
+                    $pesan = [
+                        'pesan_check' => 'Data Tidak Boleh Kosong',
+                        'warna_check' => 'danger'
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    $this->check($id,$idSample);
+                }
+            }
+
+            public function ubahNoCeklis($id,$idSample) 
+            {
+                if( $this->input->post('nomer_ceklis') != null) {
+                    $query = [
+                        'idSample' => $idSample,
+                        'nomer_ceklis' => $this->input->post('nomer_ceklis')
+                    ] ;
+                    $this->db->where('id_hasil_evaluasi',$this->input->post('id'));
+                    $this->db->set($query);
+                    if($this->db->update('hasil_evaluasi')){
+                        $pesan = [
+                            'pesan_check' => 'Data Berhasil Di Ubah',
+                            'warna_check' => 'success'
+                        ];
+                    }else{
+                        $pesan = [
+                            'pesan_check' => 'Data Gagal Di Ubah',
+                            'warna_check' => 'danger'
+                        ];
+                    }
+
+                    $this->session->set_flashdata($pesan);
+                    $this->check($id,$idSample);
+                }else{
+                    $pesan = [
+                        'pesan_check' => 'Data Tidak Boleh Kosong',
+                        'warna_check' => 'danger'
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    $this->check($id,$idSample);
+                }
+            }
+
+            public function check($id,$idSample) 
+            {
+                $data['idSample'] = $idSample ;
+                $data['id'] = $id ;
+                $this->db->where('idSample', $idSample);
+                $data['check'] = $this->db->get('hasil_evaluasi')->row_array();
+
+                $this->load->view('evaluasi/form/tabel/check',$data);
+            }
         // form
 
     }

@@ -92,11 +92,11 @@
             }
         }
 
-        public function cetak($id) 
-        {
-            $data['id'] = $id ;
-            $this->load->view('sample/cetak', $data);
-        }
+        // public function cetak($id) 
+        // {
+        //     $data['id'] = $id ;
+        //     $this->load->view('sample/cetak', $data);
+        // }
 
         public function buktiBayar() 
         {

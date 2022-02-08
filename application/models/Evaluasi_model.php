@@ -154,6 +154,7 @@
                     $this->db->where('id_hash_isi_tbl_kolom', $hash);
                     return $this->db->get('isi_tbl_kolom_ceklis')->row_array();
                 }
+
             // ceklis
         // form
     }

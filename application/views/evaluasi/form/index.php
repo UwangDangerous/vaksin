@@ -1,7 +1,15 @@
 <div class="card p-3">
     <div class="row">
+        <div class="col-md-6">
+            <div id="check">
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="col">
-            <a href='<?= base_url(); ?>cetak/form_evaluasi/<?= $idSample; ?>' class="btn btn-primary"><i class="fa fa-print"></i></a>
+            
+            <!-- <a href='<?//= base_url(); ?>cetak/form_evaluasi/<?//= $id; ?>/<?//= $idSample; ?>' class="btn btn-primary" data-toggle='tooltip' title='print hasil evaluasi' target='blank'><i class="fa fa-print"></i></a> -->
 
             <div id="general_informasi">
                 <!-- _ general informasi-> -->
@@ -22,5 +30,9 @@
             $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idSample;?>") ;
 
             $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idSample;?>") ;
+        
+            $("#check").load("<?= base_url(); ?>evaluasi/check/<?= $id; ?>/<?= $idSample;?>") ;
+            
         });
+
     </script>

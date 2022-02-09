@@ -6,6 +6,7 @@
             parent::__construct() ;
             $this->load->library('form_validation');
             $this->load->model('Verifikasi_model_');
+            $this->load->model('Cetak_model');
         }
 
         public function index()
@@ -139,6 +140,49 @@
             }
 
             $this->session->set_flashdata($pesan) ;
+            redirect('verifikasi_') ;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // baru
+        public function addVerifikasi($id) 
+        {
+            $query = [
+                'id_hasil_evaluasi' => $id,
+                'status_verifikasi' => $this->input->post('status'),
+                'tanggal_verifikasi' => $this->input->post('tanggal')
+            ];
+
+            var_dump($query) ;
+
+            if( $this->db->insert('hasil_verifikasi',$query) ){
+                $pesan = [
+                    'pesan' => 'Verifikasi Berhasil Disimpan',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Verifikasi Gagal Disimpan',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan);
             redirect('verifikasi_') ;
         }
     }

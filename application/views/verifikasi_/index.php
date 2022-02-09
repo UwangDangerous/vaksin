@@ -25,8 +25,8 @@
             <thead>
                 <tr>
                     <th class='align-middle'>No</th>
-                    <th class='align-middle'>Nama Sample</th>
-                    <th class='align-middle'>Sample</th>
+                    <th class='align-middle'>Nama Sampel</th>
+                    <th class='align-middle'>Sampel</th>
                     <th class='align-middle'>Jenis Dokumen</th>
                     <th class='align-middle'>Pengerjaan</th>
                     <th class='align-middle'>Dokumen</th>
@@ -183,11 +183,70 @@
                                     </a> <!-- clockoff dokumen --> 
                                 <?php endif ; ?>
                             <?php endif ; ?>
+
+
+
+                            <!-- evaluasi baru -->
+                                
+                                <a href="#" class="badge badge-warning" data-toggle='modal' data-target='#view<?= $row['idSample'];?>' data-toggle='tooltip' title='Hasil Evaluasi'>
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                
+                            <!-- evaluasi baru -->
                         </td>
                     </tr>
 
+                    <!-- modal verifikasi -->
+                        <div class="modal fade" id="view<?= $row['idSample'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog " role="document">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Hasil Evaluasi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                    <?php $hasil_evaluasi = $this->Cetak_model->getInfoCeklis($row['idSample'])['id_hasil_evaluasi']; ?>
+                                    <?php if($hasil_evaluasi) : ?>
+                                        <?php $hasil_verifikasi = $this->Cetak_model->getHasilVerifikasi($hasil_evaluasi); ?>
+                                        <?php if($hasil_verifikasi) : ?>
+                                            <?php $status_verifikasi = $hasil_verifikasi['status_verifikasi'] ; ?>
+                                            <?php $tanggal_verifikasi = $hasil_verifikasi['tanggal_verifikasi'] ; ?>
+                                        <?php endif ; ?>
+                                    <?php endif ; ?>
 
-                    <!-- modal tambah -->
+                                    <form action="<?= base_url(); ?>verifikasi_/addVerifikasi/<?= $hasil_evaluasi; ?>" method='post'>
+                                        <div class="modal-body">
+                                            <label>Hasil Evaluasi</label>
+                                            <br>
+                                            <a href="<?= base_url(); ?>cetak/form_evaluasi/<?= $row['idJenisSample'];?>/<?= $row['idSample']; ?>" class="btn btn-primary" data-toggle='tooltip' title='Tampilkan Hasil Evaluasi' target='blank'><i class="fa fa-file"></i></a>
+                                            <br><br>
+                                            <?php $status = ['ditolak','diterima'] ; ?>
+                                            <label for="status">Status Verifikasi</label>
+                                            <select name="status" id="status" class='form-control'>
+                                                <?php foreach ($status as $sts) : ?>
+                                                    <?php if($sts == $status_verifikasi) : ?>
+                                                        <option selected><?= $sts; ?></option>
+                                                    <?php else : ?>
+                                                        <option><?= $sts; ?></option>
+                                                    <?php endif ; ?>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <br>
+                                            <label for="tanggal">Tanggal Verifikasi</label>
+                                            <input type="date" name='tanggal' class='form-control' value='<?= $tanggal_verifikasi; ?>'>
+                                        </div>
+    
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <!-- modal verifikasi -->
                     <div class="modal fade" id="tambah<?= $row['idSample'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">

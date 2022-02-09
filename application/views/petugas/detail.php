@@ -181,70 +181,106 @@
 <div class="card p-3 mt-3">
     <h3> Petugas dan Hasil Kerja </h3>
     <br>
-        <div class="d-flex justify-content-between">
-            <table cellpadding='5'>
-                <?php $idVerifikasi = 0 ; ?>
-                <?php foreach ($petugas as $p) : ?>
-                    <tr>
-                        <th><?= $p['namaLevel']; ?></th>
-                        <td>:</td>
-                        <td><?= $p['namaIU']; ?></td>
-                        <td>
-                            <?php if($p['idLevel'] == 3) : ?>
-                                <?= $this->Petugas_model->hasilEvaluasi($id) ; ?>
-                            <?php elseif($p['idLevel'] == 4) : ?>
-                                <?php $hasil = $this->Petugas_model->hasilVerifikasi($id) ; ?>
-                                <?php if($hasil) : ?>
-                                    <a href="<?= base_url(); ?>assets/file-upload/hasil-verifikasi/<?= $hasil["hasilVerifikasi"]; ?>" class="badge badge-primary" data-toggle="tooltip" title="Hasil Verifikasi" target="blank"><i class="fa fa-eye"></i></a>
-                                    <?php $idVerifikasi = $hasil['idVerifikasi'] ; ?>
-                                <?php endif ; ?>
+    <div class="row">
+        <div class="col">
+            <table cellpadding=2 cellspacing=2>
+                <tr>
+                    <td>Evaluator</td>
+                    <td>:</td>
+                    <td>
+                        <?php if($petugas_evaluasi = $this->Cetak_model->getPetugasEvaluasi($sample['idSample'])) : ?>
+                            <?= $petugas_evaluasi['namaIU']; ?>
+                        <?php endif ; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Verifikator</td>
+                    <td>:</td>
+                    <td>
+                        <?php if($petugas_Verifikasi = $this->Cetak_model->getPetugasVerivikasi($sample['idSample'])) : ?>
+                            <?= $petugas_Verifikasi['namaIU']; ?>
+                        <?php endif ; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign='top'>Ceklis</td>
+                    <td valign='top'>:</td>
+                    <td>
+                        <?php $serti = 0; ?>
+                        <?php $hasil_evaluasi = $this->Cetak_model->getInfoCeklis($sample['idSample']); ?>
+                        <?php if($hasil_evaluasi) : ?>
+                            <a href="<?= base_url(); ?>cetak/form_evaluasi/<?= $sample['idJenisSample'];?>/<?= $sample['idSample'];?>" class="btn btn-primary" target='blank'>
+                                <i class="fa fa-file"></i>
+                            </a>
+                            <?php $hasil_verifikasi = $this->Cetak_model->getHasilVerifikasi($hasil_evaluasi['id_hasil_evaluasi']); ?>
+                            <?php $hasil_periksa = $this->Cetak_model->getHasilPeriksa($hasil_evaluasi['id_hasil_evaluasi']); ?>
+
+                            <br>
+
+                            <?php if($hasil_verifikasi) : ?>
+                                Verifikasi, <?= $hasil_verifikasi['status_verifikasi']; ?> ( <?= $this->_Date->formatTanggal( $hasil_verifikasi['tanggal_verifikasi'] ); ?> )
+                                <?php $serti++ ; ?>
+                            <?php else : ?>
+                                <i class="text-danger">Belum Di Verifikasi</i>
                             <?php endif ; ?>
-                        </td>
-                    </tr>
-                <?php endforeach ; ?>
-            </table>
 
-            <!-- Button trigger modal -->
-            <?php if($idVerifikasi != 0) : ?>
-                
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-toggle='tooltip' title='Certificate'>
-                            <i class="fa fa-print"></i>
-                        </button>
-                    </div>
-                </div>
+                            <br>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Sertifikat</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form method="post" action="<?= base_url() ;?>petugas/sertifikat/<?= $idVerifikasi;?>">
-                                <div class="modal-body">
-                                    <label for="no">Nomer Surat</label>
-                                    <input type="text" name="no" id="no" class='form-control' placeholder=''>
-                                </div>
-                                <div class="modal-body">
-                                    <label for="no">Nomer Sample</label>
-                                    <input type="text" name="no" id="no" class='form-control' placeholder='F/PBT/0018'>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Buat Sertifikat</button>
+                            <?php if($hasil_periksa) : ?>
+                                Periksa, <?= $hasil_periksa['status_periksa']; ?> ( <?= $this->_Date->formatTanggal( $hasil_periksa['tanggal_periksa'] ); ?> )
+                                <?php $serti++ ; ?>
+                            <?php else : ?>
+                                <i class="text-danger">Belum Di Periksa</i>
+                            <?php endif ; ?>
+                        <?php else : ?>
+                            <i class="text-danger">Belum Di Evaluasi</i>
+                        <?php endif ; ?>
+
+                        <br>
+                        <?php if($serti == 2) : ?>
+                            <?php $cek_serti = $this->Cetak_model->cekSertifikat($hasil_evaluasi['id_hasil_evaluasi']); ?>
+                            <?php if($cek_serti) : ?>
+                                <form action="<?= base_url(); ?>petugas/ubahSertifikat/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>" method="post">
+                            <?php else : ?>
+                                <form action="<?= base_url(); ?>petugas/tambahSertifikat/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>" method="post">
+                            <?php endif ; ?>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="">No Sertifikat : </span>
+                                    </div>
+                                    <input style="width:300px;" type="text" class="form-control" placeholder=" PP.xx.xx.xxi.xx.xxx.xx.xx.xx.xx" value='<?= $cek_serti['noSertifikat'] ;?> '>
+
+                                    <?php if($cek_serti) : ?>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-success" type="submit"><i class="fa fa-edit"></i></button>
+                                        </div>
+                                    <?php else : ?>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-pen"></i></button>
+                                        </div>
+                                    <?php endif ; ?>
+
+
+
+                                    <?php if($cek_serti != null) : ?>
+                                        <?php if($sample['idJenisManufacture'] == 1) : ?>
+                                            <div class="input-group-append">
+                                                <a href='<?= base_url();?>cetak/sertifikat_domestik/<?= $sample['idSample'];?>/<?= $sample['idJenisSample'];?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Domestik'><i class="fa fa-print"></i></a>
+                                            </div>
+                                        <?php else : ?>
+                                            <div class="input-group-append">
+                                                <a href='<?= base_url();?>cetak/sertifikat_import/<?= $sample['idSample'];?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Import'><i class="fa fa-print"></i></a>
+                                            </div>
+                                        <?php endif ; ?>
+                                    <?php endif ; ?>
                                 </div>
                             </form>
-                        </div>
-                    </div>
-                </div>
-            <?php endif ; ?>
-
-                
+                        <?php endif ; ?>
+                    </td>
+                </tr>
+            </table>
         </div>
+    </div>
 </div>
 
 <div class="card p-3 mt-3">

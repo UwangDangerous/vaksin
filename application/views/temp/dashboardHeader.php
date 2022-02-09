@@ -126,7 +126,7 @@
                             </a>
                             <div class="collapse" id="sertifikat" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<?= base_url(); ?>petugas">
+                                    <a class="nav-link" href="<?= base_url(); ?>sertifikat/pelulusan">
                                         <div class="sb-nav-link-icon"><i class="fas fa-file-medical-alt"></i></div>
                                         Pelulusan
                                     </a>

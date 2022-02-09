@@ -21,6 +21,15 @@
             return $this->db->get('tbl_gi_used')->result_array() ;
         }
 
+        public function getPetugasEvaluasi($idSample) 
+        {
+            $this->db->where('idSample',$idSample);
+            $this->db->where('petugas.idLevel', 3);
+            $this->db->select('namaIU, inuser.idIU as idIU');
+            $this->db->join('inuser', 'inuser.idIU = petugas.idIU');
+            return $this->db->get('petugas')->row_array();
+        }
+
         public function getPetugasVerivikasi($idSample) 
         {
             $this->db->where('idSample',$idSample);
@@ -42,14 +51,34 @@
             return $this->db->get('hasil_evaluasi')->row_array();
         }
 
-        public function getHasilVerifikasi($id) {
+        public function getHasilVerifikasi($id) 
+        {
             $this->db->where('id_hasil_evaluasi', $id);
             return $this->db->get('hasil_verifikasi')->row_array();
         }
 
-        public function getHasilPeriksa($id) {
+        public function getHasilPeriksa($id) 
+        {
             $this->db->where('id_hasil_evaluasi', $id);
             return $this->db->get('hasil_periksa')->row_array();
+        }
+
+        public function cekSertifikat($id)
+        {
+            $this->db->where('id_hasil_evaluasi', $id);
+            return $this->db->get('sertifikat')->row_array() ;
+        }
+
+        public function getDataBatch($idSample)
+        {
+            $this->db->where('idSample', $idSample);
+            return $this->db->get('sample_batch')->result_array();
+        }
+
+        public function getDataImportir($idSample)
+        {
+            $this->db->where('idSample',$idSample);
+            return $this->db->get('_importir')->row_array();
         }
     }
 

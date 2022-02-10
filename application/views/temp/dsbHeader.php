@@ -59,6 +59,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
                                 Pengaturan
                             </a>
+                            <a class="nav-link" href="<?= base_url(); ?>auth/logoutEks">
+                                <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                Logout
+                            </a>
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">

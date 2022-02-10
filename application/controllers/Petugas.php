@@ -223,6 +223,65 @@ class Petugas extends CI_Controller{
         $this->session->set_flashdata('pesan');
         redirect("petugas/index/$idSurat/$id") ;
     }
+
+
+
+
+    
+
+    public function tambahSertifikat($idSurat,$idSample)
+    {
+        $query = [
+            'noSertifikat' => $this->input->post('noSertifikat') ,
+            'id_hasil_evaluasi' => $this->input->post('id_hasil_evaluasi') ,
+            'tgl_realese' => $this->input->post('tgl_realese') 
+        ];
+
+        if( $this->db->insert('sertifikat', $query) ) {
+
+            $pesan = [
+                'pesan' => 'Data Berhasil DiSimpan' ,
+                'warna' => 'success',
+            ];
+
+        }else{
+            $pesan = [
+                'pesan' => 'Data Gagal DiSimpan' ,
+                'warna' => 'danger'
+            ];
+        }
+
+        $this->session->set_flashdata($pesan) ;
+        redirect("petugas/detail/$idSurat/$idSample") ;
+    }
+
+    public function ubahSertifikat($idSurat,$idSample)
+    {
+        $query = [
+            'noSertifikat' => $this->input->post('noSertifikat') ,
+            'id_hasil_evaluasi' => $this->input->post('id_hasil_evaluasi') ,
+            'tgl_realese' => $this->input->post('tgl_realese') 
+        ];
+
+        $this->db->where('idSertifikat', $this->input->post('idSertifikat')) ;
+        $this->db->set($query) ;
+        if( $this->db->update('sertifikat') ) {
+
+            $pesan = [
+                'pesan' => 'Data Berhasil Ubah' ,
+                'warna' => 'success',
+            ];
+
+        }else{
+            $pesan = [
+                'pesan' => 'Data Gagal Ubah' ,
+                'warna' => 'danger'
+            ];
+        }
+
+        $this->session->set_flashdata($pesan) ;
+        redirect("petugas/detail/$idSurat/$idSample") ;
+    }
 }
 
 ?>

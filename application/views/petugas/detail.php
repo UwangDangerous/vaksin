@@ -8,7 +8,6 @@
         </div>
         
 <?php endif ; ?>
-
 <div class="card p-3">
     <h4>Sample <?= $sample['namaSample']; ?> ( <?= $sample['jenisSample']; ?> )</h4>
     <div class="row p-3">
@@ -188,7 +187,7 @@
                     <td>Evaluator</td>
                     <td>:</td>
                     <td>
-                        <?php if($petugas_evaluasi = $this->Cetak_model->getPetugasEvaluasi($sample['idSample'])) : ?>
+                        <?php if($petugas_evaluasi = $this->Cetak_model->getPetugasEvaluasi($id)) : ?>
                             <?= $petugas_evaluasi['namaIU']; ?>
                         <?php endif ; ?>
                     </td>
@@ -197,7 +196,7 @@
                     <td>Verifikator</td>
                     <td>:</td>
                     <td>
-                        <?php if($petugas_Verifikasi = $this->Cetak_model->getPetugasVerivikasi($sample['idSample'])) : ?>
+                        <?php if($petugas_Verifikasi = $this->Cetak_model->getPetugasVerivikasi($id)) : ?>
                             <?= $petugas_Verifikasi['namaIU']; ?>
                         <?php endif ; ?>
                     </td>
@@ -207,9 +206,9 @@
                     <td valign='top'>:</td>
                     <td>
                         <?php $serti = 0; ?>
-                        <?php $hasil_evaluasi = $this->Cetak_model->getInfoCeklis($sample['idSample']); ?>
+                        <?php $hasil_evaluasi = $this->Cetak_model->getInfoCeklis($id); ?>
                         <?php if($hasil_evaluasi) : ?>
-                            <a href="<?= base_url(); ?>cetak/form_evaluasi/<?= $sample['idJenisSample'];?>/<?= $sample['idSample'];?>" class="btn btn-primary" target='blank'>
+                            <a href="<?= base_url(); ?>cetak/form_evaluasi/<?= $sample['idJenisSample'];?>/<?= $id;?>" class="btn btn-primary" target='blank'>
                                 <i class="fa fa-file"></i>
                             </a>
                             <?php $hasil_verifikasi = $this->Cetak_model->getHasilVerifikasi($hasil_evaluasi['id_hasil_evaluasi']); ?>
@@ -240,40 +239,58 @@
                         <?php if($serti == 2) : ?>
                             <?php $cek_serti = $this->Cetak_model->cekSertifikat($hasil_evaluasi['id_hasil_evaluasi']); ?>
                             <?php if($cek_serti) : ?>
-                                <form action="<?= base_url(); ?>petugas/ubahSertifikat/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>" method="post">
+                                <form action="<?= base_url(); ?>petugas/ubahSertifikat/<?= $sample['idSurat'];?>/<?= $id;?>" method="post">
                             <?php else : ?>
-                                <form action="<?= base_url(); ?>petugas/tambahSertifikat/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>" method="post">
+                                <form action="<?= base_url(); ?>petugas/tambahSertifikat/<?= $sample['idSurat'];?>/<?= $id;?>" method="post">
                             <?php endif ; ?>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="">No Sertifikat : </span>
-                                    </div>
-                                    <input style="width:300px;" type="text" class="form-control" placeholder=" PP.xx.xx.xxi.xx.xxx.xx.xx.xx.xx" value='<?= $cek_serti['noSertifikat'] ;?> '>
+                            
+                                <?php if($cek_serti) : ?>
+                                        <label for="tgl_realese">Tanggal Rilis</label>
+                                        <input type="date" class='form-control' value='<?= $cek_serti['tgl_realese'];?>' name='tgl_realese' id='tgl_realese'>
 
-                                    <?php if($cek_serti) : ?>
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-success" type="submit"><i class="fa fa-edit"></i></button>
+                                        <input type="hidden" value='<?= $hasil_evaluasi['id_hasil_evaluasi']; ?>' name='id_hasil_evaluasi'>
+                                        <input type="hidden" value='<?=$cek_serti['idSertifikat'] ?>' name='idSertifikat'>
+
+                                        <label for="noSertifikat">No Sertifikat</label>
+                                        <input style="width:300px;" type="text" class="form-control" placeholder=" PP.xx.xx.xxi.xx.xxx.xx.xx.xx.xx" value='<?= $cek_serti['noSertifikat'] ;?> ' name='noSertifikat' id='noSertifikat'>
+                                        
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <button class="btn btn-outline-success" type="submit"><i class="fa fa-edit"></i></button>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <?php if($sample['idJenisManufacture'] == 1) : ?>
+                                                    <div class="input-group-append">
+                                                        <a href='<?= base_url();?>cetak/sertifikat_domestik/<?= $id;?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Domestik'><i class="fa fa-print"></i></a>
+                                                    </div>
+                                                <?php else : ?>
+                                                    <div class="input-group-append">
+                                                        <a href='<?= base_url();?>cetak/sertifikat_import/<?= $id;?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Import'><i class="fa fa-print"></i></a>
+                                                    </div>
+                                                <?php endif ; ?>
+                                            </div>
                                         </div>
+
+
                                     <?php else : ?>
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-primary" type="submit"><i class="fa fa-pen"></i></button>
-                                        </div>
+                                        <label for="tgl_realese">Tanggal Rilis</label>
+                                        <input type="date" class='form-control' name='tgl_realese' id='tgl_realese'>
+
+                                        <input type="hidden" name='id_hasil_evaluasi' value='<?= $hasil_evaluasi['id_hasil_evaluasi']; ?>'>
+
+                                        <label for="noSertifikat">No Serifikat</label>
+                                        <input style="width:300px;" type="text" class="form-control" placeholder=" PP.xx.xx.xxi.xx.xxx.xx.xx.xx.xx" name='noSertifikat' id='noSertifikat'>
+                                        
+                                        <br>
+                                        <button class="btn btn-outline-primary" type="submit"><i class="fa fa-pen"></i></button>
                                     <?php endif ; ?>
 
 
 
                                     <?php if($cek_serti != null) : ?>
-                                        <?php if($sample['idJenisManufacture'] == 1) : ?>
-                                            <div class="input-group-append">
-                                                <a href='<?= base_url();?>cetak/sertifikat_domestik/<?= $sample['idSample'];?>/<?= $sample['idJenisSample'];?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Domestik'><i class="fa fa-print"></i></a>
-                                            </div>
-                                        <?php else : ?>
-                                            <div class="input-group-append">
-                                                <a href='<?= base_url();?>cetak/sertifikat_import/<?= $sample['idSample'];?>' class="btn btn-outline-primary" target='blank' data-toggle='tooltip' title='Cetak Sertifikat Vaksin Import'><i class="fa fa-print"></i></a>
-                                            </div>
-                                        <?php endif ; ?>
+                                        
                                     <?php endif ; ?>
-                                </div>
                             </form>
                         <?php endif ; ?>
                     </td>

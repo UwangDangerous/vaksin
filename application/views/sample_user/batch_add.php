@@ -254,7 +254,7 @@
                 <label for="Dosis">Dosis</label>
                 <input type="number" name="Dosis" id="Dosis" class='form-control' placeholder='Dosis(1/2/5/10/20)'> <br>
                 
-                <label for="jmlvial">Jumlah Vial</label>
+                <label for="jmlvial">Jumlah Produksi</label>
                 <input type="number" class="form-control" name="jmlvial" id="jmlvial" placeholder="1xxxxxx" >
 
             </div>

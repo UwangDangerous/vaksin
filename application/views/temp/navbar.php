@@ -29,11 +29,11 @@
         <li class="nav-item">
           <?php if($this->session->userdata('key')) : ?>
             <a class="nav-link" href="<?=base_url();?>dashboard" data-toogle='tooltip' title='Dashboard'>
-              <i class="fa fa-user"></i>
+              Dashboard
             </a>
           <?php elseif($this->session->userdata('eksId')) : ?>
             <a class="nav-link" href="<?=base_url();?>dsb" data-toogle='tooltip' title='Dashboard'>
-              <i class="fa fa-user"></i>
+              Dashboard
             </a>
           <?php endif ; ?>
         </li>

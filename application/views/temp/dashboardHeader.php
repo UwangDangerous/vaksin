@@ -151,6 +151,15 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
                                 Verifikasi Sample
                             </a>
+<?php elseif($lvl == 5) : ?> <!-- Verifikator dan Evaluator -->
+                            <a class="nav-link" href="<?= base_url(); ?>evaluasi">
+                                <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                                Evaluasi Sample
+                            </a> 
+                            <a class="nav-link" href="<?= base_url(); ?>verifikasi_">
+                                <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
+                                Verifikasi Sample
+                            </a>
 
 <?php else : ?>
 

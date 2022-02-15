@@ -1,4 +1,5 @@
 
+                    <div id="coba"></div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -19,5 +20,27 @@
 
         <script src="<?= base_url(); ?>assets/bootstrap/js/bootstrap.js" ></script>
         <script src="<?= base_url(); ?>assets/js/script.js" ></script>
+
+        <script>
+            $(document).ready(function(){
+                $("#ok").click(function(){
+                    $.ajax({
+                        url: '<?= base_url(); ?>coba',
+                        type: 'get',
+                        data: $(this).serialize(),             
+                        success: function(data) {               
+                            $('#coba').html(data) ;      
+                        }
+                    });
+                });
+            });
+        </script>
+
+    <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
+    <script>
+        $(document).ready(function() {
+            $('#cobaTable').dataTable();
+        } );
+    </script>
     </body>
 </html>

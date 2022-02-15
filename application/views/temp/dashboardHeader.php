@@ -29,6 +29,8 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="<?= base_url(); ?>auth/logout">Logout</a>
+                        <a class="dropdown-item" id='ok' href='#admin?ok=mantap'>test</a>
+                        <a class="dropdown-item" href="#admin">ok</a>
                     </div>
                 </li>
             </ul>
@@ -141,6 +143,10 @@
                             <!-- untuk pengawas -->
 
 <?php elseif($lvl == 2) : ?> <!-- pengawas --> 
+                            <a class="nav-link" href="<?= base_url(); ?>dashboard?ok=mantap">
+                                <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                                Evaluasi Sample
+                            </a>
 <?php elseif($lvl == 3) : ?> <!-- evaluator --> 
                             <a class="nav-link" href="<?= base_url(); ?>evaluasi">
                                 <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>

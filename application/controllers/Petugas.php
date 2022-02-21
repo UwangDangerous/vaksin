@@ -41,8 +41,8 @@ class Petugas extends CI_Controller{
     {
         $this->load->model('_Date');
         // $idLevel = $this->session->userdata('idLevel') ;
-        $data['judul'] = 'Rinscian Data Sampel '. $this->session->userdata('namaLevel'); 
-        $data['header'] = 'Rinscian Data Sampel'; 
+        $data['judul'] = 'Rincian Data Sampel '. $this->session->userdata('namaLevel'); 
+        $data['header'] = 'Rincian Data Sampel'; 
         $data['bread'] = 'Dashboard / <a href="'.base_url().'petugas/index/'.$idSurat.'"> Sampel </a> / Rincian Sampel'; 
         $data['sample'] = $this->Petugas_model->getDetailSample($idSurat,$id);
         $data['petugas'] = $this->Petugas_model->getPetugas($id);

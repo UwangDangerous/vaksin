@@ -39,7 +39,7 @@
             
         <?php endif ; ?> 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped text-center">
+            <table class="table table-bordered table-striped text-center" id='tabel_form_gi'>
                 <thead>
                     <tr>
                         <th>No</th>

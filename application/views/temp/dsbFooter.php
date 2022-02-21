@@ -19,5 +19,12 @@
 
         <script src="<?= base_url(); ?>assets/bootstrap/js/bootstrap.bundle.js" ></script>
         <script src="<?= base_url(); ?>assets/js/script.js" ></script>
+
+
+        <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
+        <script src="<?= base_url(); ?>assets/js/dataTables.bootstrap4.min.js" ></script>
+
+
+        
     </body>
 </html>

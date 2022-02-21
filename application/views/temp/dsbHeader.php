@@ -16,6 +16,9 @@
         <link rel="icon" href="<?= base_url();?>assets/img/logo-bpom.png">
 
         <script src="<?= base_url(); ?>assets/js/jquery.js" ></script>
+        
+        <script src="<?= base_url(); ?>assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+
 
         
     </head> 

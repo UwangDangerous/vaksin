@@ -1,5 +1,5 @@
 <div class="card p-3">
-    <table class="table table-striped table-bordered text-center ">
+    <table class="table table-striped table-bordered text-center " id='tabel-pengujian'>
         <thead>
             <tr>
                 <th class='align-middle'>No</th>

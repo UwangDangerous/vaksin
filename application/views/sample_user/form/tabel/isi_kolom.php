@@ -59,11 +59,16 @@
                         <?php $jml_isi_kolom += $row3[0] ; ?>
                         <td class='text-left'>
                             <form method="post" id='ubahData_isi_kolom<?= $row3[0]; ?>'>
-                                <textarea name="text_isi_kolom_<?= $row3[0]; ?>" cols="30" rows="3" class='form-control'><?= $row3[1]; ?></textarea>
+                                <textarea name="text_isi_kolom_<?= $row3[0]; ?>" id="text_isi_kolom_<?= $row3[0]; ?>" cols="30" rows="3" class='form-control'><?= $row3[1]; ?></textarea>
                                 <div class='text-right'>
                                     <button type="submit" class="btn btn-outline-success mt-2" data-toogle='tooltip' title='Ubah Data'><i class="fa fa-edit"></i></button>
                                 </div>
                             </form>
+                            <script>
+                                tinymce.init({
+                                    selector: '#text_isi_kolom_<?= $row3[0]; ?>'
+                                });
+                            </script>
                                         
     
                             <script>
@@ -106,7 +111,6 @@
                         }) ;
                     </script>
                 </tr>
-
             <?php endforeach ; ?>
 
         <?php endif ; ?>
@@ -114,3 +118,5 @@
     </tbody>
 </table>
 </div>
+
+

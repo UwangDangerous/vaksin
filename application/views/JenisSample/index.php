@@ -5,17 +5,16 @@
                 <i class="fa fa-pen"></i>
             </a>
         </div>
-        <div class="col-md-6">
-            <form action="<?= base_url(); ?>jenisSample" method='post'>
+        <!-- <div class="col-md-6">
+            <form action="<?//= base_url(); ?>jenisSample" method='post'>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Cari..." aria-describedby="basic-addon2" name='cari' id='cari' autofocus>
                     <div class="input-group-append">
                         <input class="btn btn-outline-primary" type="submit" name='btn-cari' value='cari' > 
-                        <!-- <i class="fa fa-search"></i>  -->
                     </div>
                 </div>
             </form>
-        </div>
+        </div> -->
     </div>
 
     <?php if(!empty($this->session->flashdata('pesan') )) : ?>
@@ -30,26 +29,29 @@
     <?php endif ; ?> 
     
     <div class="table-responsive mt-3">
-        <table class="table table-striped table-bordered text-center">
+        <table class="table table-striped table-bordered text-center" id="jenisSample">
             <thead>
                 <tr>
                     <th class='align-middle'>No</th>
-                    <th class='align-middle' colspan=2>Vaksin</th>
-                    <th class='align-middle' colspan=2>Jenis Wadah</th>
+                    <th class='align-middle'>Vaksin</th>
+                    <th class='align-middle'>Jenis Wadah</th>
                     <th class='align-middle'>Lama Pengerjaan</th>
                     <th class='align-middle'>Produksi</th>
                     <th class='align-middle'>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php $no = $start ; ?>
+                <?php $no = 1 ; ?>
                 <?php foreach ($sample as $row) : ?>
                     <tr>
-                        <td><?= ++$no; ?></td>
-                        <td><?= $row['jenisSample'] ?></td>
-                        <td> <i> <?= $row['jsIng'] ?> </i></td>
-                        <td><?= $row['wadah']; ?></td>
-                        <td> <i> <?= $row['wIng']; ?> </i></td>
+                        <td><?= $no++; ?></td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-6"><?= $row['jenisSample'] ?></div>
+                                <div class="col-md-6"><i> <?= $row['jsIng'] ?> </i></div>
+                            </div>
+                        </td>
+                        <td><?= $row['wadah']; ?> ( <i> <?= $row['wIng']; ?> </i> )</td>
                         <td><?= $row['waktuPengujian'] ?> Hari</td>
                         <td><?= $row['produksi']; ?></td>
                         <td>
@@ -71,7 +73,7 @@
                                     <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                    <form action="<?= base_url(); ?>jenisSample/UbahData/<?= $row['idJenisSample'];?>/<?= $hal; ?>" method="post">
+                                    <form action="<?= base_url(); ?>jenisSample/UbahData/<?= $row['idJenisSample'];?>" method="post">
                                         <div class="modal-body">
                                                 <label for="nama">Vaksin</label>
                                                 <input type="text" name="nama" id="nama" class='form-control' value="<?= $row['jenisSample'];?>" placeholder='Nama Vaksin' autofocus>
@@ -117,9 +119,6 @@
             </tbody>
         </table>
     </div>
-
-    <?= $this->pagination->create_links(); ?>
-    <i>Tersedia <?= $total_rows; ?> Data</i>
 
 </div>
 

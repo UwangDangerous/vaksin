@@ -11,11 +11,25 @@
         <link rel="stylesheet" href="<?= base_url(); ?>assets/fontAwesome/css/all.css">
         <link rel="stylesheet" href="<?=base_url(); ?>assets/css/temp_style.css">
         <link rel="stylesheet" href="<?=base_url(); ?>assets/css/mystyle.css">
-        
+        <!-- <link rel="stylesheet" href="<?= base_url();?>assets/css/dataTables.css"> -->
+        <link rel="stylesheet" href="<?= base_url();?>assets/css/dataTables.bootstrap4.min.css">
+
+
+
+        <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
+
+
+
         <title><?= $judul ; ?></title>
         <link rel="icon" href="<?= base_url();?>assets/img/logo-bpom.png">
-
+        
         <script src="<?= base_url(); ?>assets/js/jquery.js" ></script>
+        
+        <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
+        <script src="<?= base_url(); ?>assets/js/dataTables.bootstrap4.min.js" ></script>
+
+
+        <script src="<?= base_url(); ?>assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
 
         
     </head> 
@@ -29,8 +43,6 @@
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                         <a class="dropdown-item" href="<?= base_url(); ?>auth/logout">Logout</a>
-                        <a class="dropdown-item" id='ok' href='#admin?ok=mantap'>test</a>
-                        <a class="dropdown-item" href="#admin">ok</a>
                     </div>
                 </li>
             </ul>

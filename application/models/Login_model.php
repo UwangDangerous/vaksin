@@ -34,8 +34,8 @@ class Login_model extends CI_model {
     {
         $this->load->helper('security');
         $password = do_hash($password ) ;
-        $this->db->where('email', $email);
-        $this->db->where('password', $password);
+        $this->db->where("(email = '$email' OR username = '$email') AND password = '$password'");
+        // $this->db->where('password', $password);
         $query = $this->db->get('eksuser')->row_array();
         // var_dump($query['idIU']) ; die
         
@@ -47,7 +47,7 @@ class Login_model extends CI_model {
 
             $sesi = [
                 'eksId' => $query['idEU'] ,
-                'eksNama' => $query['namaEU'] ,
+                'eksNama' => $query['namaDepan'].'. '.$query['namaEU'] ,
                 'email' => $query['email'] ,
                 'aktif' => $query['aktif'] 
             ] ;
@@ -69,9 +69,20 @@ class Login_model extends CI_model {
         $email = $this->input->post('email') ;
 
         $query = [
+            'namaDepan' => $this->input->post('namaDepan'),
             'namaEU' => $this->input->post('nama'),
+            'npwp' => $this->input->post('npwp'),
+            'idProp' => $this->input->post('prop'),
+            'idKota' => $this->input->post('kota'),
+            'idKec' => $this->input->post('kecamatan'),
             'alamat' => $this->input->post('alamat'),
+            'pos' => $this->input->post('pos'),
+            'fax' => $this->input->post('fax'),
+            'pj' => $this->input->post('pj'),
+            'noPj' => $this->input->post('noPj'),
+            'jabatan' => $this->input->post('jabatan'),
             'email' => $email,
+            'username' => $this->input->post('username'),
             'password' => $password,
             'aktif' => 0
         ];
@@ -90,7 +101,7 @@ class Login_model extends CI_model {
             if($this->db->insert('eksuser_token', $query_token)) {
                 $this->_sendMail($token,'verify', $email);
                 $pesan = [
-                    'pesan' => 'Akun Berhasil Dibuat Silahkan Periksa Email Anda Untuk Aktifasi' ,
+                    'pesan' => 'Akun Berhasil Dibuat Silahkan Periksa Email Anda Untuk Aktivasi' ,
                     'warna' => 'success' 
                 ] ;
             }else{

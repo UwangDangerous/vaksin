@@ -4,18 +4,6 @@
         <div class="col-md-1">
             <a href="<?= base_url(); ?>user/tambah" class="btn btn-primary" data-toggle="tooltip" title="Tambah Data User"><i class="fa fa-pen"></i></a>
         </div> <!-- col 2 --> 
-        <div class="col-md-11">
-            <form action="" post>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Pencarian Data User" >
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div> <!-- col 2 --> 
     </div> <!-- row 2 --> 
 </div><!-- col 1 --> 
 </div><!-- row 1 --> 
@@ -32,7 +20,7 @@
 <?php endif ; ?> 
 <br>
 
-<table class="table table-bordered table-striped text-center">
+<table class="table table-bordered table-striped text-center" id='internal-user'>
     <thead>
         <tr>
             <th>No</th>

@@ -1,36 +1,5 @@
 <?php $tglBayarFormat = ''; ?>
 <div class="card p-3">
-    <div class="row">
-        <div class="col-md-6">  
-            <form action="" method='post'>
-                <div class="input-group">
-                    <select class="custom-select" name='cariJenisDok'>
-                        <option value="">-pilih-</option>
-                        <?php foreach ($jenisDokumen = $this->db->get('_jenisDokumen')->result_array() as $jd) : ?>
-                            <option value='<?= $jd['idJenisDokumen']; ?>'> <?= $jd['namaJenisDokumen']; ?> </option>
-                        <?php endforeach ; ?>
-                    </select>
-                    <div class="input-group-append">
-                        <button type='submit' name='cariByDokumen' class="btn btn-outline-primary" value='cariByDokumen'>
-                            <fa class="fa fa-search"></fa>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form action="" method='post'>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Pencarian" >
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div><!-- col 1 --> 
-    </div><!-- row 1 --> 
 
     <?php if(!empty($this->session->flashdata('pesan') )) : ?>
         
@@ -45,7 +14,7 @@
 
 
     <div class="table-responsive ">
-        <table class="table table-bordered table-striped text-center">
+        <table class="table table-bordered table-striped text-center" id='tabel-sampel'>
             <thead>
                 <tr>
                     <th class='align-middle'>No</th>

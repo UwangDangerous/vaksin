@@ -30,8 +30,8 @@
 
                                 <form action="" method='post'>
                                     <div class="form-group">
-                                        <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                        <input class="form-control py-4" id="inputEmailAddress" type="email" placeholder="Alamat Email" name='email' autofocus/>
+                                        <label class="small mb-1" for="inputEmailAddress">Username / Email</label>
+                                        <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Alamat Email / Username" name='email' autofocus/>
 
                                         <small id="emailHelp" class="form-text text-danger"><?= form_error('email'); ?></small>
                                     </div> <br>

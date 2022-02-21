@@ -5,21 +5,21 @@
         {
             parent::__construct() ;
             $this->load->library('form_validation');
-            $this->load->model('JenisSample_model');
         }
         
-        public function index($hal=0)
+        public function index()
         {
             $idLevel = $this->session->userdata('idLevel') ;
             $data['judul'] = 'Daftar Vaksin '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Daftar Vaksin'; 
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Daftar Vaksin';
-            $data['hal'] = $hal ; 
-
+            $data['sample'] = $this->db->get('_jenisSample')->result_array();
+            $data['wadah'] = ['vial|vial', 'ampul|ampoule'] ;
+            $data['produksi'] = ['Domestik', 'Import'] ;
             if( ($this->session->userdata('key') != null) )
             {
                 $this->load->view('temp/dashboardHeader',$data);
-                $this->JenisSample_model->getDataJS($hal);
+                $this->load->view('jenisSample/index');
                 $this->load->view('temp/dashboardFooter');
             }else{
                 $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
@@ -77,7 +77,7 @@
         }
 
 
-        public function UbahData($id,$hal) 
+        public function UbahData($id) 
         {
             $wadah = explode('|', $this->input->post('wadah')) ;
             $query = [
@@ -96,7 +96,7 @@
                 'warna' => 'success' 
             ];
             $this->session->set_flashdata($pesan);
-            redirect('jenisSample/index/'.$hal) ;
+            redirect('jenisSample/index') ;
         }
 
         public function ubahDok($id) 

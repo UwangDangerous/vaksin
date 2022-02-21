@@ -9,16 +9,16 @@ class Libur extends CI_Controller{
         $this->load->model('_Date');
     }
 
-    public function index()
-    {
-        $this->session->unset_userdata('keyTahun');
-        $this->session->unset_userdata('keyBulan');
-        $this->session->unset_userdata('keyNama');
-        $this->session->unset_userdata('keyTipe');
-        $this->resetIndex();
-    }
+    // public function index()
+    // {
+    //     $this->session->unset_userdata('keyTahun');
+    //     $this->session->unset_userdata('keyBulan');
+    //     $this->session->unset_userdata('keyNama');
+    //     $this->session->unset_userdata('keyTipe');
+    //     $this->resetIndex();
+    // }
 
-    public function resetIndex()
+    public function index()
     {
         $this->load->model('_Date');
         $idLevel = $this->session->userdata('idLevel') ;
@@ -32,12 +32,13 @@ class Libur extends CI_Controller{
         ];
 
         $data['tahun'] = $this->Libur_model->tahun();
-        // $data['libur'] = $this->Libur_model->getDataLibur();
+        $data['libur'] = $this->Libur_model->getDataLibur();
 
         if( ($this->session->userdata('key') != null) ) 
         {
             $this->load->view('temp/dashboardHeader',$data);
-            $this->Libur_model->getDataLibur();
+            // $this->Libur_model->getDataLibur();
+            $this->load->view('libur/index') ;
             $this->load->view('temp/dashboardFooter');
         }else{
             $this->session->set_flashdata('login' , 'Anda Bukan Internal User');

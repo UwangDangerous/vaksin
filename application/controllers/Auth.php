@@ -12,7 +12,6 @@
         
         public function index()
         {
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'required');
 
                 if($this->form_validation->run() == FALSE) {
@@ -30,16 +29,32 @@
 
         public function register()
         {
+            $this->load->model('_Address');
+            $data['propinsi'] = $this->_Address->getDataProvinsi();
+            $data['kota'] = $this->_Address->getDataKota();
+            $data['kecamatan'] = $this->_Address->getDataKecamatan();
+
             $this->form_validation->set_rules('nama', 'Nama Perusahaan', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[eksuser.email]');
+            $this->form_validation->set_rules('npwp', 'NPWP', 'required');
             $this->form_validation->set_rules('alamat', 'Alamat Perusahaan', 'required');
+            $this->form_validation->set_rules('prop', 'Provinsi', 'required');
+            $this->form_validation->set_rules('kota', 'Kabupaten / Kota', 'required');
+            $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required');
+            $this->form_validation->set_rules('pos', 'Kode Pos', 'required|numeric');
+            $this->form_validation->set_rules('telp', 'Telepon', 'required|numeric');
+            $this->form_validation->set_rules('fax', 'FAX', 'required|numeric');
+            $this->form_validation->set_rules('pj', 'Penanggung Jawab', 'required');
+            $this->form_validation->set_rules('noPj', 'Nomor Telepon Penanggung Jawab', 'required|numeric');
+            $this->form_validation->set_rules('jabatan', 'Jabatan', 'required');
+            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[eksuser.email]');
             $this->form_validation->set_rules('password1', 'Kata Sandi', 'required|min_length[8]|matches[password2]');
             $this->form_validation->set_rules('password2', 'Konfirmasi Kata Sandi', 'required|min_length[8]|matches[password1]');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/header');
                     $this->load->view('temp/navbar');
-                    $this->load->view('auth/register');
+                    $this->load->view('auth/register',$data);
                     $this->load->view('temp/footerPage');
                     $this->load->view('temp/footer');
                 }else{

@@ -21,26 +21,41 @@
         <script src="<?= base_url(); ?>assets/bootstrap/js/bootstrap.js" ></script>
         <script src="<?= base_url(); ?>assets/js/script.js" ></script>
 
+
+        <!-- Initialize Quill editor -->
         <script>
-            $(document).ready(function(){
-                $("#ok").click(function(){
-                    $.ajax({
-                        url: '<?= base_url(); ?>coba',
-                        type: 'get',
-                        data: $(this).serialize(),             
-                        success: function(data) {               
-                            $('#coba').html(data) ;      
-                        }
-                    });
-                });
+            tinymce.init({
+                selector: '#mytextarea'
             });
         </script>
 
-    <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
-    <script>
-        $(document).ready(function() {
-            $('#cobaTable').dataTable();
-        } );
-    </script>
+
+
+
+
+        <script>
+            $(document).ready(function() {
+                $('#jenisSample').dataTable();
+
+                $('#libur').dataTable();
+
+                $('#tabel_form_gi').dataTable();
+
+                $('#internal-user').dataTable();
+
+                $('#eksternal-user').dataTable();
+
+                $('#tabel-surat').dataTable();
+
+                $('#tabel-sampel').dataTable();
+
+                $('#tabel-pengujian').dataTable();
+
+                $('#tabel-bukti-bayar').dataTable();
+
+                $('#cobaTable').dataTable();
+            } );
+        </script>
+
     </body>
 </html>

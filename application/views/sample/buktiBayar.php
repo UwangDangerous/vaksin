@@ -1,18 +1,4 @@
 <div class="card p-3">
-<div class="row">
-    <div class="col-md-6">
-        <form action="" post>
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Pencarian" >
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="submit" id="button-addon2">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div><!-- col 1 --> 
-</div><!-- row 1 --> 
 
 <?php if(!empty($this->session->flashdata('pesan') )) : ?>
     
@@ -26,7 +12,7 @@
 <?php endif ; ?> 
 <br>
 <div class="table-responsive">
-<table class="table table-bordered table-striped text-center">
+<table class="table table-bordered table-striped text-center" id='tabel-bukti-bayar'>
     <thead>
         <tr>
             <th class='align-middle'>No Surat</th>

@@ -45,10 +45,11 @@
         <tr>
             <th class='align-middle'>No</th>
             <th class='align-middle'>Nama Sample / Produk</th>
-            <th class='align-middle'>Jenis Vaksin</th>
-            <th class='align-middle'>Perusahaan</th>
+            <th class='align-middle'>Nama Perusahaan</th>
+            <th class='align-middle'>Jenis Perusahaan</th>
             <th class='align-middle'>No MA</th>
             <th class='align-middle'>Jumlah Batch</th>
+            <th class='align-middle'>Tanggal Pengiriman</th>
             <th class='align-middle'>Aksi</th>
         </tr>
     </thead>
@@ -57,29 +58,29 @@
         <?php foreach ($sample as $row) : ?>
             <tr>
                 <td><?= $no++; ?></td>
-                <td><?= $row['namaSample'];?></td>
-                <td><?= $row['jenisSample']; ?></td>
+                <td><?= $row['namaSample'];?> <br>( <?= $row['jenisSample']; ?> )</td>
                 <td>
                     <?php if($row['idJenisManufacture'] == 2)  : ?>
-                        <?php if($row['namaImportir'] == null) : ?>
-                            <i>null</i> <br>
-                            ( <?= $row['namaJenisManufacture']; ?> )
-                        <?php else : ?>
-                            <?= $row['namaImportir']; ?> <br> ( <?= $row['namaJenisManufacture']; ?> )
-                        <?php endif ; ?>
+                        <?= $row['namaImportir']; ?> <br>
+                        ( <?= $row['namaEU']; ?> Imported)
                     <?php else : ?>
                         <?= $row['namaEU']; ?>
                     <?php endif ; ?>
+                </td>
+                
+                <td>
+                        <?= $row['namaJenisManufacture']; ?> <br> ( <?= $row['namaJenisDokumen']; ?> )
                 </td>
 
                 <td> <?= $row['noMA']; ?> </td>
                 <td>
                     <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
-                        <?= count($batch); ?> <br>
-                    <?php else : ?> 
+                        <?= $batch; ?> <br>
+                    <?php else : ?>
                         0
                     <?php endif ; ?>
                 </td>
+                <td><?= $this->_Date->formatTanggal( $row['tgl_pengiriman'] ); ?></td>
                 <td>
                     <div class="dropdown" id='dd'>
                         <a href='#' class="badge badge-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="flip">

@@ -15,7 +15,7 @@
 
 
     <div class="table-responsive">
-        <table class="table table-striped table-bordered text-center">
+        <table class="table table-striped table-bordered text-center" id='surat'>
             <thead>
             <tr>
                 <th>No</th>

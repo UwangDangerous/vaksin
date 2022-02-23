@@ -7,24 +7,18 @@
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
             $this->db->join('_importir', '_sample.idSample = _importir.idSample','left');
             $this->db->order_by('_sample.idsample','desc');
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
                                 _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
-                                namaImportir, namaJenisManufacture, noMA, _surat.idSurat as idSurat,
-                                _sample.idJenisSample as idJenisSample'
+                                namaImportir, namaJenisManufacture, noMA, tgl_pengiriman, _surat.idSurat as idSurat,
+                                _sample.idJenisSample as idJenisSample, namaJenisDokumen, 
+                                _jenisDokumen.idJenisDokumen as idJenisDokumen'
                             );
             return $this->db->get('_sample')->result_array();
-        }
-
-        public function perihalSurat($id) 
-        {
-            $this->db->where('idSurat', $id);
-            $this->db->select('namaSurat');
-            $surat = $this->db->get('_surat')->row_array();
-            return $surat['namaSurat'] ;
         }
 
         public function getDataSampleBatch($id) 
@@ -133,7 +127,7 @@
         public function getBatch($id) 
         {
             $this->db->where('idSample', $id);
-            return $this->db->get('sample_batch')->result_array();
+            return $this->db->get('sample_batch')->num_rows();
         }
 
         public function getDataBatch($id) 

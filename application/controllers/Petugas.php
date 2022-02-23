@@ -6,6 +6,7 @@ class Petugas extends CI_Controller{
         parent::__construct() ;
         $this->load->library('form_validation');
         $this->load->model('Petugas_model');
+        $this->load->model('User_Sample_model');
         $this->load->model('Cetak_model');
     }
 
@@ -37,17 +38,24 @@ class Petugas extends CI_Controller{
         }
     }
 
-    public function detail($idSurat,$id)
+    public function detail($idSurat,$idSampe,$id)
     {
         $this->load->model('_Date');
+        
+        $this->db->join('_sample','_sample.idSample = sample_batch.idSample');
+        $this->db->select('namaSample, noBatch');
+        $judulBatch = $this->db->get_where('sample_batch',['idBatch' => $id])->row_array();
         // $idLevel = $this->session->userdata('idLevel') ;
         $data['judul'] = 'Rincian Data Sampel '. $this->session->userdata('namaLevel'); 
-        $data['header'] = 'Rincian Data Sampel'; 
+        $data['header'] = "Data Sampel <br>  
+                        <h5>". $judulBatch['namaSample']. " No Batch ". $judulBatch['noBatch'] ." </h5>"; 
         $data['bread'] = 'Dashboard / <a href="'.base_url().'petugas/index/'.$idSurat.'"> Sampel </a> / Rincian Sampel'; 
-        $data['sample'] = $this->Petugas_model->getDetailSample($idSurat,$id);
-        $data['petugas'] = $this->Petugas_model->getPetugas($id);
+        
+        
+        $data['batch'] = $this->Petugas_model->getDetailBatch($id);
+        // $data['petugas'] = $this->Petugas_model->getPetugas($id);
+
         $data['id'] = $id ;
-        // $data['petugas'] = $this->Petugas_model->getPetugas();
         if( ($this->session->userdata('key') != null) )
         {
             $this->load->view('temp/dashboardHeader',$data);
@@ -281,6 +289,60 @@ class Petugas extends CI_Controller{
 
         $this->session->set_flashdata($pesan) ;
         redirect("petugas/detail/$idSurat/$idSample") ;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public function tambahVerifikasiBerkas($idSurat, $idSample, $id) 
+    {
+        // echo $this->input->post('file-very'); die
+        $status = $this->input->post('status-very');
+        $file = '' ;
+        $keterangan = 'Diterima' ;
+        if($status == 1) {
+            $this->load->model('_Upload');
+            $file = $this->_Upload->uploadEksUser('berkas',
+                'assets/file-upload/',
+                'pdf|jpg|png|jpeg',
+                "petugas/detail/$idSurat/$idSample/$id", 
+                'biling batch no '. $this->input->post('namaFileTambahan-very') 
+            );
+        }else{
+            $keterangan = $this->input->post('keterangan-very') ;
+        }
+
+        $query = [
+            'idBatch' => $id ,
+            'kode_biling' => $file,
+            'tglVB' => date('Y-m-d'),
+            'statusVB' => $status,
+            'keteranganVB' => $keterangan
+        ];
+
+        if($this->db->insert('verifikasi_berkas', $query)) {
+            $pesan = [
+                'pesan' => 'Verifikasi Kelengkapan Dokumen Berhasil Disimpan',
+                'warna' => 'success'
+            ] ;
+        }else{
+            $pesan = [
+                'pesan' => 'Verifikasi Kelengkapan Dokumen Gagal Disimpan',
+                'warna' => 'danger'
+            ] ;
+        }
+
+        $this->session->set_flashdata($pesan);
+        redirect("petugas/detail/$idSurat/$idSample/$id") ;
     }
 }
 

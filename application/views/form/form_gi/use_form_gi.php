@@ -9,27 +9,19 @@
     
 <?php endif ; ?> 
 
-<h4> Penggunaan General Informasi </h4>
+<h4> Penggunaan General Information </h4>
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>General Informasi</th>
-                <th>Pengguna</th>
+                <th>General Information</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($sample as $row) : ?>
                 <tr>
                     <td><?= $row['namaGI']; ?></td>
-                    <td>
-                        <?php if( $row['tugasGI'] == 1) : ?>
-                            Evaluasi
-                        <?php else : ?>
-                            Pihak Ke 3
-                        <?php endif ; ?>
-                    </td>
                 </tr>
             <?php endforeach ; ?>
         </tbody>

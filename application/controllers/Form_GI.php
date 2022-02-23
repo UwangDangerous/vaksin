@@ -13,15 +13,14 @@
             $this->load->library('form_validation');
             
             $this->load->model('_Date');
-            $data['judul'] = 'General Informasi '. $this->session->userdata('namaLevel'); 
-            $data['header'] = 'General Informasi'; 
-            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / General Informasi'; 
+            $data['judul'] = 'General information '. $this->session->userdata('namaLevel'); 
+            $data['header'] = 'General information'; 
+            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / General information'; 
             $data['general_informasi'] = $this->db->get('tbl_general_informasi')->result_array() ;
             $data['idGI'] = ['1|Evaluasi','2|Pihak Ke 3'] ;
             if( $this->session->userdata('key') != null )
             {
-                $this->form_validation->set_rules('nama', 'General Informasi', 'required');
-                $this->form_validation->set_rules('penugasan', 'Penugasan', 'required') ;
+                $this->form_validation->set_rules('nama', 'general information', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dashboardHeader',$data);
@@ -39,8 +38,7 @@
         public function simpan() 
         {
             $query = [
-                    'namaGI' => $this->input->post('nama', true) ,
-                    'tugasGI' => $this->input->post('penugasan')
+                    'namaGI' => $this->input->post('nama', true) 
                 ] ;
             if( $this->db->insert('tbl_general_informasi', $query) ) {
                 $pesan = [
@@ -61,8 +59,7 @@
         public function ubahDataGI($id) 
         {
             $query = [
-                'namaGI' => $this->input->post('nama_gi', true) ,
-                'tugasGI' => $this->input->post('aksi')
+                'namaGI' => $this->input->post('nama_gi', true) 
             ] ;
 
             // var_dump($query) ; die;

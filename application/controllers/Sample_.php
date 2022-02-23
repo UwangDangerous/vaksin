@@ -8,11 +8,31 @@
             $this->load->model('User_Sample_model');
         }
 
+        // public function index($id)
+        // {
+        //     $idLevel = $this->session->userdata('idLevel') ;
+        //     $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
+        //     $data['header'] = 'Data Sample'; 
+        //     $data['bread'] = 'Dashboard / <a href="'.base_url().'surat"> Riwayat Surat </a> / Informasi Sample'; 
+        //     $data['id'] = $id ;
+        //     $data['sample'] = $this->User_Sample_model->getDataSample($id);
+        //     $this->load->model('_Date');
+        //     if( $this->session->userdata('eksId') != null )
+        //     {
+        //         $this->load->view('temp/dsbHeader',$data);
+        //         $this->load->view('sample_user/index');
+        //         $this->load->view('temp/dsbFooter');
+        //     }else{
+        //         $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
+        //         redirect('auth') ;
+        //     }
+        // }
+
         public function index($id)
         {
             $idLevel = $this->session->userdata('idLevel') ;
             $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
-            $data['header'] = 'Data Sample'; 
+            $data['header'] = 'Data Sample' . '<h5>'.$this->User_Sample_model->perihalSurat($id).'</h5>'; 
             $data['bread'] = 'Dashboard / <a href="'.base_url().'surat"> Riwayat Surat </a> / Informasi Sample'; 
             $data['id'] = $id ;
             $data['sample'] = $this->User_Sample_model->getDataSample($id);

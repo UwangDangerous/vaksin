@@ -15,7 +15,7 @@
         <div class="col">
 
             <?php if($general_informasi) : ?>
-                <h2>General Informasi</h2> <br>
+                <h2>General Information</h2> <br>
                 <table cellpadding=2>
                     <?php foreach ($general_informasi as $gi) : ?>
                         <tr class='<?= $warna_gi ; ?>'>

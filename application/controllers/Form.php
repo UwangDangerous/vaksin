@@ -17,7 +17,6 @@
             $data['general_informasi'] = $this->db->get('tbl_general_informasi')->result_array() ;
             $data['idJenisSample'] = $id ;
             $data['jenisSample'] = $this->Form_model->jenisSample($id);
-            $data['tugas_tabel'] = ['1|Evaluasi','2|Pihak Ke 3'] ;
             if( $this->session->userdata('key') != null )
             {
                 $this->load->view('temp/dashboardHeader',$data);
@@ -129,8 +128,7 @@
             {
                 $query = [
                     'idJenisSample'     => $id ,
-                    'nama_tbl_proses'   => $this->input->post('namaTabel', true),
-                    'tugasTabel'        => $this->input->post('penugasan')
+                    'nama_tbl_proses'   => $this->input->post('namaTabel', true)
                 ] ;
 
                 

@@ -24,7 +24,11 @@
         <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
         <script src="<?= base_url(); ?>assets/js/dataTables.bootstrap4.min.js" ></script>
 
-
+        <script>
+            $(document).ready(function(){
+                $('#surat').dataTable();
+            });
+        </script>
         
     </body>
 </html>

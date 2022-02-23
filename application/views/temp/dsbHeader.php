@@ -11,10 +11,11 @@
         <link rel="stylesheet" href="<?= base_url(); ?>assets/fontAwesome/css/all.css">
         <link rel="stylesheet" href="<?=base_url(); ?>assets/css/temp_style.css">
         <link rel="stylesheet" href="<?=base_url(); ?>assets/css/mystyle.css">
+        <link rel="icon" href="<?= base_url();?>assets/img/logo-bpom.png">
         
         <title><?= $judul ; ?></title>
-        <link rel="icon" href="<?= base_url();?>assets/img/logo-bpom.png">
-
+        
+        <link rel="stylesheet" href="<?= base_url();?>assets/css/dataTables.bootstrap4.min.css">
         <script src="<?= base_url(); ?>assets/js/jquery.js" ></script>
         
         <script src="<?= base_url(); ?>assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
@@ -48,7 +49,7 @@
                             
                             <a class="nav-link" href="<?= base_url(); ?>surat/kirim">
                                 <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                                Surat Pengiriman Sample
+                                Surat Pengiriman
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

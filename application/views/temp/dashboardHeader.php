@@ -116,10 +116,10 @@
                                     <a class="nav-link" href="<?= base_url(); ?>sample">
                                         <div class="sb-nav-link-icon"><i class="fa fa-envelope-open-text"></i></div> Surat Pengajuan
                                     </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>petugas">
+                                    <!-- <a class="nav-link" href="<?//= base_url(); ?>petugas">
                                         <div class="sb-nav-link-icon"><i class="fas fa-syringe"></i></div>
                                         Sampel
-                                    </a>
+                                    </a> -->
                                     <a class="nav-link" href="<?= base_url(); ?>pengujian">
                                         <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
                                         Pengujian

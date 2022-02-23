@@ -9,15 +9,6 @@ class Libur extends CI_Controller{
         $this->load->model('_Date');
     }
 
-    // public function index()
-    // {
-    //     $this->session->unset_userdata('keyTahun');
-    //     $this->session->unset_userdata('keyBulan');
-    //     $this->session->unset_userdata('keyNama');
-    //     $this->session->unset_userdata('keyTipe');
-    //     $this->resetIndex();
-    // }
-
     public function index()
     {
         $this->load->model('_Date');
@@ -80,8 +71,7 @@ class Libur extends CI_Controller{
         for($i; $i<$this->input->post('jumlah'); $i++) {
             $query = [
                 'namaLibur' => $this->input->post("nama$i"),
-                'tglLibur' => $this->input->post("tanggal$i"),
-                'tipe' => 'Nasional'
+                'tglLibur' => $this->input->post("tanggal$i")
             ];
             $this->db->insert('harilibur', $query);
         }
@@ -99,8 +89,7 @@ class Libur extends CI_Controller{
     {
         $query = [
                 'namaLibur' => $this->input->post("namaLN"),
-                'tglLibur' => $this->input->post("tanggalLN"),
-                'tipe' => 'Nasional'
+                'tglLibur' => $this->input->post("tanggalLN")
             ];
             if( $this->db->insert('harilibur', $query) ) {
                 
@@ -126,8 +115,7 @@ class Libur extends CI_Controller{
     {
         $query = [
                 'namaLibur' => $this->input->post("nama"),
-                'tglLibur' => $this->input->post("tanggal"),
-                'tipe' => 'BPOM'
+                'tglLibur' => $this->input->post("tanggal")
             ];
             if( $this->db->insert('harilibur', $query) ) {
                 

@@ -29,7 +29,7 @@
         <div class="card-header" id="headingTwo">
             <h5 class="mb-0">
                 <button class="btn btn-primary collapsed" type="button" data-toggle="collapse" data-target="#form_gi">
-                General Informasi
+                General Information
                 </button>
             </h5>
         </div>
@@ -42,23 +42,13 @@
                                 <?php foreach ($general_informasi as $gi) : ?>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <?= $gi['namaGI']; ?>
-                                            <?php 
-                                                if($gi['tugasGI'] == 1) : 
-                                                    $tugas = 'Evaluasi' ;
-                                                else : 
-                                                    $tugas = 'Pemohon' ;
-                                                endif ; 
-                                            ?>
-                                            
-                                            
-                                            <div id="gi_off_btn_<?= $gi['idGI']; ?>">
-                                                <a type='button' href='#gi-used' id='off_gi_<?= $gi['idGI']; ?>' class="badge badge-danger" data-toggle='tooltip' title='Hapus General Informasi' onclick="return confirm('Yakin?')"> <i class="fas fa-minus"></i> </a>
-                                            </div>
+                                        <div id="gi_off_btn_<?= $gi['idGI']; ?>">
+                                            <a type='button' href='#gi-used' id='off_gi_<?= $gi['idGI']; ?>' class="badge badge-danger" data-toggle='tooltip' title='Hapus General Informasi' onclick="return confirm('Yakin?')"> <i class="fas fa-minus"></i> </a>
+                                        </div>
 
-                                            <div id="gi_add_btn_<?= $gi['idGI']; ?>">
-                                                <a type='button' href='#gi-used' id='add_gi_<?= $gi['idGI']; ?>' class="badge badge-primary" data-toggle='tooltip' title='Tambah General Informasi'> <i class="fa fa-plus"></i> </a>
-                                            </div>
-                                            
+                                        <div id="gi_add_btn_<?= $gi['idGI']; ?>">
+                                            <a type='button' href='#gi-used' id='add_gi_<?= $gi['idGI']; ?>' class="badge badge-primary" data-toggle='tooltip' title='Tambah General Informasi'> <i class="fa fa-plus"></i> </a>
+                                        </div>
                                     </li>
                                     
                                     <script>
@@ -161,14 +151,6 @@
                 <div class="modal-body">
                     <label for="namaTabel">Nama Tabel</label>
                     <input type="text" name="namaTabel" id="namaTabel" class='form-control'> 
-
-                    <label for="penugasan">Penugasan</label>
-                    <select class="form-control" id="penugasan" name='penugasan'>
-                        <?php foreach($tugas_tabel as $t) : ?>
-                            <?php $t = explode('|', $t) ; ?>
-                            <option value='<?= $t[0] ; ?>'> <?= $t[1]; ?> </option>
-                        <?php endforeach ; ?>
-                    </select>
                 </div>
 
                 <div class="modal-footer">

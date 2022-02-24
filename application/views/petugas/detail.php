@@ -95,7 +95,7 @@
                     <td>
                         <?php if($verifikasi_berkas) : ?>
                             <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
-                                <a href="" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Biling Pembayaran'><i class="fa fa-check"></i></a> 
+                                <a href="<?= base_url(); ?>assets/file-upload/biling/file-biling/<?= $verifikasi_berkas['kode_biling'] ;?>" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Biling Pembayaran' target='blank'><i class="fa fa-check"></i></a> 
                                 <?php $verify_berkas = true ; ?>
                             <?php else : ?>
                                 <a href="#" class="btn btn-danger" data-toggle="tooltip" title='Menunggu Melengkapi Berkas'><i class="fa fa-times"></i></a>
@@ -113,7 +113,10 @@
                                 <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($batch['idBatch']); ?>
                                 <?php if($verifikasi_pembayaran) : ?>
                                     <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                        <a href="#" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Bukti Pembayaran'><i class="fa fa-check"></i></a>
+                                        <a href="<?= base_url();?>/assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar']; ?>" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Bukti Pembayaran'><i class="fa fa-check"></i></a>
+                                    <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
+                                        <i class="text-danger">ditolak</i>
+                                        <a href="#" class="btn btn-warning" data-toggle='modal' data-target='#veri-pembayaran' data-toggle="tooltip" title='Verifikasi Pembayaran'>verifikasi ulang</a>
                                     <?php else : ?>
                                         <a href="#" class="btn btn-warning" data-toggle='modal' data-target='#veri-pembayaran' data-toggle="tooltip" title='Verifikasi Pembayaran'>verifikasi</a>
                                     <?php endif ; ?>
@@ -189,33 +192,40 @@
             <div class="modal fade" id="veri-pembayaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Verifikasi Pembayaran</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
                         <?php if($verifikasi_pembayaran) : ?>
-                            <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
-                                <form action="<?= base_url(); ?>petugas/tambahVerifikasiBerkas/<?= $batch['idSurat'] ;?>/<?= $batch['idSample'] ;?>/<?= $batch['idBatch'] ;?>" method="post" enctype="multipart/form-data" >
+                            <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0 || $verifikasi_pembayaran['status_verifikasi_bayar']) : ?>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0 ) : ?>
+                                            Verifikasi Pembayaran
+                                        <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2 ) : ?>
+                                            Verifikasi Pembayaran Ulang
+                                        <?php endif ; ?>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="<?= base_url(); ?>petugas/tambahVerifikasiPembayaran/<?= $batch['idSurat'] ;?>/<?= $batch['idSample'] ;?>/<?= $batch['idBatch'] ;?>" method="post" enctype="multipart/form-data" id='verifikasi-pembayaran-id'>
                                     <div class="modal-body">
                                         <table cellpadding=5 cellspacing=5>
                                             <tr>
                                                 <th class='align-top'>Bukti Pembayaran</th>
                                                 <td class='align-top'>:</td>
                                                 <td>
-                                                    <?= $veri; ?>
+                                                    <a href="<?= base_url();?>/assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar']; ?> " class="btn btn-secondary"><i class="fa fa-eye"></i></a>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class='align-top'></th>
                                                 <td class='align-top'>:</td>
                                                 <td>
-                                                    <button type='button' id="verifikasi-terima" class='btn btn-success'>
+                                                    <input type="hidden" value='<?= $verifikasi_pembayaran['idBuktiBayar'] ; ?>' name='id_very'>
+                                                    <button type='button' id="veri-pembayaran-terima" class='btn btn-success'>
                                                         <i class="fa fa-check"></i>
                                                     </button>
 
-                                                    <button type='button' id="verifikasi-tolak" class='btn btn-danger'>
+                                                    <button type='button' id="veri-pembayaran-tolak" class='btn btn-danger'>
                                                         <i class="fa fa-times"></i>
                                                     </button>
                                                 </td>
@@ -224,6 +234,7 @@
                                                 <td></td>
                                                 <td></td>
                                                 <td>
+                                                    <div id="vepe"></div>
                                                 </td>
                                             </tr>
                                             
@@ -248,7 +259,10 @@
 
                 $('#verifikasi-terima').click(function(){
                     $('#veteto').html(`
-                        <label for="file-very">Biling</label>
+                        <span class='text-success'>
+                            Berkas Diterima
+                        </span>
+                        <label for="file-very">Kirim Biling</label>
                         <input type="file" class="form-control" id="file-very" name="berkas">
                         <input type="hidden" name="status-very" value='1'>
                         <input type="hidden" name="namaFileTambahan-very" value='<?= $batch['noBatch'] ?>'>
@@ -257,9 +271,33 @@
 
                 $('#verifikasi-tolak').click(function(){
                     $('#veteto').html(`
+                        <span class='text-danger'>
+                            Berkas Ditolak
+                        </span> 
                         <label for="keterangan-very">Keterangan</label>
                         <textarea class='form-control' name="keterangan-very" id="keteragan-very" cols="80" rows="5"></textarea>
                         <input type="hidden" name="status-very" value='2'>
+                    `) ;
+                }) ;
+
+                $('#veri-pembayaran-tolak').click(function(){
+                    $('#vepe').html(`
+                        <span class='text-danger'>
+                            Pembayaran Ditolak
+                        </span> 
+                        <label for="keterangan-very">Keterangan</label>
+                        <textarea class='form-control' name="keterangan-very" id="keteragan-very" cols="80" rows="5"></textarea>
+                        <input type="hidden" name="status-very" value='2'>
+                    `) ;
+                }) ;
+
+                $('#veri-pembayaran-terima').click(function(){
+                    $('#vepe').html(`
+                        <input type="hidden" name="status-very" value='1'>
+                        <input type="hidden" name="keterangan-very" value='Diterima'>
+                        <span class='text-success'>
+                            Pembayaran Diterima
+                        </span>
                     `) ;
                 }) ;
             });

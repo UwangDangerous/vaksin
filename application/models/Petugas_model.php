@@ -141,6 +141,7 @@
         public function getVerifikasiPembayaran($id)
         {
             $this->db->where('idBatch', $id);
+            $this->db->order_by('idBuktiBayar');
             return $this->db->get('_bukti_bayar')->row_array();
         }
     }

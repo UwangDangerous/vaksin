@@ -312,7 +312,7 @@ class Petugas extends CI_Controller{
         if($status == 1) {
             $this->load->model('_Upload');
             $file = $this->_Upload->uploadEksUser('berkas',
-                'assets/file-upload/',
+                'assets/file-upload/biling/file-biling',
                 'pdf|jpg|png|jpeg',
                 "petugas/detail/$idSurat/$idSample/$id", 
                 'biling batch no '. $this->input->post('namaFileTambahan-very') 
@@ -339,6 +339,34 @@ class Petugas extends CI_Controller{
                 'pesan' => 'Verifikasi Kelengkapan Dokumen Gagal Disimpan',
                 'warna' => 'danger'
             ] ;
+        }
+
+        $this->session->set_flashdata($pesan);
+        redirect("petugas/detail/$idSurat/$idSample/$id") ;
+    }
+
+    public function tambahVerifikasiPembayaran($idSurat, $idSample, $id)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $query = [
+            'tgl_verifikasi_pembayaran' => date('Y-m-d') ,
+            'jam_verifikasi_bayar' => date('G:i:s') ,
+            'status_verifikasi_bayar' => $this->input->post('status-very'),
+            'keterangan_bayar' => $this->input->post('keterangan-very')
+        ] ;
+
+        $this->db->where('idBuktiBayar', $this->input->post('id_very'));
+        $this->db->set($query);
+        if($this->db->update("_bukti_bayar")) {
+            $pesan = [
+                'pesan' => 'Verifikasi Pembayaran Berhasil Disimpan',
+                'warna' => 'success'
+            ] ; 
+        }else{
+            $pesan = [
+                'pesan' => 'Verifikasi Pembayaran Berhasil Disimpan',
+                'warna' => 'success'
+            ] ; 
         }
 
         $this->session->set_flashdata($pesan);

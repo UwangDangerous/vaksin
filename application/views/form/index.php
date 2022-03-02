@@ -7,9 +7,14 @@
                 <td><?= $jenisSample['jenisSample']; ?></td>
             </tr>
             <tr>
-                <td>Lama Pengerjaan</td>
-                <td>:</td>
-                <td><?= $jenisSample['waktuPengujian']; ?></td>
+                <td class='align-top'>Lama Pengerjaan Pelulusan</td>
+                <td class='align-top'>:</td>
+                <td class='align-top'><?= $jenisSample['pelulusan']; ?></td>
+            </tr>
+            <tr>
+                <td class='align-top'>Lama Pengerjaan Pengujian</td>
+                <td class='align-top'>:</td>
+                <td class='align-top'><?= $jenisSample['pengujian']; ?></td>
             </tr>
             <tr>
                 <td>Tampilkan Form</td>

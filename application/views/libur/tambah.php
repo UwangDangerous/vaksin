@@ -10,7 +10,7 @@
 ?>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="card p-3">
             <h3>Libur Nasional</h3> <br>
             <div class="row">
@@ -61,28 +61,6 @@
                     <button class="btn btn-primary" type='submit'>Simpan</button>
                 </form>
             <?php endif ; ?>
-        </div>
-    </div>
-
-
-
-    <div class="col-md-6">
-        <div class="card p-3  ">
-            <h3>Libur BPOM</h3> <br>
-            <form action="<?=base_url(); ?>libur/inputLiburBpom" method='post'>
-                <div class="form-group">
-                    <label for="nama">Nama Hari Libur</label>
-                    <input type="text" class="form-control" id="nama" placeholder='Nama Hari Libur' name='nama'>
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('nama'); ?></small>
-                </div>
-                <div class="form-group">
-                    <label for="tanggal">Tanggal Libur</label>
-                    <input type="date" class="form-control" id="tanggal" name='tanggal' >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('tanggal'); ?></small>
-                </div>
-                <br>
-                <button class="btn btn-primary" type="submit">Simpan</button>
-            </form>
         </div>
     </div>
 </div>

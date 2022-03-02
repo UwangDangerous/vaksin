@@ -35,7 +35,8 @@
                     <th class='align-middle'>No</th>
                     <th class='align-middle'>Vaksin</th>
                     <th class='align-middle'>Jenis Wadah</th>
-                    <th class='align-middle'>Lama Pengerjaan</th>
+                    <th class='align-middle'>Pelulusan</th>
+                    <th class='align-middle'>Pengujian</th>
                     <th class='align-middle'>Produksi</th>
                     <th class='align-middle'>Aksi</th>
                 </tr>
@@ -52,7 +53,8 @@
                             </div>
                         </td>
                         <td><?= $row['wadah']; ?> ( <i> <?= $row['wIng']; ?> </i> )</td>
-                        <td><?= $row['waktuPengujian'] ?> Hari</td>
+                        <td><?= $row['pelulusan'] ?> Hari</td>
+                        <td><?= $row['pengujian'] ?> Hari</td>
                         <td><?= $row['produksi']; ?></td>
                         <td>
                             <a href="#"  data-toggle="modal" data-target="#ubahData<?= $row['idJenisSample'];?>"  data-toogle='tooltip' title='Ubah Data' class="badge badge-success">
@@ -81,8 +83,10 @@
                                                 <label for="namaIng"><i>Treanslate</i></label>
                                                 <input type="text" name="namaIng" id="namaIng" class='form-control' placeholder='Name Vaccine' value="<?= $row['jsIng'];?>">
                                                 
-                                                <label for="lama">Durasi Pengerjaan</label>
-                                                <input type="number" name="lama" id="lama" class='form-control' placeholder='Hitungan Hari' value="<?= $row['waktuPengujian'];?>">
+                                                <label for="lama">Durasi Pengerjaan Pelulusan</label>
+                                                <input type="number" name="lama" id="lama" class='form-control' placeholder='Hitungan Hari' value="<?= $row['pelulusan'];?>">
+                                                <label for="lama2">Durasi Pengerjaan Pengujian</label>
+                                                <input type="number" name="lama2" id="lama2" class='form-control' placeholder='Hitungan Hari' value="<?= $row['pengujian'];?>">
                                                 
                                                 <label for="wadah">Jenis Wadah</label>
                                                 <select name="wadah" id="wadah" class="form-control">
@@ -156,8 +160,10 @@
                     <input type="text" name="nama" id="nama" class='form-control' placeholder='Nama Vaksin' autofocus>
                     <label for="namaIng"><i>Treanslate</i></label>
                     <input type="text" name="namaIng" id="namaIng" class='form-control' placeholder='Name Vaccine'>
-                    <label for="lama">Durasi Pengerjaan</label>
+                    <label for="lama">Durasi Pengerjaan Pelulusan</label>
                     <input type="number" name="lama" id="lama" class='form-control' placeholder='Hitungan Hari'>
+                    <label for="lama2">Durasi Pengerjaan Pengujian</label>
+                    <input type="number" name="lama2" id="lama2" class='form-control' placeholder='Hitungan Hari'>
                     <label for="wadah">Jenis Wadah</label>
                     <select name="wadah" id="wadah" class="form-control">
                         <?php foreach ($wadah as $w) : ?>

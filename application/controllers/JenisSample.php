@@ -51,7 +51,8 @@
             $wadah = explode('|', $this->input->post('wadah')) ;
             $query = [
                 'jenisSample' => $this->input->post('nama'),
-                'waktuPengujian' => $this->input->post('lama'),
+                'pelulusan' => $this->input->post('lama'),
+                'pengujian' => $this->input->post('lama2'),
                 'wadah' => $wadah[0],
                 'jsIng' => $this->input->post('namaIng'),
                 'wIng' => $wadah[1],
@@ -82,7 +83,8 @@
             $wadah = explode('|', $this->input->post('wadah')) ;
             $query = [
                 'jenisSample' => $this->input->post('nama'),
-                'waktuPengujian' => $this->input->post('lama'),
+                'pelulusan' => $this->input->post('lama'),
+                'pengujian' => $this->input->post('lama2'),
                 'wadah' => $wadah[0],
                 'jsIng' => $this->input->post('namaIng'),
                 'wIng' => $wadah[1],

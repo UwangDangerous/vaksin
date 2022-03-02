@@ -53,6 +53,7 @@ class Petugas extends CI_Controller{
         
         
         $data['batch'] = $this->Petugas_model->getDetailBatch($id);
+        $data['jenisDokumen'] = $this->db->get('_jenisDokumen')->result_array() ;
         // $data['petugas'] = $this->Petugas_model->getPetugas($id);
 
         $data['id'] = $id ;
@@ -326,7 +327,8 @@ class Petugas extends CI_Controller{
             'kode_biling' => $file,
             'tglVB' => date('Y-m-d'),
             'statusVB' => $status,
-            'keteranganVB' => $keterangan
+            'keteranganVB' => $keterangan,
+            'idJenisDokumen' => $this->input->post('idJenisDokumen')
         ];
 
         if($this->db->insert('verifikasi_berkas', $query)) {
@@ -354,9 +356,9 @@ class Petugas extends CI_Controller{
             'status_verifikasi_bayar' => $this->input->post('status-very'),
             'keterangan_bayar' => $this->input->post('keterangan-very')
         ] ;
-
-        $this->db->where('idBuktiBayar', $this->input->post('id_very'));
+        // var_dump($query) ; die ;
         $this->db->set($query);
+        $this->db->where('idBuktiBayar', $this->input->post('id_very'));
         if($this->db->update("_bukti_bayar")) {
             $pesan = [
                 'pesan' => 'Verifikasi Pembayaran Berhasil Disimpan',
@@ -372,6 +374,134 @@ class Petugas extends CI_Controller{
         $this->session->set_flashdata($pesan);
         redirect("petugas/detail/$idSurat/$idSample/$id") ;
     }
+
+    // petugas
+        public function tambahPetugasEvaluator($idSurat, $idSample,$id) 
+        {
+            if($this->input->post('evaluator') == '-') {
+                $pesan = [
+                    'pesan' => 'Gagal Ditambah - Silahkan Pilih Petugas',
+                    'warna' => 'danger'
+                ];
+                $this->session->set_flashdata($pesan) ;
+                redirect("petugas/detail/$idSurat/$idSample/$id") ;
+            }
+
+            $query = [
+                'idBatch' => $id,
+                'idIU' => $this->input->post('evaluator'),
+                'idLevel' => 3
+            ] ;
+
+            // var_dump($query) ;
+            if($this->db->insert('petugas', $query)) {
+                $pesan = [
+                    'pesan' => 'Petugas evaluator Berhasil Ditambah',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Petugas evaluator Gagal Ditambah',
+                    'warna' => 'danger'
+                ];
+            }
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+
+        public function ubahPetugasEvaluator($idSurat, $idSample,$id) 
+        {
+            if($this->input->post('evaluator') == '-') {
+                $pesan = [
+                    'pesan' => 'Gagal Diubah - Silahkan Pilih Petugas',
+                    'warna' => 'danger'
+                ];
+                $this->session->set_flashdata($pesan) ;
+                redirect("petugas/detail/$idSurat/$idSample/$id") ;
+            }
+            
+            // var_dump($query) ;
+            $this->db->where('idPetugas', $this->input->post('idEvaluator')) ;
+            $this->db->set( ['idIU' => $this->input->post('evaluator')] ) ;
+            if($this->db->update('petugas')) {
+                $pesan = [
+                    'pesan' => 'Petugas evaluator Berhasil DiUbah',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Petugas evaluator Gagal DiUbah',
+                    'warna' => 'danger'
+                ];
+            }
+            
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+
+        public function tambahPetugasVerifikator($idSurat, $idSample,$id) 
+        {
+            if($this->input->post('verifikator') == '-') {
+                $pesan = [
+                    'pesan' => 'Gagal Ditambah - Silahkan Pilih Petugas',
+                    'warna' => 'danger'
+                ];
+                $this->session->set_flashdata($pesan) ;
+                redirect("petugas/detail/$idSurat/$idSample/$id") ;
+            }
+
+            $query = [
+                'idBatch' => $id,
+                'idIU' => $this->input->post('verifikator'),
+                'idLevel' => 4
+            ] ;
+
+            // var_dump($query) ;
+            if($this->db->insert('petugas', $query)) {
+                $pesan = [
+                    'pesan' => 'Petugas verifikator Berhasil Ditambah',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Petugas verifikator Gagal Ditambah',
+                    'warna' => 'danger'
+                ];
+            }
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+
+        public function ubahPetugasVerifikator($idSurat, $idSample,$id) 
+        {
+            if($this->input->post('verifikator') == '-') {
+                $pesan = [
+                    'pesan' => 'Gagal Diubah - Silahkan Pilih Petugas',
+                    'warna' => 'danger'
+                ];
+                $this->session->set_flashdata($pesan) ;
+                redirect("petugas/detail/$idSurat/$idSample/$id") ;
+            }
+            
+            // var_dump($query) ;
+            $this->db->where('idPetugas', $this->input->post('idVerifikator')) ;
+            $this->db->set( ['idIU' => $this->input->post('verifikator')] ) ;
+            if($this->db->update('petugas')) {
+                $pesan = [
+                    'pesan' => 'Petugas verifikator Berhasil DiUbah',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Petugas verifikator Gagal DiUbah',
+                    'warna' => 'danger'
+                ];
+            }
+            
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+    //petugas
 }
 
 ?>

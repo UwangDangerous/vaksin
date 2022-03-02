@@ -3,16 +3,18 @@
     class _Upload extends CI_Model{
         public function uploadEksUser($namaBerkas, $path, $type,$redirect,$namaTambahan = '')
         {
+           
             if( $_FILES[$namaBerkas]['name'] ) {
                 $filename = explode("." , $_FILES[$namaBerkas]['name']) ;
                 $ekstensi = strtolower(end($filename)) ;
-                $config['upload_path'] = "./$path"; //assets/file-upload/surat 
+                $config['upload_path'] = './'.$path; //assets/file-upload/surat 
                 $config['allowed_types'] = "$type"; //'pdf|jpg|png|jpeg'
                 $hashDate = substr(md5(date('Y-m-d H:i:s')),1,5) ;
-
+                
                 $namaInstansi = explode(' ',$this->session->userdata('eksNama'));
                 $nama = '' ;
                 $i = 0 ;
+                // preg_replace("/[^a-zA-Z]/", "", $namaInstansi);
                 for($i; $i<count($namaInstansi); $i++) {
                     $nama .= $namaInstansi[$i].'_' ;
                 }

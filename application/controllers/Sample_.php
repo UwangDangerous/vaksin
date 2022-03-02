@@ -6,6 +6,7 @@
             parent::__construct() ;
             $this->load->library('form_validation');
             $this->load->model('User_Sample_model');
+            $this->load->model('Petugas_model');
         }
 
         // public function index($id)
@@ -439,6 +440,43 @@
 
             $this->session->set_flashdata($pesan);
             redirect("sample_/index/$idSurat/$id") ;
+        }
+
+        public function tambah_verifikasi_pembayaran($idSurat, $idSample, $id) 
+        {
+            $this->load->model('_Upload');
+            $upload = $this->_Upload->uploadEksUser('berkas', 
+                'assets/file-upload/biling/bukti-bayar' , 
+                'pdf|jpg|png|jpeg',
+                "sample_/batch_add/$idSurat/$idSample", 
+                'bukti_bayar');
+
+            
+            $query = [
+                'idBatch' => $id,
+                'tgl_bayar' => date('Y-m-d'),
+                'fileBuktiBayar' => $upload,
+                'tgl_verifikasi_pembayaran' => '0000-00-00',
+                'jam_verifikasi_bayar' => '00:00:00' ,
+                'status_verifikasi_bayar' => 0,
+                'keterangan_bayar' => ''
+            ];
+
+            // var_dump($query) ; die;
+
+            if($this->db->insert('_bukti_bayar', $query) ) {
+                $pesan = [
+                    'pesan' => 'Berkas Berhasil Di DiUnggah',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Berkas Gagal Di DiUnggah',
+                    'warna' => 'danger'
+                ];
+            }
+            $this->session->set_flashdata($pesan);
+            redirect("sample_/batch_add/$idSurat/$idSample") ;
         }
 
 

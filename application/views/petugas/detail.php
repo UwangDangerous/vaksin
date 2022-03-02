@@ -1,6 +1,6 @@
 <?php if(!empty($this->session->flashdata('pesan') )) : ?>
         
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <div class="alert alert-<?= $this->session->flashdata('warna') ?> alert-dismissible fade show" role="alert">
             <?=  $this->session->flashdata('pesan'); ?>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -26,11 +26,6 @@
                     <td><?= $batch['jenisSample']; ?></td>
                 </tr>
                 <tr>
-                    <th class='align-top'>Lama Pengerjaan</th>
-                    <td class='align-top'>:</td>
-                    <td><?= $batch['waktuPengujian']; ?> hari</td>
-                </tr>
-                <tr>
                     <th class='align-top'>Nama Perusahaan</th>
                     <td class='align-top'>:</td> 
                     <?php if($batch['idJenisManufacture'] == 2) : ?>
@@ -39,15 +34,11 @@
                         <td> <?= $batch['namaEU']; ?> </td>
                     <?php endif ; ?>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <th class='align-top'>Jenis Dokumen</th>
                     <td class='align-top'>:</td> 
-                    <td><?= $batch['namaJenisDokumen']; ?></td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <table cellpadding=2 cellspacing=2>
+                    <td><//= $batch['namaJenisDokumen']; ?></td>
+                </tr> -->
                 <tr>
                     <th class='align-top'>Nomor Betch</th>
                     <td class='align-top'>:</td> 
@@ -63,6 +54,10 @@
                     <td class='align-top'>:</td> 
                     <td><?= $batch['dosis']; ?></td>
                 </tr>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table cellpadding=2 cellspacing=2>
                 <tr>
                     <th class='align-top'>Data Dukung</th>
                     <td class='align-top'>:</td> 
@@ -77,7 +72,7 @@
                                 <?php foreach ($dataDukung as $dd) : ?>
                                     <?php $isiDataDukung = $this->Petugas_model->setDataDukung($batch['idBatch'], $dd['idJenisDataDukung']); ?>
                                     <?php if($isiDataDukung) : ?>
-                                        <a class="dropdown-item" href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $isiDataDukung['fileDataDukung'];?>" data-toogle='tooltip' title='Tampilkan'><?= $dd['namaJenisDataDukung']; ?></a>
+                                        <a class="dropdown-item" href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $isiDataDukung['fileDataDukung'];?>" data-toogle='tooltip' title='Tampilkan' target='blank'><?= $dd['namaJenisDataDukung']; ?></a>
                                     <?php else : ?>
                                         <span class="dropdown-item"><?= $dd['namaJenisDataDukung']; ?>
                                             <i class="text-danger"> ( null ) </i>
@@ -128,6 +123,39 @@
                         <?php endif ; ?>
                     </td>
                 </tr>
+
+                <tr>
+                    <?php if($verify_berkas == true) : ?>
+                        
+                        <?php $jenisDokumen = $this->Petugas_model->getDataVerifikasiBerkasJenisDokumen($batch['idBatch']) ?>
+                        <?php if($jenisDokumen) : ?>
+                            <th class='align-top'>Jenis Dokumen</td>
+                            <td class='align-top'>:</td>
+                            <td class='align-top'>
+                                <?= $jenisDokumen['namaJenisDokumen']; ?>
+                            </td>
+                        <?php endif ; ?>
+                        
+                    <?php else : ?>
+
+                    <?php endif ; ?>
+                </tr>
+                <tr>
+                    <th class='align-top'>Lama Pengerjaan</th>
+                    <td class='align-top'>:</td>
+                    <td>
+                        <?php if($jenisDokumen) : ?>
+                            <?php if($jenisDokumen['idJenisDokumen'] == 2) : ?>
+                                
+                                <?= $batch['pelulusan'] + $batch['pengujian']; ?> hari kerja
+                            <?php elseif($jenisDokumen['idJenisDokumen'] == 3) : ?>
+                                <?= $batch['pelulusan']; ?> hari kerja
+                            <?php else : ?>
+                                <i class="text-warning">Belum Verifikasi</i>
+                            <?php endif ; ?>
+                        <?php endif ; ?>
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
@@ -159,6 +187,14 @@
                                         <th class='align-top'></th>
                                         <td class='align-top'>:</td>
                                         <td>
+                                            <br><br>
+                                            <label for="idJenisDokumen">Jenis Dokumen</label>
+                                            <select name="idJenisDokumen" id="idJenisDokumen" class='form-control'>
+                                                <?php foreach ($jenisDokumen as $jd) : ?>
+                                                    <option value="<?= $jd['idJenisDokumen'];?>"><?= $jd['namaJenisDokumen']; ?></option>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <br>
                                             <button type='button' id="verifikasi-terima" class='btn btn-success'>
                                                 <i class="fa fa-check"></i>
                                             </button>
@@ -169,9 +205,9 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
+                                        <td class='align-top'></td>
+                                        <td class='align-top'></td>
+                                        <td class='align-top'>
                                             <div id="veteto"></div>
                                             <!-- <div id="veto"></div> -->
                                         </td>
@@ -213,7 +249,7 @@
                                                 <th class='align-top'>Bukti Pembayaran</th>
                                                 <td class='align-top'>:</td>
                                                 <td>
-                                                    <a href="<?= base_url();?>/assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar']; ?> " class="btn btn-secondary"><i class="fa fa-eye"></i></a>
+                                                    <a href="<?= base_url();?>/assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar']; ?> " data-toggle='tooltip' title='Tampilkan Bukti Bayar' class="btn btn-secondary" target='blank'><i class="fa fa-eye"></i></a>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -310,6 +346,121 @@
 
 <br>
 
-<div class="card p-3">
 
-</div>
+
+
+
+
+<!-- petugas evaluasi dan verifikasi -->
+    <div class="card p-3">
+        <div class="row">
+            <div class="col">
+                <h4>Petugas Evalausi Dan Verifikasi</h4>   
+                <table cellpadding=2 cellspacing=2>
+                    <tr>
+                        <!-- evaluator -->
+                            <th class='align-top'>Evaluator</th>
+                            <th class='align-top'>:</th>
+                            <td class='align-top'>
+                                <?php 
+                                    $this->db->where('idBatch', $batch['idBatch']) ;
+                                    $this->db->where('petugas.idLevel', 3) ;
+                                    $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
+                                    $petugas_evaluator = $this->db->get('petugas')->row_array() ;
+
+                                    $this->db->where('idLevel = 3 OR idLevel = 4' );
+                                    $inuser = $this->db->get('inuser')->result_array() ;
+                                ?>
+                                <?php if($petugas_evaluator) : ?>
+                                    <form action="<?= base_url();?>petugas/ubahPetugasEvaluator/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>" method="post">
+                                        <div class="input-group mb-3">
+                                            <input type="hidden" name='idEvaluator' value='<?= $petugas_evaluator['idPetugas'];?>'>
+                                            <select name="evaluator" class='form-control' style='width:400px'>
+                                                <option value="-">-pilih-</option>
+                                                <?php foreach ($inuser as $iu) : ?>
+                                                    <?php if($iu['idIU'] == $petugas_evaluator['idIU']) : ?>
+                                                        <option selected value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                    <?php else : ?>
+                                                        <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                    <?php endif ; ?>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-success" type="submit" id="button-addon2" data-toggle='tooltip' title='Ubah Data Petugas Evaluator'><i class="fa fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php else : ?>
+                                    <form action="<?= base_url();?>petugas/tambahPetugasEvaluator/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>" method="post">
+                                        <div class="input-group mb-3">
+                                            <select name="evaluator" class='form-control' style='width:400px'>
+                                                <option value="-">-pilih-</option>
+                                                <?php foreach ($inuser as $iu) : ?>
+                                                    <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" data-toggle='tooltip' title='Simpan Data Petugas Verifikator'><i class="fa fa-save"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php endif ; ?>
+                            </td>
+                        <!-- evaluator -->
+                    </tr>
+                    <tr>
+                        <!-- verifikator -->
+                            <th class='align-top'>Verifikator</th>
+                            <th class='align-top'>:</th>
+                            <td class='align-top'>
+                                <?php 
+                                    $this->db->where('idBatch', $batch['idBatch']) ;
+                                    $this->db->where('petugas.idLevel', 4) ;
+                                    $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
+                                    $petugas_verifikator = $this->db->get('petugas')->row_array() ;
+
+                                    $this->db->where('idLevel', 4 );
+                                    $inuser = $this->db->get('inuser')->result_array() ;
+                                ?>
+                                <?php if($petugas_verifikator) : ?>
+                                    <form action="<?= base_url();?>petugas/ubahPetugasVerifikator/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>" method="post">
+                                        <div class="input-group mb-3">
+                                            <input type="hidden" name='idVerifikator' value='<?= $petugas_verifikator['idPetugas'];?>'>
+                                            <select name="verifikator" class='form-control' style='width:400px'>
+                                                <option value="-">-pilih-</option>
+                                                <?php foreach ($inuser as $iu) : ?>
+                                                    <?php if($iu['idIU'] == $petugas_verifikator['idIU']) : ?>
+                                                        <option selected value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                    <?php else : ?>
+                                                        <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                    <?php endif ; ?>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-success" type="submit" id="button-addon2" data-toggle='tooltip' title='Ubah Data Petugas Verifikator'><i class="fa fa-edit"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php else : ?>
+                                    <form action="<?= base_url();?>petugas/tambahPetugasVerifikator/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>" method="post">
+                                        <div class="input-group mb-3">
+                                            <select name="verifikator" class='form-control' style='width:400px'>
+                                                <option value="-">-pilih-</option>
+                                                <?php foreach ($inuser as $iu) : ?>
+                                                    <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
+                                                <?php endforeach ; ?>
+                                            </select>
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2" data-toggle='tooltip' title='Simpan Data Petugas Verifikator'><i class="fa fa-save"></i></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php endif ; ?>
+                            </td>
+                        <!-- verifikator -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+<!-- petugas evaluasi dan verifikasi -->

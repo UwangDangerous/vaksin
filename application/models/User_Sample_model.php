@@ -33,7 +33,6 @@
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
             return $this->db->get('_sample')->row_array();
@@ -141,7 +140,7 @@
             $this->db->where('sample_batch.idSample', $id);
             $this->db->join('_sample', 'sample_batch.idSample = _sample.idSample');
             $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample');
-            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch');
+            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian');
             return $this->db->get('sample_batch')->result_array();
         }
 
@@ -156,6 +155,13 @@
         {
             $this->db->where('idSample', $id);
             return $this->db->get('petugas')->num_rows();
+        }
+
+        public function getDataVerifikasiBerkasJenisDokumen($id) 
+        {
+            $this->db->where('idBatch', $id);
+            $this->db->select('idJenisDokumen');
+            return $this->db->get('verifikasi_berkas')->row_array();
         }
 
         

@@ -37,7 +37,7 @@
                         <!-- 3 -->
                         <td><?= $row['namaSample']; ?></td>
                         <!-- 4 -->
-                        <td><?= $row['jenisSample']; ?> <br> ( <?= $row['waktuPengujian']; ?> Hari)</td>
+                        <td><?= $row['jenisSample']; ?></td>
                         <!-- 5 -->
                         <td>
                             <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>

@@ -55,7 +55,13 @@
                         <td><?= $row['wadah']; ?> ( <i> <?= $row['wIng']; ?> </i> )</td>
                         <td><?= $row['pelulusan'] ?> Hari</td>
                         <td><?= $row['pengujian'] ?> Hari</td>
-                        <td><?= $row['produksi']; ?></td>
+                        <td>
+                            <?php if ($row['idJenisManufacture'] == '1') : ?>
+                                Domestik
+                            <?php else : ?>
+                                Import
+                            <?php endif ; ?>
+                        </td>
                         <td>
                             <a href="#"  data-toggle="modal" data-target="#ubahData<?= $row['idJenisSample'];?>"  data-toogle='tooltip' title='Ubah Data' class="badge badge-success">
                                 <i class="fa fa-edit"></i>

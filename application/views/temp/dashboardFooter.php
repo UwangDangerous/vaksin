@@ -55,6 +55,8 @@
                 $('#tabel-bukti-bayar').dataTable();
 
                 $('#cobaTable').dataTable();
+
+                $('#sampel-evaluasi').dataTable();
             } );
         </script>
 

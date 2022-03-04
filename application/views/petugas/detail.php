@@ -144,7 +144,7 @@
                     <th class='align-top'>Lama Pengerjaan</th>
                     <td class='align-top'>:</td>
                     <td>
-                        <?php if($jenisDokumen) : ?>
+                        <?php if($verify_berkas == true) : ?>
                             <?php if($jenisDokumen['idJenisDokumen'] == 2) : ?>
                                 
                                 <?= $batch['pelulusan'] + $batch['pengujian']; ?> hari kerja
@@ -153,6 +153,8 @@
                             <?php else : ?>
                                 <i class="text-warning">Belum Verifikasi</i>
                             <?php endif ; ?>
+                        <?php else : ?>
+                            -
                         <?php endif ; ?>
                     </td>
                 </tr>

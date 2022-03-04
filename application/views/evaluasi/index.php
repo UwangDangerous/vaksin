@@ -9,170 +9,56 @@
         </div>
         
     <?php endif ; ?> 
-    <div class="row">
-        <div class="col-md-6">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Cari..">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary" type="button"> <i class="fa fa-search"></i> </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="table-responsive ">
-        <table class="table table-bordered table-striped text-center">
+        <table class="table table-bordered table-striped text-center" id='sampel-evaluasi'>
             <thead>
                 <tr>
-                    <th class='align-middle'>No</th>
-                    <th class='align-middle'>Nama Sample</th>
-                    <th class='align-middle'>Sample</th>
-                    <th class='align-middle'>Jenis Dokumen</th>
-                    <th class='align-middle'>Pengerjaan</th>
-                    <th class='align-middle'>Dokumen</th>
-                    <th class='align-middle'>Aksi</th>
+                    <th class='align-middle'>No Bets</th>
+                    <th class='align-middle'>Nama Sampel</th> 
+                    <th class='align-middle'>Jenis Sampel</th> 
+                    <th class='align-middle'>Aksi</th> 
                 </tr>
             </thead>
             <tbody>
-                <?php $no = 1; ?>
+                <?php// $no = 1; ?>
                 <?php foreach ($sample as $row) : ?>
                     <tr>
-                        <td><?= $no++; ?></td>
-                        <td><?= $row['namaSample']; ?>( <?= $row['namaJenisManufacture']; ?> )</td>
+                        <!-- <td><?//= $no++; ?></td> 1 -->
+                        <td><?= $row['noBatch']; ?></td>
+                        <td><?= $row['namaSample']; ?></td>
                         <td><?= $row['jenisSample']; ?></td>
-                        <td><?= $row['namaJenisDokumen']; ?></td>
                         <td>
-                            <!-- public function pengerjaan($id, $lamaPengerjaan, $mulai, $jam ) -->
-                            <!-- $this->_Date->pengerjaan($row['idSample'], $row['waktuPengujian'], ) -->
+                            
                             <?php 
-                            if( $bukti = $this->Evaluasi_model->buktiBayar($row['idSample']) ) : ?>
-                                <?php $pengerjaan = $this->_Date->pengerjaan($row['idSample'], $row['waktuPengujian'], $bukti['tgl_bayar'] , $bukti['jam_bayar'] ) ; ?>
+                                $this->db->where('idJenisManufacture', $row['idJenisManufacture']) ; 
+                                $datadukung = $this->db->get('_jenisDataDukung')->result_array() ;
+                            ?>
 
-                                <a href="#" data-toggle="modal" data-target="#exampleModalBukti<?= $row['idSample'];?>">
-                                    <?= $pengerjaan['waktuBerjalan']; ?> dari <?= $pengerjaan['total']; ?>
+                            <div class="dropdown">
+                                <a class="badge badge-primary dropdown-toggle" href="#" id="dd-<?= $row['idSample']; ?>" data-toggle="dropdown" data-toggle='tooltip' title='data dukung'>
+                                    <i class="fa fa-folder"></i>
                                 </a>
 
-                                <!-- Modal -->
-                                <div class="d-flex text-left">
-                                    <div class="modal fade" id="exampleModalBukti<?= $row['idSample'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Rincian Pengerjaan</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <ul>
-                                                    <li>
-                                                        Awal Pengerjaan <?= $this->_Date->formatTanggal( $pengerjaan['awalPengerjaan'] ); ?>
-                                                    </li>
-                                                    <li>
-                                                        Lama Pengerjaan <?= $pengerjaan['lamaPengerjaan']; ?> Hari
-                                                    </li>
-                                                    <li>
-                                                        Libur Nasional / Libur Kerja Bpom <?= $pengerjaan['libur']; ?> Hari
-                                                    </li>
-                                                    <li>
-                                                        Penundaan / Clock Off <?= $pengerjaan['penundaan']; ?> Hari
-                                                    </li>
-                                                    <li>
-                                                        Total <?= $pengerjaan['total']; ?> Hari
-                                                    </li>
-                                                    <li>
-                                                        Selesai <?= $this->_Date->formatTanggal( $pengerjaan['akhirPengerjaan'] ); ?>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
+                                <div class="dropdown-menu" aria-labelledby="dd-<?= $row['idSample']; ?>">
+                                    <?php foreach ($datadukung as $dd) : ?>
+                                        <?php 
+                                            $this->db->where('idBatch', $row['idBatch']) ;    
+                                            $this->db->where('idJenisDataDukung', $dd['idJenisDataDukung']) ;    
+                                            $berkas = $this->db->get('_datadukung_batch')->row_array() ;
+                                        ?>
 
-                            <?php else : ?>
-                                <i class="text-danger">Belum Melakukan Pembayaran</i>
-                            <?php endif ; ?>
-                        </td>
-                        <td>
+                                        <?php if($berkas) : ?>
+                                            <a class="dropdown-item" href="#" data-toggle='tooltip' title='tampilkan data dukung'> <?= $dd['namaJenisDataDukung']; ?> </a>
+                                        <?php else : ?>
+                                            <span class='dropdown-item'> <?= $dd['namaJenisDataDukung']; ?> </span>
+                                        <?php endif ; ?>
 
-                            <div id="accordion">
-                                <a href="" class="badge badge-warning collapsed" data-toggle="collapse" data-target="#collapseTwo<?= $row['idSample'];?>" data-toggle='tooltip' title='Data Dukung'>
-                                    <i class="fa fa-clone"></i>
-                                </a>
-                                <div id="collapseTwo<?= $row['idSample'];?>" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <div class="card-body">
-                                    <ul class="list-group d-flex text-left">
-                                        <?php $dataDukung = $this->Evaluasi_model->getDataDukung($row['idSample']) ; ?>
-                                        <?php foreach ($dataDukung as $dd) : ?>
-                                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                <?= $dd['namaJenisDataDukung']; ?>
-                                                <a href="<?= base_url(); ?>assets/file-upload/data-dukung/<?= $dd['fileDataDukung'];?>" class="badge badge-warning" data-toggle='tooltip' title='Lihat Dokumen' target='blank'>
-                                                    <i class="fa fa-file"></i>
-                                                </a>
-                                            </li>
-                                        <?php endforeach ; ?>
-                                    </ul>
-                                </div>
+                                    <?php endforeach ; ?>
                                 </div>
                             </div>
 
-                        </td>
-                        <td>
-                            <?php $cf = $this->Evaluasi_model->clockoff($row['idSample']); ?>
-                            <?php if($cf) : ?>
-                                
-                                <?php// foreach ($clockoff as $cf) : ?>
-                                    <?php if($cf['clock_on'] == '0000-00-00') : ?>
-                                
-                                        <i class="text-danger">Clock OFF</i>
-
-                                    <?php else : ?>
-
-                                        <?php if($evaluasi = $this->Evaluasi_model->getDataEvaluasi($row['idSample'])) : ?>
-                                            <a href="<?= base_url(); ?>assets/file-upload/hasil-evaluasi/<?= $evaluasi['hasilEvaluasi'];?>" class="badge badge-secondary" data-toggle='tooltip' title='Lihat Hasil Evaluasi' target='blank'>
-                                                <i class="fa fa-file-signature"></i>
-                                            </a> <!-- lihat dokumen --> 
-                                            <a href="" class="badge badge-success" data-toggle='tooltip' title='Ubah Ceklis'>
-                                                <i class="fa fa-edit"></i>
-                                            </a> <!-- ubah ceklis --> 
-                                        <?php else : ?>
-                                            <a href="#"  class="badge badge-primary"   data-toggle="modal" data-target="#tambah<?= $row['idSample'];?>" data-toggle='tooltip' title='upload hasil evaluasi'>
-                                                <i class="fa fa-pen"></i>
-                                            </a> <!-- tambah dokumen --> 
-
-                                            <a href="#"  class="badge badge-primary"   data-toggle="modal" data-target="#pesan<?= $row['idSample'];?>" data-toggle='tooltip' title='mengirim pesan jika data dukung kurang'>
-                                                <i class="fa fa-envelope"></i>
-                                            </a> <!-- tambah dokumen --> 
-
-                                            <a href="#"  class="badge badge-secondary"   data-toggle="modal" data-target="#clockoff<?= $row['idSample'];?>" data-toggle='tooltip' title='data dukung baru'>
-                                                <i class="fa fa-file"></i>
-                                            </a> <!-- tambah dokumen --> 
-                                            
-
-                                        <?php endif ; ?>
-
-                                    <?php endif ; ?>
-
-                                <?//php endforeach ; ?>
-
-                            <?php else : ?>
-                                <?php if($evaluasi = $this->Evaluasi_model->getDataEvaluasi($row['idSample'])) : ?>
-                                    <a href="<?= base_url(); ?>assets/file-upload/hasil-evaluasi/<?= $evaluasi['hasilEvaluasi'];?>" class="badge badge-secondary" data-toggle='tooltip' title='Lihat Hasil Evaluasi'>
-                                        <i class="fa fa-file-signature"></i>
-                                    </a> <!-- lihat dokumen --> 
-                                    <a href="" class="badge badge-success" data-toggle='tooltip' title='Ubah Ceklis'>
-                                        <i class="fa fa-edit"></i>
-                                    </a> <!-- ubah ceklis --> 
-                                <?php else : ?>
-                                    <a href="#"  class="badge badge-primary"   data-toggle="modal" data-target="#tambah<?= $row['idSample'];?>" data-toggle='tooltip' title='upload hasil evaluasi'>
-                                        <i class="fa fa-pen"></i>
-                                    </a> <!-- tambah dokumen --> 
-                                    <a href="#"  class="badge badge-primary"   data-toggle="modal" data-target="#pesan<?= $row['idSample'];?>" data-toggle='tooltip' title='mengirim pesan jika data dukung kurang'>
-                                        <i class="fa fa-envelope"></i>
-                                    </a> <!-- tambah dokumen --> 
-                                <?php endif ; ?>
-                            <?php endif ; ?>
+                            
                             
                             <a href="<?= base_url(); ?>evaluasi/form/<?= $row['idJenisSample']; ?>/<?= $row['idSurat']; ?>/<?= $row['idSample']; ?>" class="badge badge-secondary" data-toogle='tooltip' title='form evaluasi'><i class="fa fa-file"></i></a>
                         </td>

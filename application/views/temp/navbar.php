@@ -26,6 +26,17 @@
         <li class="nav-item sorot">
           <a class="nav-link" href="<?= base_url(); ?>#faq">FAQ</a>
         </li>
+        <li class="nav-item sorot">
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown">Lot Release</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Impor</a></li>
+              <li><a class="dropdown-item" href="#">Domestik</a></li>
+            </ul>
+          </div>
+        </li>
+        
+
         <li class="nav-item">
           <?php if($this->session->userdata('key')) : ?>
             <a class="nav-link" href="<?=base_url();?>dashboard" data-toogle='tooltip' title='Dashboard'>

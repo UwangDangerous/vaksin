@@ -102,18 +102,18 @@
             $data['id'] = $id ;
 
             // untuk combo box
-            $data['jenisSample'] = $this->db->get('_jenisSample')->result_array();
-            $data['jenisManufacture'] = $this->db->get('_jenisManufacture')->result_array();
-            $data['jenisDokumen'] = $this->db->get('_jenisDokumen')->result_array();
+            $data['jenisSample'] = $this->User_Sample_model->getJenisSample();
+            $data['jenisManufacture'] = $this->User_Sample_model->getJenisManufacture();
 
             if( $this->session->userdata('eksId') != null)
             {
 
                 $this->form_validation->set_rules('nama', 'Nama Surat / Keterangan', 'required');
                 $this->form_validation->set_rules('js', 'Jenis Sampel', 'required');
-                $this->form_validation->set_rules('jd', 'Jenis Dokumen', 'required');
+                $this->form_validation->set_rules('jm', 'Jenis Perusahaan', 'required');
+                // $this->form_validation->set_rules('jd', 'Jenis Dokumen', 'required');
                 $this->form_validation->set_rules('noMA', 'Nomer MA', 'required|numeric');
-                $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
+                // $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dsbHeader',$data);

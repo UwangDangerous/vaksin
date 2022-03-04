@@ -5,11 +5,16 @@
         {
             $this->db->where('petugas.idLevel', '3' );
             $this->db->where('idIU', $this->session->userdata('key') );
-            $this->db->join('_sample', '_sample.idSample = petugas.idSample');
+            // $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch');
+            // $this->db->join('sample_batch', '_sample.idSample = sample_batch.idSample') ;
+            // $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
+            // $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
+            // $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
+            // $this->db->order_by('_sample.idSample', 'desc');
+
+            $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch') ;
+            $this->db->join('_sample', '_sample.idSample = sample_batch.idSample') ;
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
-            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
-            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            $this->db->order_by('_sample.idSample', 'desc');
             return $this->db->get('petugas')->result_array();
         }
 
@@ -30,7 +35,7 @@
         {
             $this->db->where('idSample', $id);
             return $this->db->get('evaluasi')->row_array();
-        }
+        } //hapus
 
         public function clockoff($id)
         {

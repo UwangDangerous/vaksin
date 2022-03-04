@@ -6,9 +6,9 @@
             $this->db->where('_surat.idSurat', $id );
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
-            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
+            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _jenisSample.idJenisManufacture');
             $this->db->join('_importir', '_sample.idSample = _importir.idSample','left');
             $this->db->order_by('_sample.idsample','desc');
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
@@ -17,6 +17,12 @@
                                 _sample.idJenisSample as idJenisSample'
                             );
             return $this->db->get('_sample')->result_array();
+        }
+
+        public function riwayatDataSample($id)
+        {
+            $this->db->where('idSample', $id) ;
+            return $this->db->get('riwayatPekerjaan')->result_array() ;
         }
 
         public function perihalSurat($id) 
@@ -32,9 +38,9 @@
             $this->db->where('_sample.idSample', $id );
             $this->db->where('eksuser.idEU', $this->session->userdata('eksId') );
             $this->db->join('_surat', '_sample.idSurat = _surat.idSurat');
-            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
+            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _jenisSample.idJenisManufacture');
+            $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             return $this->db->get('_sample')->row_array();
         }
 
@@ -59,11 +65,9 @@
                 'idSurat' => $this->input->post('id'),
                 'namaSample' => $this->input->post('nama'),
                 'idJenisSample' => $this->input->post('js'),
-                'idJenisDokumen' => $jenisDokumen,
-                'idJenisManufacture' => $this->input->post('jm'),
-                'noMA' => $this->input->post('noMA'),
-                'tgl_pengiriman' => $this->input->post('tanggal'),
-                'idProses' => $this->input->post('proses')
+                'noMA' => $this->input->post('noMA')
+                // 'tgl_pengiriman' => $this->input->post('tanggal'),
+                // 'idProses' => $this->input->post('proses')
             ];
             
             if($this->db->insert('_sample', $query) ) {
@@ -162,6 +166,17 @@
             $this->db->where('idBatch', $id);
             $this->db->select('idJenisDokumen');
             return $this->db->get('verifikasi_berkas')->row_array();
+        }
+
+        public function getJenisManufacture()
+        {
+            return $this->db->get('_jenisManufacture')->result_array() ;
+        }
+
+        public function getJenisSample() 
+        {
+            $this->db->join('_jenisManufacture', '_jenisSample.idJenisManufacture = _jenisManufacture.idJenisManufacture','inner') ;
+            return $this->db->get('_jenisSample')->result_array() ;
         }
 
         

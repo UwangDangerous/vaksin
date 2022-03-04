@@ -106,50 +106,54 @@
                             <!-- user -->
 
                             <!-- sample -->
-                            <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#sample" aria-expanded="false" aria-controls="sample">
+                            <!-- <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#sample" aria-expanded="false" aria-controls="sample">
                                 <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
                                 Sampel
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="sample" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
+                            </a> -->
+                            <!-- <div class="collapse" id="sample" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav"> -->
                                     <a class="nav-link" href="<?= base_url(); ?>sample">
-                                        <div class="sb-nav-link-icon"><i class="fa fa-envelope-open-text"></i></div> Surat Pengajuan
+                                        <div class="sb-nav-link-icon">
+                                            <!-- <i class="fa fa-envelope-open-text"></i> -->
+                                            <i class="fa fa-vials"></i>
+                                        </div>
+                                        Sampel
                                     </a>
                                     <!-- <a class="nav-link" href="<?//= base_url(); ?>petugas">
                                         <div class="sb-nav-link-icon"><i class="fas fa-syringe"></i></div>
                                         Sampel
                                     </a> -->
-                                    <a class="nav-link" href="<?= base_url(); ?>pengujian">
+                                    <!-- <a class="nav-link" href="<?//= base_url(); ?>pengujian">
                                         <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
                                         Pengujian
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>sample/buktiBayar">
+                                    </a> -->
+                                    <!-- <a class="nav-link" href="<?//= base_url(); ?>sample/buktiBayar">
                                         <div class="sb-nav-link-icon"><i class="fas fa-money-check-alt"></i></i></div>
                                         Bukti Bayar
                                     </a>
                                 </nav>
-                            </div>
+                            </div> -->
                             <!-- sample -->
 
                             <!-- sertifikat -->
-                            <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#sertifikat" aria-expanded="false" aria-controls="sertifikat">
-                                <div class="sb-nav-link-icon"><i class="fa fa-file-signature"></i></div>
-                                Sertifikat
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="sertifikat" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="<?= base_url(); ?>sertifikat/pelulusan">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-file-medical-alt"></i></div>
-                                        Pelulusan
-                                    </a>
-                                    <a class="nav-link" href="<?= base_url(); ?>pengujian">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
-                                        Pengujian
-                                    </a>
-                                </nav>
-                            </div>
+                                <!-- <a class="nav-link collapsed" href="#a" data-toggle="collapse" data-target="#sertifikat" aria-expanded="false" aria-controls="sertifikat">
+                                    <div class="sb-nav-link-icon"><i class="fa fa-file-signature"></i></div>
+                                    Sertifikat
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="sertifikat" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="<?//= base_url(); ?>sertifikat/pelulusan">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-file-medical-alt"></i></div>
+                                            Pelulusan
+                                        </a>
+                                        <a class="nav-link" href="<?//= base_url(); ?>pengujian">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-file-contract"></i></div>
+                                            Pengujian
+                                        </a>
+                                    </nav>
+                                </div> -->
                             <!-- sertifikat -->
 
                             <!-- untuk pengawas -->

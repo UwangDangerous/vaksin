@@ -24,9 +24,23 @@
         <script src="<?= base_url(); ?>assets/js/dataTables.js" ></script>
         <script src="<?= base_url(); ?>assets/js/dataTables.bootstrap4.min.js" ></script>
 
+        <script src="<?= base_url(); ?>assets/js/jquery-chained.min.js"></script>
+        
+        <script>
+        $(document).ready(function() {
+            $("#js").chained("#jm");
+        });
+        </script>
+
         <script>
             $(document).ready(function(){
                 $('#surat').dataTable();
+            });
+            $(document).ready(function(){
+                $('#sampel_user').dataTable();
+            });
+            $(document).ready(function(){
+                $('#riwayat-user').dataTable();
             });
         </script>
         

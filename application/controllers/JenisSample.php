@@ -35,6 +35,7 @@
             $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Dokumen'; 
 
             $data['dok'] = $this->db->get('_jenisDokumen')->result_array();
+            
             if( ($this->session->userdata('key') != null) )
             {
                 $this->load->view('temp/dashboardHeader',$data);

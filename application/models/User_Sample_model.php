@@ -13,7 +13,7 @@
             $this->db->order_by('_sample.idsample','desc');
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
                                 _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
-                                namaImportir, namaJenisManufacture, noMA, _surat.idSurat as idSurat,
+                                namaImportir, namaJenisManufacture, tgl_kadaluarsa, _surat.idSurat as idSurat,
                                 _sample.idJenisSample as idJenisSample'
                             );
             return $this->db->get('_sample')->result_array();
@@ -59,15 +59,20 @@
 
         public function addSample() 
         {
+            $ski = '' ;
+            if($this->input->post('jm')) {
+                if($this->input->post('jm')) {
+                    $ski = $this->input->post('ski') ;
+                } 
+            } 
             $jenisDokumen = explode('|',$this->input->post('jd')) ;
             $jenisDokumen = $jenisDokumen[0] ;
             $query = [
                 'idSurat' => $this->input->post('id'),
                 'namaSample' => $this->input->post('nama'),
                 'idJenisSample' => $this->input->post('js'),
-                'noMA' => $this->input->post('noMA')
-                // 'tgl_pengiriman' => $this->input->post('tanggal'),
-                // 'idProses' => $this->input->post('proses')
+                'tgl_kadaluarsa' => $this->input->post('exp'),
+                'noSKI' => $ski
             ];
             
             if($this->db->insert('_sample', $query) ) {
@@ -144,7 +149,7 @@
             $this->db->where('sample_batch.idSample', $id);
             $this->db->join('_sample', 'sample_batch.idSample = _sample.idSample');
             $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample');
-            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian');
+            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian, pengiriman');
             return $this->db->get('sample_batch')->result_array();
         }
 
@@ -177,6 +182,14 @@
         {
             $this->db->join('_jenisManufacture', '_jenisSample.idJenisManufacture = _jenisManufacture.idJenisManufacture','inner') ;
             return $this->db->get('_jenisSample')->result_array() ;
+        }
+
+        public function cekPetugas($id) 
+        {
+            $this->db->where('_sample.idSample', $id) ;
+            $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch') ;
+            $this->db->join('_sample', '_sample.idSample = sample_batch.idSample') ;
+            return $this->db->get('petugas')->result_array() ;
         }
 
         

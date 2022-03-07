@@ -9,26 +9,6 @@
             $this->load->model('Petugas_model');
         }
 
-        // public function index($id)
-        // {
-        //     $idLevel = $this->session->userdata('idLevel') ;
-        //     $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
-        //     $data['header'] = 'Data Sample'; 
-        //     $data['bread'] = 'Dashboard / <a href="'.base_url().'surat"> Riwayat Surat </a> / Informasi Sample'; 
-        //     $data['id'] = $id ;
-        //     $data['sample'] = $this->User_Sample_model->getDataSample($id);
-        //     $this->load->model('_Date');
-        //     if( $this->session->userdata('eksId') != null )
-        //     {
-        //         $this->load->view('temp/dsbHeader',$data);
-        //         $this->load->view('sample_user/index');
-        //         $this->load->view('temp/dsbFooter');
-        //     }else{
-        //         $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
-        //         redirect('auth') ;
-        //     }
-        // }
-
         public function index($id)
         {
             $idLevel = $this->session->userdata('idLevel') ;
@@ -48,28 +28,6 @@
                 redirect('auth') ;
             }
         }
-
-        // public function batch($idSurat, $idSample)
-        // {
-        //     $idLevel = $this->session->userdata('idLevel') ;
-        //     $data['judul'] = 'Lengkapi Dokumen '. $this->session->userdata('namaLevel'); 
-        //     $data['header'] = 'Lengkapi Dokumen'; 
-        //     $data['bread'] = 'Dashboard / Riwayat Surat / <a href="'.base_url().'sample_/index/'.$idSurat.'">  Informasi Sample  </a> / Lengkapi Dokumen'; 
-        //     // $data['id'] = $idSample ;
-        //     $data['idSurat'] = $idSurat ;
-        //     $data['sample'] = $this->User_Sample_model->getDataSampleBatch($idSample);
-        //     $this->load->model('_Date');
-        //     $data['batch'] = $this->User_Sample_model->getDataBatch($idSample) ;
-        //     if( $this->session->userdata('eksId') != null )
-        //     {
-        //         $this->load->view('temp/dsbHeader',$data);
-        //         $this->load->view('sample_user/batch');
-        //         $this->load->view('temp/dsbFooter');
-        //     }else{
-        //         $this->session->set_flashdata('login' , 'Silahkan Login Lagi');
-        //         redirect('auth') ;
-        //     }
-        // }
 
         public function batch_add($idSurat, $idSample)
         {
@@ -112,8 +70,8 @@
                 $this->form_validation->set_rules('js', 'Jenis Sampel', 'required');
                 $this->form_validation->set_rules('jm', 'Jenis Perusahaan', 'required');
                 // $this->form_validation->set_rules('jd', 'Jenis Dokumen', 'required');
-                $this->form_validation->set_rules('noMA', 'Nomer MA', 'required|numeric');
-                // $this->form_validation->set_rules('tanggal', 'Tanggal Pengiriman', 'required');
+                // $this->form_validation->set_rules('ski', 'Nomor SKI', 'required');
+                $this->form_validation->set_rules('exp', 'Tanggal Kadaluarsa', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dsbHeader',$data);

@@ -50,6 +50,11 @@
                     <?php endif ; ?>
 
                     <?php if($sample['idJenisManufacture'] == 2) : ?>
+                        <tr>
+                            <th>Nomer SKI</th>
+                            <td>:</td>
+                            <td><?= $sample['noSKI']; ?></td>
+                        </tr>
                         <?php if($import =  $this->User_Sample_model->getImportir($sample['idSample']) ) : ?>
                             <tr>
                                 <th class='align-top'>Perusahaan Pembuat Sample</th>
@@ -66,7 +71,7 @@
                                 <input type="hidden" name='idSample' value='<?= $sample['idSample']; ?>'>
                                 <tr>
                                     <th class='align-top'> <label for="namaImportir">Nama Perusahaan Pembuat Sample</label> </th>
-                                    <td class='align-top'>  </td>
+                                    <td class='align-top'> : </td>
                                     <td class='align-top'> <input type="text" name="namaImportir" id="namaImportir" class='form-control'> </td>
                                 </tr>
                                 <tr >
@@ -98,15 +103,19 @@
                                 <table cellpadding=2 class='table table-striped table-bordered text-center'>
                                     <thead>
                                         <tr>
-                                            <th class='align-middle'>No</th>
-                                            <th class='align-middle'>Aksi</th>
-                                            <th class='align-middle'>Data Dukung</th>
-                                            <th class='align-middle'>No Batch</th>
-                                            <th class='align-middle'>Dosis</th>
-                                            <th class='align-middle'>Jumlah Produksi</th>
-                                            <th class='align-middle'>Status</th>
-                                            <th class='align-middle'>Bukti Bayar</th>
-                                            <th class='align-middle'>Lama Pengerjaan</th>
+                                            <th class='align-middle' rowspan=2>No</th>
+                                            <th class='align-middle' rowspan=2>Aksi</th>
+                                            <th class='align-middle' rowspan=2>Data Dukung</th>
+                                            <th class='align-middle' rowspan=2>No Batch</th>
+                                            <th class='align-middle' rowspan=2>Dosis</th>
+                                            <th class='align-middle' colspan=2>Jumlah</th>
+                                            <th class='align-middle' rowspan=2>Status</th>
+                                            <th class='align-middle' rowspan=2>Bukti Bayar</th>
+                                            <th class='align-middle' rowspan=2>Lama Pengerjaan</th>
+                                        </tr>
+                                        <tr>
+                                            <th>Pengiriman</th>
+                                            <th>Produksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -184,6 +193,7 @@
                                                 </td>
                                                 <td><?= $b['noBatch']; ?></td> <!-- no batch -->
                                                 <td><?= $b['dosis']; ?></td> <!-- dosis -->
+                                                <td> <?= number_format($b['pengiriman'], 0, ',', ','); ?> (<?= $b['wadah']; ?>) </td>
                                                 <td> <?= number_format($b['vial'], 0, ',', ','); ?> (<?= $b['wadah']; ?>) </td>
                                                 <td>
                                                     <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($b['idBatch']) ; ?>

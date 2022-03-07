@@ -28,7 +28,11 @@
                     <select class="form-control" id='jm'  name='jm'>
                         <option value=''>-pilih-</option>
                         <?php foreach ($jenisManufacture as $jm) : ?>
-                            <option id='jm' value="<?= $jm['idJenisManufacture']; ?>"> <?= $jm['namaJenisManufacture']; ?> </option>
+                            <?php if(form_error('jm') == $jm['idJenisManufacture'] ) : ?>
+                                <option selected id='jm' value="<?= $jm['idJenisManufacture']; ?>"> <?= $jm['namaJenisManufacture']; ?> </option>
+                            <?php else : ?>
+                                <option id='jm' value="<?= $jm['idJenisManufacture']; ?>"> <?= $jm['namaJenisManufacture']; ?> </option>
+                            <?php endif ; ?>
                         <?php endforeach ; ?>
                     </select>
                     <small id="usernameHelp" class="form-text text-danger"><?= form_error('jm'); ?></small>
@@ -56,26 +60,40 @@
 
                 <!-- no ma -->
                 <div class="form-group">
-                    <label for="noMA">Nomer MA (Marketing Authorization)</label>
-                    <input type="text" class="form-control" id="noMA" placeholder="Nomer MA (Marketing Authorization)" name='noMA' value="<?= set_value('noMA'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('noMA'); ?></small>
+                    <label for="exp">Tanggal Kadaluarsa</label>
+                    <input type="date" class="form-control" id="exp" placeholder="Nomer MA (Marketing Authorization)" name='exp' value="<?= set_value('exp'); ?>" >
+                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('exp'); ?></small>
                 </div>
 
             </div>
 
-            <!-- tanggal penerimaan -->
-            <!-- <div class="col-md-6">
-
-                <div class="form-group">
-                    <label for="tanggal">Tanggal Pengiriman Sample</label>
-                    <input type="date" class="form-control" id="tanggal" placeholder="Tanggal Pengiriman" name='tanggal' value="<?= set_value('tanggal'); ?>" >
-                    <small id="usernameHelp" class="form-text text-danger"><?= form_error('tanggal'); ?></small>
+            <div class="col-md-6">
+                <div id="ski">
                 </div>
+            </div>
 
-            </div> -->
         </div>
 
         <br><br>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>
+
+<script>
+    $(document).ready(function(){
+        // $("#ski").hide() ;
+        $("#jm").change(function(){
+            if($("#jm").val() == 2){
+                $("#ski").html(`
+                    <div class="form-group">
+                        <label for="ski">Nomor SKI</label>
+                        <input type="text" class="form-control" id="ski" placeholder="Nomor SKI" name='ski' value="<?= set_value('ski'); ?>" >
+                        <small id="usernameHelp" class="form-text text-danger"><?= form_error('ski'); ?></small>
+                    </div>
+                `) ;
+            }else{
+                $("#ski").html('') ;
+            }
+        });
+    });
+</script>

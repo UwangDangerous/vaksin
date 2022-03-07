@@ -34,8 +34,7 @@
                     <th class='align-middle'>No</th>
                     <th class='align-middle'>Nama Sample / Produk</th>
                     <th class='align-middle'>Jenis Vaksin</th>
-                    <th class='align-middle'>Perusahaan</th>
-                    <th class='align-middle'>No MA</th>
+                    <th class='align-middle'>Tanggal Kadaluarsa</th>
                     <th class='align-middle'>Jumlah Batch</th>
                     <th class='align-middle'>Aksi</th>
                 </tr>
@@ -47,20 +46,20 @@
                         <td><?= $no++; ?></td>
                         <td><?= $row['namaSample'];?></td>
                         <td><?= $row['jenisSample']; ?></td>
-                        <td>
-                            <?php if($row['idJenisManufacture'] == 2)  : ?>
-                                <?php if($row['namaImportir'] == null) : ?>
+                        <!-- <td>
+                            <?php// if($row['idJenisManufacture'] == 2)  : ?>
+                                <?php// if($row['namaImportir'] == null) : ?>
                                     <i>null</i> <br>
-                                    ( <?= $row['namaJenisManufacture']; ?> )
-                                <?php else : ?>
-                                    <?= $row['namaImportir']; ?> <br> ( <?= $row['namaJenisManufacture']; ?> )
-                                <?php endif ; ?>
-                            <?php else : ?>
-                                <?= $row['namaEU']; ?>
-                            <?php endif ; ?>
-                        </td>
+                                    ( <?//= $row['namaJenisManufacture']; ?> )
+                                <?php// else : ?>
+                                    <?//= $row['namaImportir']; ?> <br> ( <?//= $row['namaJenisManufacture']; ?> )
+                                <?php// endif ; ?>
+                            <?php// else : ?>
+                                <?//= $row['namaEU']; ?>
+                            <?php// endif ; ?>
+                        </td> -->
 
-                        <td> <?= $row['noMA']; ?> </td>
+                        <td> <?= $this->_Date->formatTanggal($row['tgl_kadaluarsa']); ?> </td>
                         <td>
                             <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
                                 <?= count($batch); ?> <br>
@@ -75,15 +74,17 @@
                                 </a>
 
                                 <div class="dropdown-menu pl-3" style='width:180px ;' aria-labelledby="dropdownMenuButton">
-                                    <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Lengkapi Dokumen'>
+                                    <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Rincian & Lengkapi Dokumen'>
                                         <i class="fa fa-pen"></i>
                                     </a>
-                                    <a href="#" class="badge badge-success" data-toggle='modal' data-target='#ubah_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Ubah Data'>
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="<?= base_url(); ?>sample_/hapus/<?= $row['idSample'];?>" class="badge badge-danger" data-toggle='tooltip' title='Hapus Data'>
-                                        <i class="fa fa-trash"></i>
-                                    </a>
+                                    <?php if($this->User_Sample_model->cekPetugas($row['idSample']) == null) : ?>
+                                        <a href="#" class="badge badge-success" data-toggle='modal' data-target='#ubah_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Ubah Data'>
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="<?= base_url(); ?>sample_/hapus/<?= $row['idSample'];?>" class="badge badge-danger" data-toggle='tooltip' title='Hapus Data'>
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    <?php endif ; ?>
                                     <a href="#" class="badge badge-secondary" data-toggle='modal' data-target='#riwayat_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Riwayat Pekerjaan'>
                                         <i class="fa fa-file-signature"></i>
                                     </a>

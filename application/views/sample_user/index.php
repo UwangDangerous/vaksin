@@ -34,7 +34,7 @@
                     <th class='align-middle'>No</th>
                     <th class='align-middle'>Nama Sample / Produk</th>
                     <th class='align-middle'>Jenis Vaksin</th>
-                    <th class='align-middle'>Tanggal Kadaluarsa</th>
+                    <!-- <th class='align-middle'>Tanggal Kadaluarsa</th> -->
                     <th class='align-middle'>Jumlah Batch</th>
                     <th class='align-middle'>Aksi</th>
                 </tr>
@@ -59,7 +59,7 @@
                             <?php// endif ; ?>
                         </td> -->
 
-                        <td> <?= $this->_Date->formatTanggal($row['tgl_kadaluarsa']); ?> </td>
+                        <!-- <td> <?//= $this->_Date->formatTanggal($row['tgl_kadaluarsa']); ?> </td> -->
                         <td>
                             <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
                                 <?= count($batch); ?> <br>

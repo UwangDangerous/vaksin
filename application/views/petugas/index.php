@@ -22,7 +22,6 @@
                     <th class='align-middle'>Nama Sampel / Produk</th>
                     <th class='align-middle'>Jenis Vaksin</th>
                     <th class='align-middle'>Jumlah Batch</th>
-                    <th class='align-middle'>No MA</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,7 +54,6 @@
                                 0
                             <?php endif ; ?>
                         </td>
-                        <td><?= $row['noMA']; ?></td>
                 <?php endforeach ; ?>
             </tbody>
         </table>

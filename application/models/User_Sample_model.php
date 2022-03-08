@@ -13,7 +13,7 @@
             $this->db->order_by('_sample.idsample','desc');
             $this->db->select('_sample.idsample as idSample , namaSample, jenisSample , 
                                 _jenisManufacture.idJenisManufacture as idJenisManufacture, namaEU, 
-                                namaImportir, namaJenisManufacture, tgl_kadaluarsa, _surat.idSurat as idSurat,
+                                namaImportir, namaJenisManufacture, _surat.idSurat as idSurat,
                                 _sample.idJenisSample as idJenisSample'
                             );
             return $this->db->get('_sample')->result_array();
@@ -149,7 +149,10 @@
             $this->db->where('sample_batch.idSample', $id);
             $this->db->join('_sample', 'sample_batch.idSample = _sample.idSample');
             $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample');
-            $this->db->select('sample_batch.idSample as idSample, wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian, pengiriman');
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = sample_batch.idJenisDokumen') ;
+            $this->db->select('namaJenisDokumen, sample_batch.idJenisDokumen as idJenisDokumen, sample_batch.idSample as idSample,
+                                 wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian, pengiriman,
+                                 suhu, tgl_kadaluarsa,satuan,');
             return $this->db->get('sample_batch')->result_array();
         }
 

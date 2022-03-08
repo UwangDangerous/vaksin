@@ -40,6 +40,7 @@
             $data['sample'] = $this->User_Sample_model->getDataSampleBatch($idSample);
             $this->load->model('_Date');
             $data['batch'] = $this->User_Sample_model->getDataBatch($idSample) ;
+            $data['suhu'] = ['C','F','K','R'] ;
             if( $this->session->userdata('eksId') != null )
             {
                 $this->load->view('temp/dsbHeader',$data);
@@ -173,11 +174,34 @@
 
         public function tambahBatch($idSurat,$idSample)
         {
+            $jdokumen = $this->input->post('jd') ;
+            $ski = '' ;
+            if($jdokumen == '-') {
+                $this->session->set_flashdata([
+                    'pesan' => 'Gagal Tambah Batch, Pilih Jenis Dokumen',
+                    'warna' => 'danger'
+                ]) ;
+                redirect("sample_/batch_add/$idSurat/$idSample");
+            }else{
+                $jd = explode('|', $jdokumen) ;
+                $jd = $jd[0] ;
+            }
+
+            if($this->input->post('ski')) {
+                $ski = $this->input->post('ski') ;
+            }
+            // var_dump($jd) ; die;
             $query = [
                 'idSample' => $idSample,
                 'noBatch' => $this->input->post('batch'),
+                'noSKI' => $ski,
                 'dosis' => $this->input->post('Dosis'),
-                'vial' => $this->input->post('jmlvial')
+                'pengiriman' => $this->input->post('jmlPengiriman'),
+                'vial' => $this->input->post('jmlvial'),
+                'tgl_kadaluarsa' => $this->input->post('exp'),
+                'suhu' => $this->input->post('suhu'),
+                'satuan' => $this->input->post('satuanSuhu'),
+                'idJenisDokumen' => $jd 
             ] ;
             // var_dump($query) ;
 

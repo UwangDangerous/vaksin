@@ -57,6 +57,10 @@
                 $('#cobaTable').dataTable();
 
                 $('#sampel-evaluasi').dataTable();
+
+                $('#jenisPengujian').dataTable();
+
+                $('#tabelManufactureXjenisSample').dataTable();
             } );
         </script>
 

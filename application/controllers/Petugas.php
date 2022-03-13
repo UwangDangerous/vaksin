@@ -57,6 +57,7 @@ class Petugas extends CI_Controller{
         // $data['petugas'] = $this->Petugas_model->getPetugas($id);
 
         $data['id'] = $id ;
+        $data['satuan'] = ['C','F','K','R'] ;
         if( ($this->session->userdata('key') != null) )
         {
             $this->load->view('temp/dashboardHeader',$data);
@@ -327,8 +328,7 @@ class Petugas extends CI_Controller{
             'kode_biling' => $file,
             'tglVB' => date('Y-m-d'),
             'statusVB' => $status,
-            'keteranganVB' => $keterangan,
-            'idJenisDokumen' => $this->input->post('idJenisDokumen')
+            'keteranganVB' => $keterangan
         ];
 
         if($this->db->insert('verifikasi_berkas', $query)) {
@@ -483,7 +483,6 @@ class Petugas extends CI_Controller{
                 redirect("petugas/detail/$idSurat/$idSample/$id") ;
             }
             
-            // var_dump($query) ;
             $this->db->where('idPetugas', $this->input->post('idVerifikator')) ;
             $this->db->set( ['idIU' => $this->input->post('verifikator')] ) ;
             if($this->db->update('petugas')) {
@@ -498,6 +497,94 @@ class Petugas extends CI_Controller{
                 ];
             }
             
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+
+        public function tambahVerifikasiSample($idSurat, $idSample, $id)
+        {
+            $query = [
+                'idBatch' => $id,
+                'suhu_sample' => $this->input->post('suhu_sample'),
+                'satuan_suhu' => $this->input->post('satuan_suhu'),
+                'satuan_suhu' => $this->input->post('satuan_suhu'),
+                'jumlah_sample' => $this->input->post('jumlah_sample'),
+                'tgl_verifikasi_sample' => date('Y-m-d'),
+                'jam_verifikasi_sample' => date('G:i:s'),
+                'status_verifikasi_sample' => 1
+            ];
+
+            if($this->db->insert('verifikasi_sample_batch', $query)) {
+                $pesan = [
+                    'pesan' => 'data berhasil disimpan' ,
+                    'warna' => 'success'
+                ];
+                $this->load->model('_Riwayat') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Diterima') ;
+            }else{
+                $pesan = [
+                    'pesan' => 'data gagal disimpan' ,
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            redirect("petugas/detail/$idSurat/$idSample/$id") ;
+        }
+
+        public function tambahVerifikasiSampleSalah($idSurat, $idSample, $id)
+        {
+            $query = [
+                'idBatch' => $id,
+                'suhu_sample' => $this->input->post('suhu_sample'),
+                'satuan_suhu' => $this->input->post('satuan_suhu'),
+                'satuan_suhu' => $this->input->post('satuan_suhu'),
+                'jumlah_sample' => $this->input->post('jumlah_sample'),
+                'tgl_verifikasi_sample' => date('Y-m-d'),
+                'jam_verifikasi_sample' => date('G:i:s'),
+                'status_verifikasi_sample' => 1
+            ];
+
+            if($this->db->insert('verifikasi_sample_batch', $query)) {
+                $this->load->model('_Riwayat') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Diterima') ;
+                $berkas = '' ;
+                if($this->input->post('file_pengirim')) {
+                    $this->load->model('_Upload');
+                    $file = $this->_Upload->uploadEksUser('file_pengirim',
+                        'assets/file-upload/respon',
+                        'pdf|jpg|png|jpeg',
+                        "petugas/detail/$idSurat/$idSample/$id", 
+                        'Respon_Tanggapan' 
+                    );
+                }
+
+                $query_respon = [
+                    'pesan_pengirim' => $this->input->post('pesan_pengirim'),
+                    'tgl_respon_pengirim' => date('Y-m-d'),
+                    'jam_respon_pengirim' => date('G:i:s'),
+                    'tipe_pesan' => $this->input->post('tipe_pesan'),
+                    'file_pengirim' => $berkas,
+                    'status_pengirim' => 0
+                ];
+                if($this->db->insert('_z_respon_tanggapan', $query_respon)){
+                    $pesan = [
+                        'pesan' => 'data berhasil disimpan' ,
+                        'warna' => 'success'
+                    ];
+                }else{
+                    $pesan = [
+                        'pesan' => 'data gagal disimpan' ,
+                        'warna' => 'danger'
+                    ];
+                }
+            }else{
+                $pesan = [
+                    'pesan' => 'data gagal disimpan' ,
+                    'warna' => 'danger'
+                ];
+            }
+
             $this->session->set_flashdata($pesan) ;
             redirect("petugas/detail/$idSurat/$idSample/$id") ;
         }

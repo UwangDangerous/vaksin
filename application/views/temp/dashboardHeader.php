@@ -67,8 +67,20 @@
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="<?= base_url(); ?>jenisSample">
-                                            <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
+                                            <div class="sb-nav-link-icon"><i class="fas fa-virus"></i></div>
                                             Jenis Vaksin
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample/jenisPengujian">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
+                                            Jenis Pengujian
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample/jenisKemasan">
+                                            <div class="sb-nav-link-icon"><i class="fa fa-prescription-bottle"></i></div>
+                                            Jenis Kemasan
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample/jenisSample">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-vials"></i></div>
+                                            Jenis Sample
                                         </a>
                                         <a class="nav-link" href="<?= base_url(); ?>jenisSample/dokumen">
                                             <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>

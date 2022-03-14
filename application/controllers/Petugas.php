@@ -54,7 +54,6 @@ class Petugas extends CI_Controller{
         
         $data['batch'] = $this->Petugas_model->getDetailBatch($id);
         $data['jenisDokumen'] = $this->db->get('_jenisDokumen')->result_array() ;
-        // $data['petugas'] = $this->Petugas_model->getPetugas($id);
 
         $data['id'] = $id ;
         $data['satuan'] = ['C','F','K','R'] ;

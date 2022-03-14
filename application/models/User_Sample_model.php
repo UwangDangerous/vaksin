@@ -21,8 +21,8 @@
 
         public function riwayatDataSample($id)
         {
-            $this->db->where('idSample', $id) ;
-            return $this->db->get('riwayatPekerjaan')->result_array() ;
+            $this->db->where('idBatch', $id) ;
+            return $this->db->get('_z_riwayatPekerjaan')->result_array() ;
         }
 
         public function perihalSurat($id) 
@@ -59,43 +59,39 @@
 
         public function addSample() 
         {
-            $ski = '' ;
-            if($this->input->post('jm')) {
-                if($this->input->post('jm')) {
-                    $ski = $this->input->post('ski') ;
-                } 
-            } 
+            $id = $this->input->post('id');
             $jenisDokumen = explode('|',$this->input->post('jd')) ;
             $jenisDokumen = $jenisDokumen[0] ;
             $query = [
-                'idSurat' => $this->input->post('id'),
+                'idSurat' => $id,
                 'namaSample' => $this->input->post('nama'),
-                'idJenisSample' => $this->input->post('js'),
-                'tgl_kadaluarsa' => $this->input->post('exp'),
-                'noSKI' => $ski
+                'idJenisSample' => $this->input->post('js')
             ];
             
             if($this->db->insert('_sample', $query) ) {
                 $pesan = [
-                    'pesan' => 'Sampel Berhasil Ditambahkan Silahkan <u>Lengkapi Dokumen</u>' ,
+                    'pesan' => 'Sampel Berhasil Ditambahkan Silahkan <u>Lengkapi Data</u> Tambahkan batch dan data dukung' ,
                     'warna' => 'success'
                 ];
 
                 $this->session->set_flashdata($pesan);
-                redirect("sample_/index/".$this->input->post('id')) ;
+                $this->db->where('idEU', $this->session->userdata('eksId')) ;
+                $this->db->join('_surat','_surat.idSurat = _sample.idSurat') ;
+                $this->db->select('idSample') ;
+                $idSample = 0 ;
+                foreach( $this->db->get('_sample')->result_array() as $sample){
+                    $idSample = $sample['idSample'] ;
+                }
+                redirect("sample_/batch_add/$id/$idSample") ;
             }else{
                 $pesan = [
                     'pesan' => 'Sampel Gagal Ditambahkan' ,
                     'warna' => 'danger'
                 ];
-
                 $this->session->set_flashdata($pesan);
                 redirect("sample_/index/".$this->input->post('id')) ;
-            }
 
-            // $this->db->where('idPenerimaan', $id);
-            // $this->db->join('jenisSample','sample.idJS = jenisSample.idJS');
-            // return $this->db->get("sample")->result_array();
+            }
         }
 
 
@@ -149,10 +145,11 @@
             $this->db->where('sample_batch.idSample', $id);
             $this->db->join('_sample', 'sample_batch.idSample = _sample.idSample');
             $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample');
+            $this->db->join('_jenisKemasan', '_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan') ;
             $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = sample_batch.idJenisDokumen') ;
             $this->db->select('namaJenisDokumen, sample_batch.idJenisDokumen as idJenisDokumen, sample_batch.idSample as idSample,
-                                 wadah, noBatch, dosis, vial, idBatch,pelulusan,pengujian, pengiriman,
-                                 suhu, tgl_kadaluarsa,satuan,');
+                                namaJenisKemasan,  noBatch, dosis, vial, idBatch,pelulusan, pengiriman,
+                                suhu, tgl_kadaluarsa,satuan,');
             return $this->db->get('sample_batch')->result_array();
         }
 
@@ -172,7 +169,7 @@
         public function getDataVerifikasiBerkasJenisDokumen($id) 
         {
             $this->db->where('idBatch', $id);
-            $this->db->select('idJenisDokumen');
+            // $this->db->select('idJenisDokumen');
             return $this->db->get('verifikasi_berkas')->row_array();
         }
 

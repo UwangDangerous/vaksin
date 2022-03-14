@@ -19,6 +19,7 @@
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
             $this->db->join('sample_batch', '_sample.idSample = sample_batch.idSample');
             $this->db->join('_jenissample', '_jenissample.idJenisSample = _sample.idJenisSample');
+            $this->db->join('_jenisKemasan', '_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan');
             $this->db->join('_importir', '_importir.idSample = _sample.idSample', 'left');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = sample_batch.idJenisDokumen');

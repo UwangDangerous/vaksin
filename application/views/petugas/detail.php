@@ -44,7 +44,7 @@
                 <tr>
                     <th class='align-top'>Jumlah Produksi</th>
                     <td class='align-top'>:</td> 
-                    <td><?= $batch['vial']; ?> ( <?= $batch['wadah']; ?> )</td>
+                    <td><?= $batch['vial']; ?> ( <?= $batch['namaJenisKemasan']; ?> )</td>
                 </tr>
                 <tr>
                     <th class='align-top'>Dosis</th>
@@ -102,12 +102,12 @@
                         <?php endif ; ?>
                     </td>
                 </tr>
+                <?php $verifikasi_sample = $this->Petugas_model->getVerifikasiSample($batch['idBatch']) ; ?>
                 <?php if($batch['idJenisDokumen'] == 3) : ?>
                     <tr>
                         <th class="align-top">Verifikasi Sampel</th>
                         <th class="align-top">:</th>
                         <td class="align-top">
-                            <?php $verifikasi_sample = $this->Petugas_model->getVerifikasiSample($batch['idBatch']) ; ?>
                             <?php if($verifikasi_sample) : ?>
                                 <a href="" class="btn btn-success" data-toggle='tooltip' title='sampel diterima dan sesuai'><i class="fa fa-check"></i></a>
                                 <?php $verify_sample = true ; ?>
@@ -228,7 +228,7 @@
                                     <th class='align-top'>Jumlah Sampel Yang Dikirim </th>
                                     <th class='align-top'>: </th>
                                     <td class='align-top'>
-                                        <?= $batch['pengiriman']; ?> <?= $batch['wadah']; ?>
+                                        <?= $batch['pengiriman']; ?> <?= $batch['kemasan']; ?>
                                     </td>
                                 </tr>
                                 <tr>

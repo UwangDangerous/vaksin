@@ -44,6 +44,7 @@
                     </td>
                     <td>
                         <a href="<?= base_url(); ?>sample_/index/<?= $row['idSurat']; ?>" class="badge badge-primary" data-toggle="tooltip" title="Info Sampel / Tambah Sampel"> <i class="fa fa-bars"></i> </a>
+                        <a href="<?= base_url(); ?>surat/hapusSurat/<?= $row['idSurat']; ?>" class="badge badge-danger" data-toggle="tooltip" title="Hapus Data" onclick="return confirm('yakin ingin hapus data ini?') ;" > <i class="fa fa-trash"></i> </a>
                     </td>
             <?php endforeach ; ?>
             </tbody>

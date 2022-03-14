@@ -10,6 +10,7 @@
         public function getJumlahSample($id) 
         {
             $this->db->where('idSurat', $id);
+            $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample') ;
             $this->db->select('count(idSurat) as jumlah');
             return $this->db->get("_sample")->row_array()['jumlah'];
         }
@@ -29,18 +30,27 @@
 
             if($this->db->insert('_surat', $query)){
                 $pesan = [
-                    'pesan' => 'Data Berhasil Di Tambah',
+                    'pesan' => 'Data Berhasil Di Tambah, Silahkan lengkapi datas sampel untuk tahap selanjutnya',
                     'warna' => 'success' 
                 ];
+
+                $this->db->where('idEU', $this->session->userdata('eksId')) ;
+                $this->db->select('idSurat') ;
+                $this->db->order_by('idSurat','asc') ;
+                $idSurat = 0 ;
+                foreach($this->db->get('_surat')->result_array() as $surat) {
+                    $idSurat = $surat['idSurat'] ;
+                }
+
                 $this->session->set_flashdata($pesan);
-                redirect('surat') ;
+                redirect('sample_/index/'.$idSurat) ;
             }else{
                 $pesan = [
                     'pesan' => 'Data Gagal Di Tambah',
                     'warna' => 'danger' 
                 ];
                 $this->session->set_flashdata($pesan);
-                redirect('surat/penundaan') ;
+                redirect('surat/kirim') ;
             }
         }
 

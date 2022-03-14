@@ -70,9 +70,6 @@
                 $this->form_validation->set_rules('nama', 'Nama Surat / Keterangan', 'required');
                 $this->form_validation->set_rules('js', 'Jenis Sampel', 'required');
                 $this->form_validation->set_rules('jm', 'Jenis Perusahaan', 'required');
-                // $this->form_validation->set_rules('jd', 'Jenis Dokumen', 'required');
-                // $this->form_validation->set_rules('ski', 'Nomor SKI', 'required');
-                $this->form_validation->set_rules('exp', 'Tanggal Kadaluarsa', 'required');
 
                 if($this->form_validation->run() == FALSE) {
                     $this->load->view('temp/dsbHeader',$data);
@@ -931,6 +928,13 @@
 
 
         // form
+
+
+
+        public function cobaTambahDisable()
+        {
+            var_dump("".$this->input->post('test')) ;
+        }
     }
 
 ?>

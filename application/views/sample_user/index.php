@@ -46,18 +46,6 @@
                         <td><?= $no++; ?></td>
                         <td><?= $row['namaSample'];?></td>
                         <td><?= $row['jenisSample']; ?></td>
-                        <!-- <td>
-                            <?php// if($row['idJenisManufacture'] == 2)  : ?>
-                                <?php// if($row['namaImportir'] == null) : ?>
-                                    <i>null</i> <br>
-                                    ( <?//= $row['namaJenisManufacture']; ?> )
-                                <?php// else : ?>
-                                    <?//= $row['namaImportir']; ?> <br> ( <?//= $row['namaJenisManufacture']; ?> )
-                                <?php// endif ; ?>
-                            <?php// else : ?>
-                                <?//= $row['namaEU']; ?>
-                            <?php// endif ; ?>
-                        </td> -->
 
                         <!-- <td> <?//= $this->_Date->formatTanggal($row['tgl_kadaluarsa']); ?> </td> -->
                         <td>
@@ -68,28 +56,20 @@
                             <?php endif ; ?>
                         </td>
                         <td>
-                            <div class="dropdown" id='dd'>
-                                <a href='#' class="badge badge-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="flip">
-                                    <i class="fa fa-bars"></i>
+                            <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Rincian & Lengkapi Dokumen'>
+                                <i class="fa fa-pen"></i>
+                            </a>
+                            <?php if($this->User_Sample_model->cekPetugas($row['idSample']) == null) : ?>
+                                <a href="#" class="badge badge-success" data-toggle='modal' data-target='#ubah_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Ubah Data'>
+                                    <i class="fa fa-edit"></i>
                                 </a>
-
-                                <div class="dropdown-menu pl-3" style='width:180px ;' aria-labelledby="dropdownMenuButton">
-                                    <a href="<?=base_url();?>sample_/batch_add/<?= $row['idSurat']; ?>/<?= $row['idSample'];?>" class="badge badge-primary" data-toggle='tooltip' title='Rincian & Lengkapi Dokumen'>
-                                        <i class="fa fa-pen"></i>
-                                    </a>
-                                    <?php if($this->User_Sample_model->cekPetugas($row['idSample']) == null) : ?>
-                                        <a href="#" class="badge badge-success" data-toggle='modal' data-target='#ubah_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Ubah Data'>
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="<?= base_url(); ?>sample_/hapus/<?= $row['idSample'];?>" class="badge badge-danger" data-toggle='tooltip' title='Hapus Data'>
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    <?php endif ; ?>
-                                    <a href="#" class="badge badge-secondary" data-toggle='modal' data-target='#riwayat_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Riwayat Pekerjaan'>
-                                        <i class="fa fa-file-signature"></i>
-                                    </a>
-                                </div>
-                            </div>
+                                <a href="<?= base_url(); ?>sample_/hapus/<?= $row['idSample'];?>" class="badge badge-danger" data-toggle='tooltip' title='Hapus Data'>
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            <?php endif ; ?>
+                            <a href="#" class="badge badge-secondary" data-toggle='modal' data-target='#riwayat_<?= $row['idSample']; ?>' data-toggle='tooltip' title='Riwayat Pekerjaan'>
+                                <i class="fa fa-file-signature"></i>
+                            </a>
                         </td>
 
                         <div class="modal fade" id="riwayat_<?= $row['idSample']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

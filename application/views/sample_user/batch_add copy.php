@@ -26,12 +26,12 @@
                 <tr>
                     <th class='align-top'>Jenis Sample</th>
                     <td class='align-top'>:</td>
-                    <td class='align-top'><?= $sample['namaJenisManufacture']; ?></td>
+                    <td class='align-top'><?= $sample['jenisSample']; ?></td>
                 </tr>
                 <tr>
-                    <th class='align-top'></th>
+                    <th class='align-top'>Jenis Perusahaan</th>
                     <td class='align-top'>:</td>
-                    <td class='align-top'><?= $sample['jenisSample']; ?></td>
+                    <td class='align-top'><?= $sample['namaJenisManufacture']; ?></td>
                 </tr>
                 <!-- perusahaan -->
                     <?php if(!empty($this->session->flashdata('pesanImportir') )) : ?>
@@ -300,7 +300,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <label for="batch">No Batch</label>
-                                                                <input type="text" name="batch" id="batch" class='form-control' placeholder='Nomer Batch' value='<?= $b['noBatch'];?>'>
+                                                                <input type="number" name="batch" id="batch" class='form-control' placeholder='Nomer Batch' value='<?= $b['noBatch'];?>'>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <label for="Dosis">Dosis</label>
@@ -392,7 +392,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="batch">No Batch</label>
-                        <input type="text" name="batch" id="batch" class='form-control' placeholder='Nomer Batch'>
+                        <input type="number" name="batch" id="batch" class='form-control' placeholder='Nomer Batch'>
                     </div>
                     <div class="col-md-6">
                         <label for="Dosis">Dosis</label>
@@ -423,70 +423,26 @@
                         </div>
                         </div>
                     </div>
-
-                        <?php if($sample['idJenisManufacture'] == 1) : ?>
-                            <div class="col-md-6">
-                                <!-- vaksin domestik -->
-                                    <?php $jenisDokumen = $this->db->get('_jenisDokumen')->result_array(); ?>
-
-                                    <label for="jd">Jenis Dokumen</label>
-                                    <select name="jd" id="jd" class="form-control">
-                                        <option value="-">-pilih-</option>
-                                        <?php foreach ($jenisDokumen as $jd) : ?>
-                                            <option value="<?= $jd['idJenisDokumen'];?>|<?= $jd['keteranganDokumen'];?>|<?= $jd['namaJenisDokumen'];?>"><?= $jd['namaJenisDokumen'];?></option>
-                                        <?php endforeach ; ?>
-                                    </select>
-                                    <div class="col-md-6"></div>
-                                    <div class="col-md-6">
-                                        <div id="jdokumen"></div>
-                                    </div>
-                                <!-- vaksin domestik -->
-                            </div>
-                        <?php elseif($sample['idJenisManufacture'] == 2) : ?>
-                            <!-- vaksin impor -->
-                                <?php $this->db->where('idJenisDokumen' , 3) ?>
-                                <?php $jenisDokumen = $this->db->get('_jenisDokumen')->row_array(); ?>
-
-                                <div class="col-md-6">
-                                    <label>Jenis Dokumen</label>
-                                    <div class="card mt-2">
-                                        <h5 class="card-header"><?= $jenisDokumen['namaJenisDokumen']; ?></h5>
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <?= $jenisDokumen['keteranganDokumen']; ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" name='jd' value='<?= $jenisDokumen['idJenisDokumen'];?>'>
-
-                                <div class="col-md-6">
-                                    <label for="ski">No SKI</label>
-                                    <input type="number" name="ski" id="ski" class='form-control' placeholder='No. Surat Keterangan Import'>
-                                </div>
-                            <!-- vaksin impor -->
-                        <?php else : ?>
-                            <!-- non vaksin -->
-                                <?php $this->db->where('idJenisDokumen' , 4) ?>
-                                <?php $jenisDokumen = $this->db->get('_jenisDokumen')->row_array(); ?>
-
-                                <div class="col-md-6">
-                                    <label>Jenis Dokumen</label>
-                                    <div class="card mt-2">
-                                        <h5 class="card-header"><?= $jenisDokumen['namaJenisDokumen']; ?></h5>
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                <?= $jenisDokumen['keteranganDokumen']; ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <input type="hidden" name='jd' value='<?= $jenisDokumen['idJenisDokumen'];?>'>
-                                
-                            <!-- non vaksin -->
-                        <?php endif ; ?>
+                    <div class="col-md-6">
+                        <label for="jd">Jenis Dokumen</label>
+                        <select name="jd" id="jd" class="form-control">
+                            <?php $jenisDokumen = $this->db->get('_jenisDokumen')->result_array(); ?>
+                            <option value="-">-pilih-</option>
+                            <?php foreach ($jenisDokumen as $jd) : ?>
+                                <option value="<?= $jd['idJenisDokumen'];?>|<?= $jd['keteranganDokumen'];?>|<?= $jd['namaJenisDokumen'];?>"><?= $jd['namaJenisDokumen'];?></option>
+                            <?php endforeach ; ?>
+                        </select>
+                    </div>
+                    <?php if($sample['idJenisManufacture'] == 2) : ?>
+                        <div class="col-md-6">
+                            <label for="ski">No SKI</label>
+                            <input type="number" name="ski" id="ski" class='form-control' placeholder='No. Surat Keterangan Import'>
+                        </div>
+                    <?php endif ; ?>
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div id="jdokumen"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -541,3 +497,4 @@
         });
     </script>
 <!-- tambah batch -->
+

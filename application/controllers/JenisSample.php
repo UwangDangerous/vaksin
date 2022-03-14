@@ -8,15 +8,23 @@
         }
         
         // jenis vaksin
+
+            public function getDataVaksin() 
+            {
+                $this->db->join('_jenisKemasan', '_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan') ;
+                $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _jenisSample.idJenisManufacture') ;
+                return  $this->db->get('_jenisSample')->result_array();
+            }
+
             public function index()
             {
                 $idLevel = $this->session->userdata('idLevel') ;
                 $data['judul'] = 'Daftar Vaksin '. $this->session->userdata('namaLevel'); 
                 $data['header'] = 'Daftar Vaksin'; 
                 $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Daftar Vaksin';
-                $data['sample'] = $this->db->get('_jenisSample')->result_array();
-                $data['wadah'] = ['vial|vial', 'ampul|ampoule'] ;
-                $data['produksi'] = ['Domestik', 'Import'] ;
+                $data['sample'] = $this->getDataVaksin() ;
+                $data['produksi'] = $this->db->get('_jenisManufacture')->result_array();
+                $data['kemasan'] = $this->db->get('_jenisKemasan')->result_array();
                 if( ($this->session->userdata('key') != null) )
                 {
                     $this->load->view('temp/dashboardHeader',$data);
@@ -50,14 +58,12 @@
 
             public function TambahData() 
             {
-                $wadah = explode('|', $this->input->post('wadah')) ;
                 $query = [
                     'jenisSample' => $this->input->post('nama'),
                     'pelulusan' => $this->input->post('lama'),
-                    'wadah' => $wadah[0],
                     'jsIng' => $this->input->post('namaIng'),
-                    'wIng' => $wadah[1],
-                    'idJenisManufacture' => $this->input->post('produksi')
+                    'idJenisManufacture' => $this->input->post('produksi'),
+                    'idJenisKemasan' => $this->input->post('kemasan')
                 ];
                 if( $this->db->insert('_jenisSample',$query) ) {
 
@@ -237,19 +243,19 @@
             public function jenisSample()
             {
                 $data['judul'] =  "Jenis Sampel"  . $this->session->userdata('namaLevel'); 
-                    $data['header'] =  "Jenis Sampel" ; 
-                    $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Sample';
-                    $this->db->order_by('idJenisManufacture','asc') ;
-                    $data['jenisSample'] = $this->db->get('_jenisManufacture')->result_array();
-                    if( ($this->session->userdata('key') != null) )
-                    {
-                        $this->load->view('temp/dashboardHeader',$data);
-                        $this->load->view('jenisSample/_jenisSample');
-                        $this->load->view('temp/dashboardFooter');
-                    }else{
-                        $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
-                        redirect('auth/inuser') ;
-                    }
+                $data['header'] =  "Jenis Sampel" ; 
+                $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Sample';
+                $this->db->order_by('idJenisManufacture','asc') ;
+                $data['jenisSample'] = $this->db->get('_jenisManufacture')->result_array();
+                if( ($this->session->userdata('key') != null) )
+                {
+                    $this->load->view('temp/dashboardHeader',$data);
+                    $this->load->view('jenisSample/_jenisSample');
+                    $this->load->view('temp/dashboardFooter');
+                }else{
+                    $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
+                    redirect('auth/inuser') ;
+                }
             }
 
             public function tambahJenisManufacture()
@@ -316,19 +322,19 @@
             public function jenisKemasan()
             {
                 $data['judul'] =  "Jenis Kemasan"  . $this->session->userdata('namaLevel'); 
-                    $data['header'] =  "Jenis Kemasan" ; 
-                    $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Kemasan';
-                    $this->db->order_by('idJenisKemasan','asc') ;
-                    $data['jenisKemasan'] = $this->db->get('_jenisKemasan')->result_array();
-                    if( ($this->session->userdata('key') != null) )
-                    {
-                        $this->load->view('temp/dashboardHeader',$data);
-                        $this->load->view('jenisSample/jenisKemasan');
-                        $this->load->view('temp/dashboardFooter');
-                    }else{
-                        $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
-                        redirect('auth/inuser') ;
-                    }
+                $data['header'] =  "Jenis Kemasan" ; 
+                $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Jenis Kemasan';
+                $this->db->order_by('idJenisKemasan','asc') ;
+                $data['jenisKemasan'] = $this->db->get('_jenisKemasan')->result_array();
+                if( ($this->session->userdata('key') != null) )
+                {
+                    $this->load->view('temp/dashboardHeader',$data);
+                    $this->load->view('jenisSample/jenisKemasan');
+                    $this->load->view('temp/dashboardFooter');
+                }else{
+                    $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
+                    redirect('auth/inuser') ;
+                }
             }
 
             public function tambahJenisKemasan()
@@ -400,6 +406,71 @@
         
 
         
+
+        // tabel pengujian
+            public function tabel_tambah_pengujian($id) 
+            {
+                $this->db->where('idJenisSample', $id) ;
+                $judul = $this->db->get('_jenissample')->row_array()['jenisSample'] ;
+
+                $this->db->order_by('idJenisPengujian','asc') ;
+                $data['tabel_pengujian'] = $this->db->get('_jenispengujian')->result_array() ;
+                $data['id'] = $id ;
+
+                $data['judul'] =  "Tambah Pengujian $judul"  . $this->session->userdata('namaLevel'); 
+                $data['header'] =  "Tambah Pengujian $judul" ; 
+                $data['bread'] = 'Dashboard / <a href="'.base_url().'jenisSample"> Jenis Vaksin </a> / Tambah Pengujian';
+                if( ($this->session->userdata('key') != null) )
+                {
+                    $this->load->view('temp/dashboardHeader',$data);
+                    $this->load->view('jenisSample/tabel_tambah_pengujian');
+                    $this->load->view('temp/dashboardFooter');
+                }else{
+                    $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
+                    redirect('auth/inuser') ;
+                }
+            }
+        // tabel pengujian
+
+        //pengaturan pengujian
+            public function pengaturanPengujian($set, $idJenisSample, $idJenisPengujian)
+            {
+                if($set == 'aktif') {
+                    $query = [
+                        'idJenisSample' => $idJenisSample,
+                        'idJenisPengujian' => $idJenisPengujian
+                    ];
+
+                    if($this->db->insert('_js_used', $query)) {
+                        $pesan = [
+                            'pesan' => "pengujian berhasil di $set".'an',
+                            'warna' => "success"
+                        ] ;
+                    }else{
+                        $pesan = [
+                            'pesan' => "pengujian gagal di $set".'an',
+                            'warna' => "danger"
+                        ] ;
+                    }
+                }else{
+                    $this->db->where('idJenisPengujian',$idJenisPengujian) ;
+                    $this->db->where('idJenisSample',$idJenisSample) ;
+                    if($this->db->delete('_js_used')) {
+                        $pesan = [
+                            'pesan' => "pengujian berhasil di $set".'an',
+                            'warna' => "success"
+                        ] ;
+                    }else{
+                        $pesan = [
+                            'pesan' => "pengujian gagal di $set".'an',
+                            'warna' => "danger"
+                        ] ; 
+                    }
+                }
+
+                    $this->session->set_flashdata($pesan) ;
+                    redirect("jenisSample/tabel_tambah_pengujian/$idJenisSample") ;
+            }
     } 
 
 ?>

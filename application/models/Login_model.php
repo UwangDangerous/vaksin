@@ -47,7 +47,7 @@ class Login_model extends CI_model {
 
             $sesi = [
                 'eksId' => $query['idEU'] ,
-                // 'eksNama' => $query['namaDepan'].'. '.$query['namaEU'] ,
+                'eksNamaDepan' => $query['namaDepan'],
                 'eksNama' => $query['namaEU'] ,
                 'email' => $query['email'] ,
                 'aktif' => $query['aktif'] 

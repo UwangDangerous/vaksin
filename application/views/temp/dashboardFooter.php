@@ -61,6 +61,8 @@
                 $('#jenisPengujian').dataTable();
 
                 $('#tabelManufactureXjenisSample').dataTable();
+
+                $('#tabel_tambah_pengujian').dataTable();
             } );
         </script>
 

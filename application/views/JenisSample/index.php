@@ -51,15 +51,9 @@
                                 <div class="col-md-6"><i> <?= $row['jsIng'] ?> </i></div>
                             </div>
                         </td>
-                        <td><?= $row['wadah']; ?> ( <i> <?= $row['wIng']; ?> </i> )</td>
+                        <td><?= $row['namaJenisKemasan']; ?> / <i> <?= $row['ingJenisKemasan']; ?> </i></td>
                         <td><?= $row['pelulusan'] ?> Hari</td>
-                        <td>
-                            <?php if ($row['idJenisManufacture'] == '1') : ?>
-                                Domestik
-                            <?php else : ?>
-                                Import
-                            <?php endif ; ?>
-                        </td>
+                        <td><?= $row['namaJenisManufacture'] ; ?></td>
                         <td>
                             <a href="#"  data-toggle="modal" data-target="#ubahData<?= $row['idJenisSample'];?>"  data-toggle='tooltip' title='Ubah Data' class="badge badge-success">
                                 <i class="fa fa-edit"></i>
@@ -67,6 +61,11 @@
                             <a href="<?= base_url(); ?>form/index/<?= $row['idJenisSample']; ?>" data-toggle='tooltip' title='Buat Form' class="badge badge-primary">
                                 <i class="fa fa-table"></i>
                             </a>
+                            <?php if($row['idJenisManufacture'] != 2) : ?>
+                                <a href="<?= base_url() ;?>jenisSample/tabel_tambah_pengujian/<?= $row['idJenisSample']?>" class="badge badge-warning" data-toggle='tooltip' title='Pilih Pengujian'>
+                                    <i class="fa fa-syringe"></i>
+                                </a>
+                            <?php endif ; ?>
                         </td>
 
                         <!-- Modal Ubah Data-->
@@ -74,7 +73,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Ubah Data Jenis Sample</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Ubah Data Jenis Vaksin</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
@@ -90,25 +89,23 @@
                                                     <label for="lama">Durasi Pengerjaan Pelulusan</label>
                                                     <input type="number" name="lama" id="lama" class='form-control' placeholder='Hitungan Hari' value="<?= $row['pelulusan'];?>">
                                                     
-                                                    <label for="wadah">Kemasan</label>
-                                                    <select name="wadah" id="wadah" class="form-control">
-                                                        <?php foreach ($wadah as $w) : ?>
-                                                            <?php $w2 = explode("|",$w);?>
-                                                            <?php if($w2[0] == $row['wadah']) : ?>
-                                                                <option selected value="<?= $w;?>"> <?= $w2[0];?> </option>
+                                                    <label for="kemasan"></label>
+                                                    <select name="kemasan" id="kemasan" class="form-control">
+                                                        <?php foreach ($kemasan as $k) : ?>
+                                                            <?php if($k['idJenisKemasan'] == $row['idJenisKemasan']) : ?>
+                                                                <option selected value="<?= $k['idJenisKemasan'];?>"> <?= $k['namaJenisKemasan']; ?> ( <i><?= $k['ingJenisKemasan']; ?></i> ) </option>
                                                             <?php else : ?>
-                                                                <option value="<?= $w;?>"> <?= $w2[0];?> </option>
+                                                                <option value="<?= $k['idJenisKemasan'];?>"> <?= $k['namaJenisKemasan']; ?> ( <i><?= $k['ingJenisKemasan']; ?></i> ) </option>
                                                             <?php endif ; ?>
                                                         <?php endforeach ; ?>
                                                     </select>
-
-                                                    <label for="produksi">Jenis Produksi</label>
+                                                    <label for="produksi">Jenis Sampel</label>
                                                     <select name="produksi" id="produksi" class="form-control">
                                                         <?php foreach ($produksi as $p) : ?>
-                                                            <?php if($p == $row['produksi']) : ?>
-                                                                <option selected value="<?= $p;?>"> <?= $p;?> </option>
+                                                            <?php if($p['idJenisManufacture'] == $row['idJenisManufacture']) : ?>
+                                                                <option selected value="<?= $p['idJenisManufacture'];?>"> <?= $p['namaJenisManufacture'];?> </option>
                                                             <?php else : ?>
-                                                                <option value="<?= $p;?>"> <?= $p;?> </option>
+                                                                <option value="<?= $p['idJenisManufacture'];?>"> <?= $p['namaJenisManufacture'];?> </option>
                                                             <?php endif ; ?>
                                                         <?php endforeach ; ?>
                                                     </select>
@@ -153,7 +150,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Jenis Sample</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Jenis Vaksin</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -166,19 +163,16 @@
                     <input type="text" name="namaIng" id="namaIng" class='form-control' placeholder='Name Vaccine'>
                     <label for="lama">Durasi Pengerjaan Pelulusan</label>
                     <input type="number" name="lama" id="lama" class='form-control' placeholder='Hitungan Hari'>
-                    <label for="lama2">Durasi Pengerjaan Pengujian</label>
-                    <input type="number" name="lama2" id="lama2" class='form-control' placeholder='Hitungan Hari'>
-                    <label for="wadah">Jenis Wadah</label>
-                    <select name="wadah" id="wadah" class="form-control">
-                        <?php foreach ($wadah as $w) : ?>
-                            <?php $w2 = explode("|",$w);?>
-                            <option value="<?= $w;?>"> <?= $w2[0];?> </option>
+                    <label for="kemasan">Kemasan</label>
+                    <select name="kemasan" id="kemasan" class="form-control">
+                        <?php foreach ($kemasan as $k) : ?>
+                            <option value="<?= $k['idJenisKemasan'];?>"> <?= $k['namaJenisKemasan']; ?> ( <i><?= $k['ingJenisKemasan']; ?></i> ) </option>
                         <?php endforeach ; ?>
                     </select>
-                    <label for="produksi">Jenis Produksi</label>
+                    <label for="produksi">Jenis Sampel</label>
                     <select name="produksi" id="produksi" class="form-control">
                         <?php foreach ($produksi as $p) : ?>
-                            <option value="<?= $p;?>"> <?= $p;?> </option>
+                            <option value="<?= $p['idJenisManufacture'];?>"> <?= $p['namaJenisManufacture'];?> </option>
                         <?php endforeach ; ?>
                     </select>
             </div>
@@ -189,21 +183,3 @@
     </div>
   </div>
 </div>
-
-
-
-<!-- <script>
-    $('#cari').keyup(function(){
-        var cari = $('#cari').val() ;
-        // console.log(cari) ;
-        $.ajax({
-              url: '<?//= base_url(); ?>jenisSample/index/',
-              type: 'post',
-            //   data: $(this).serialize(),      
-                data : {cari : cari},        
-              success: function(data) {               
-                $(documen).html('<?//= base_url();?>jenisSample/index') ;             
-              }
-          });
-    }) ;
-</script> -->

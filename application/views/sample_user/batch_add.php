@@ -1,5 +1,10 @@
 <?php //var_dump($sample) ; ?>
-<?php $status_very = false ; ?>
+<?php $very_pelulusan = false ; ?>
+<?php $very_pengujian = false ; ?>
+<?php $very_pembayaran = false ; ?>
+<?php $time_line = false ; ?>
+<?php $pekerjaan = '' ; ?>
+<?php $domestik = '' ; ?>
 <div class="card p-3">
     <?php if(!empty($this->session->flashdata('pesan') )) : ?>
         <!-- <tr>
@@ -102,30 +107,53 @@
                     <table cellpadding=2 class='table table-striped table-bordered text-center'>
                         <thead>
                             <tr>
-                                <th class='align-middle' rowspan=2>No</th>
-                                <th class='align-middle' rowspan=2>Aksi</th>
-                                <th class='align-middle' rowspan=2>Data Dukung</th>
-                                <th class='align-middle' rowspan=2>No Batch</th>
-                                <th class='align-middle' rowspan=2>Dosis</th>
-                                <th class='align-middle' rowspan=2>Jenis Dokumen</th>
-                                <th class='align-middle' colspan=2>Jumlah</th>
-                                <th class='align-middle' colspan=2>Status Veifikasi</th>
-                                <th class='align-middle' rowspan=2>Bukti Bayar</th>
-                                <th class='align-middle' rowspan=2>Lama Pengerjaan</th>
+                                <th class='align-middle' rowspan=2>No</th> <!-- 1 -->
+
+                                <th class='align-middle' rowspan=2>Aksi</th> <!-- 2 -->
+
+                                <?php if($sample['idJenisManufacture'] == 1 || $sample['idJenisManufacture'] == 2) : ?>
+                                    <th class='align-middle' rowspan=2>Data Dukung</th>
+                                <?php endif ; ?> <!-- 3 -->
+
+                                <th class='align-middle' rowspan=2>No Batch</th> <!-- 4 -->
+                                <th class='align-middle' rowspan=2>Dosis</th> <!-- 5 -->
+                                <th class='align-middle' rowspan=2>Jenis Dokumen</th> <!-- 6 -->
+                                <th class='align-middle' colspan=2>Jumlah Sampel</th> <!-- 7 -->
+
+                                <!-- 8 -->
+                                <?php if($sample['idJenisManufacture'] == 1) : ?>  
+                                    <?php $pekerjaan = 'semua' ; ?>
+                                    <th class='align-middle' colspan=2>Status Verifikasi</th>
+                                <?php elseif($sample['idJenisManufacture'] == 2) : ?> 
+                                    <?php $pekerjaan = 'pelulusan' ;?>
+                                    <th class="align-middle" rowspan=2>Status Verifikasi Pelulusan</th>
+                                <?php else : ?> 
+                                    <?php $pekerjaan = 'pengujian' ; ?>
+                                    <th class="align-middle" rowspan=2>Status Verifikasi Pengujian</th>
+                                <?php endif ; ?> 
+                                <!-- 8 -->
+
+
+
+                                <th class='align-middle' rowspan=2>Bukti Bayar</th> <!-- 9 -->
+                                <th class='align-middle' rowspan=2>Lama Pengerjaan</th> <!-- 10 -->
                             </tr>
                             <tr>
                                 <th>Produksi</th>
                                 <th>Pengiriman</th>
-                                <th>Pengujian</th>
-                                <th>Pelulusan</th>
+                                <?php if($sample['idJenisManufacture'] == 1) : ?>  <!-- 8 -->
+                                    <th>Pengujian</th>
+                                    <th>Pelulusan</th>
+                                <?php endif ; ?>  <!-- 8 -->
                             </tr>
                         </thead>
                         <tbody>
                             <?php $no = 1 ; ?>
                             <?php foreach ($batch as $b) : ?>
                                 <tr>
-                                    <td><?= $no++; ?></td> <!-- no -->
-                                    <td> <!-- aksi -->
+                                    <td><?= $no++; ?></td> <!-- 1 -->
+
+                                    <td> <!-- aksi --> <!-- 2 -->
                                         <a href="#" class="badge badge-success" data-toggle='modal' data-target='#modalBatch<?= $b['idBatch'];?>' data-toggle='tooltip' title='ubah data batch'>
                                             <i class="fa fa-edit"></i>
                                         </a>
@@ -135,154 +163,239 @@
                                         <a href="#" class="badge badge-primary" data-toggle='tooltip' title='Detail'>
                                             <i class="fa fa-info"></i>
                                         </a>
-                                    </td>
-                                    <td> <!-- Data Dukung -->
-                                        <div id="accordion">
-                                            <div class="card">
-                                                <div class="card-header" id="headingTwo">
-                                                    <h5 class="mb-0">
-                                                        <?php $dataDukung = 0; ?>
-                                                        <?php $manufacture = $this->User_Sample_model->getJenisDataDukung($sample['idJenisManufacture']); ?>
-                                                        <?php foreach ($manufacture as $m) : ?>
-                                                            <?php $dataDukung += $this->User_Sample_model->getJumlahDataDukung($b['idBatch'], $m['idJenisDataDukung']); ?>
-                                                        <?php endforeach ; ?>
-                                                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#cls<?= $b['idBatch'];?>" aria-expanded="false" data-toggle='tooltip' title='Melengkapi <?= $dataDukung; ?> Dari <?= count($manufacture); ?> Dokumen'>
-                                                            <?= $dataDukung; ?> Dari <?= count($manufacture); ?>
-                                                        </button>
-                                                    </h5>
-                                                </div>
-                                                <div id="cls<?= $b['idBatch'];?>" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                                    <div class="card-body">
-                                                        <ul class="list-group text-left">
+                                    </td> <!-- aksi --> <!-- 2 -->
+
+                                    <?php if($sample['idJenisManufacture'] == 1 || $sample['idJenisManufacture'] == 2) : ?> <!-- 3 -->
+                                        <td> <!-- Data Dukung -->
+                                            <div id="accordion">
+                                                <div class="card">
+                                                    <div class="card-header" id="headingTwo">
+                                                        <h5 class="mb-0">
+                                                            <?php $dataDukung = 0; ?>
+                                                            <?php $manufacture = $this->User_Sample_model->getJenisDataDukung($sample['idJenisManufacture']); ?>
                                                             <?php foreach ($manufacture as $m) : ?>
-                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <?= $m['namaJenisDataDukung']; ?>
-                                                                    <?php if($isiDock = $this->User_Sample_model->getInfoJumlahDoc($m['idJenisDataDukung'], $b['idBatch']) ) : ?>
-                                                                        <span href="" class="badge badge-success"><i class="fa fa-check"></i></span>
-                                                                    <?php else : ?>
-                                                                        <a href='#' class="badge badge-primary" data-toggle='modal' data-target='#upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung'] ;?>' data-toggle='tooltip' title='Upload <?= $m['namaJenisDataDukung']; ?>'> <i class="fa fa-upload"></i> </a>
-                                                                    <?php endif ; ?>
-                                                                </li>
-
-                                                                <!-- modal upload -->
-                                                                    <div class="modal fade" id="upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                                    <div class="modal-dialog" role="document">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel"> Upload Data<?= $m['namaJenisDataDukung'];?> </h5>
-                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                </button>
-                                                                            </div>
-                                                                            <form method="post" class='myform' enctype="multipart/form-data" action="<?= base_url();?>sample_/uploadDataDukungBatch/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>">
-                                                                                <div class="modal-body">
-                                                                                    <input type="hidden" name='idBatch' value='<?= $b['idBatch'];?>'>
-                                                                                    <input type="hidden" name='idJenisDataDukung' value='<?= $m['idJenisDataDukung'];?>'>
-                                                                                    <input type="hidden" name='namaJenisDataDukung' value='<?= $m['namaJenisDataDukung'];?>'>
-                                                                                    <label for="berkas">Upload <?= $m['namaJenisDataDukung'] ?></label>
-                                                                                    <input type="file" name="berkas" id="berkas" class='form-control'>
-                                                                                    <b>*file pdf</b>
-                                                                                </div>
-
-                                                                                <div class="modal-footer">
-                                                                                    <button type="submit" class="btn btn-primary">Upload</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                    </div>
-                                                                <!-- modal upload -->
+                                                                <?php $dataDukung += $this->User_Sample_model->getJumlahDataDukung($b['idBatch'], $m['idJenisDataDukung']); ?>
                                                             <?php endforeach ; ?>
-                                                        </ul>
+                                                            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#cls<?= $b['idBatch'];?>" aria-expanded="false" data-toggle='tooltip' title='Melengkapi <?= $dataDukung; ?> Dari <?= count($manufacture); ?> Dokumen'>
+                                                                <?= $dataDukung; ?> Dari <?= count($manufacture); ?>
+                                                            </button>
+                                                        </h5>
+                                                    </div>
+                                                    <div id="cls<?= $b['idBatch'];?>" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                                        <div class="card-body">
+                                                            <ul class="list-group text-left">
+                                                                <?php foreach ($manufacture as $m) : ?>
+                                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                        <?= $m['namaJenisDataDukung']; ?>
+                                                                        <?php if($isiDock = $this->User_Sample_model->getInfoJumlahDoc($m['idJenisDataDukung'], $b['idBatch']) ) : ?>
+                                                                            <span href="" class="badge badge-success"><i class="fa fa-check"></i></span>
+                                                                        <?php else : ?>
+                                                                            <a href='#' class="badge badge-primary" data-toggle='modal' data-target='#upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung'] ;?>' data-toggle='tooltip' title='Upload <?= $m['namaJenisDataDukung']; ?>'> <i class="fa fa-upload"></i> </a>
+                                                                        <?php endif ; ?>
+                                                                    </li>
+    
+                                                                    <!-- modal upload -->
+                                                                        <div class="modal fade" id="upload<?= $b['idBatch'] ;?><?= $m['idJenisDataDukung']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                        <div class="modal-dialog" role="document">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="exampleModalLabel"> Upload Data<?= $m['namaJenisDataDukung'];?> </h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <form method="post" class='myform' enctype="multipart/form-data" action="<?= base_url();?>sample_/uploadDataDukungBatch/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>">
+                                                                                    <div class="modal-body">
+                                                                                        <input type="hidden" name='idBatch' value='<?= $b['idBatch'];?>'>
+                                                                                        <input type="hidden" name='idJenisDataDukung' value='<?= $m['idJenisDataDukung'];?>'>
+                                                                                        <input type="hidden" name='namaJenisDataDukung' value='<?= $m['namaJenisDataDukung'];?>'>
+                                                                                        <label for="berkas">Upload <?= $m['namaJenisDataDukung'] ?></label>
+                                                                                        <input type="file" name="berkas" id="berkas" class='form-control'>
+                                                                                        <b>*file pdf</b>
+                                                                                    </div>
+    
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
+                                                                    <!-- modal upload -->
+                                                                <?php endforeach ; ?>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td><?= $b['noBatch']; ?></td> <!-- no batch -->
-                                    <td><?= $b['dosis']; ?></td> <!-- dosis -->
-                                    <td><?= $b['namaJenisDokumen']; ?></td> <!-- dosis -->
-                                    <td> <?= number_format($b['vial'], 0, ',', ','); ?> (<?= $b['namaJenisKemasan']; ?>) </td> <!-- jumlah produksi -->
-                                    <td> <?= number_format($b['pengiriman'], 0, ',', ','); ?> (<?= $b['namaJenisKemasan']; ?>) </td> <!-- jumlah pengiriman -->
-                                    <?php if($b['idJenisDokumen'] == 2) : ?>
-                                        <td> <i class="text-danger">Tidak ada proses</i> </td>
-                                    <?php else : ?>
-                                        <td> <!-- pengujian -->
-                                        </td> 
-                                    <?php endif ; ?>
-                                    <td> <!-- pelulusan -->
-                                        <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($b['idBatch']) ; ?>
-                                        <?php if($verifikasi_berkas) : ?>
-                                            <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
-                                                <a href="#" class="badge badge-success" data-toggle='tooltip' title='Diterima, Dokumen Lengkap'><i class="fa fa-check"></i></a>
-                                                <?php $status_very = true ; ?>
-                                            <?php else : //if($verifikasi_berkas['statusVB'] == 2) ?>
-                                                <i class="text-danger"><?= $verifikasi_berkas['keteranganVB']; ?> <br> Silahkan Lengkapi Dokumen</i>
-                                                <?php $status_very = false ; ?>
-                                            <?php endif ; ?>
-                                        <?php else : ?>
-                                            <i class="text-warning">Menunggu Verifikasi Dokumen</i>
-                                            <?php $status_very = false ; ?>
-                                        <?php endif ; ?>
-                                    </td>
+                                        </td><!-- data dukung -->
+                                    <?php endif ; ?> <!-- 3 -->
 
-                                    <td>
-                                        <?php if($status_very == true) : ?>
-                                            <?php $pembayaran = $this->Petugas_model->getVerifikasiPembayaran($b['idBatch']); ?>
-                                            <?php if($pembayaran) : ?>
-                                                <?php if($pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                                    <a href="<?= base_url(); ?>assets/file-upload/biling/bukti-bayar/<?= $pembayaran['fileBuktiBayar'] ; ?>" class="badge badge-success" data-toggle='tooltip' title='Pembayaran Diterima' target='blank'><i class="fa fa-check"></i></a>
-                                                <?php elseif($pembayaran['status_verifikasi_bayar'] == 0) : ?>
-                                                    <a href="<?= base_url(); ?>assets/file-upload/biling/bukti-bayar/<?= $pembayaran['fileBuktiBayar'] ; ?>" class="badge badge-warning" data-toggle='tooltip' title='Pembayaran Belum Di Verifikasi' target='blank'><i class="fa fa-file"></i></a>
-                                                    <br>
-                                                    <i class="text-warning">Menunggu Verifikasi</i>
+                                    <td><?= $b['noBatch']; ?></td> <!-- no batch --> <!-- 4 -->
+
+                                    <td><?= $b['dosis']; ?></td> <!-- dosis --> <!-- 5 -->
+
+                                    <td><?= $b['namaJenisDokumen']; ?></td> <!-- dosis --> <!-- 6 -->
+
+                                    <!-- 7 -->
+                                    <td> <?= number_format($b['vial'], 0, ',', ','); ?> </td> <!-- jumlah produksi -->
+                                    <td> <?= number_format($b['pengiriman'], 0, ',', ','); ?> </td> <!-- jumlah pengiriman -->
+                                    <!-- 7 -->
+
+                                     <!-- 8 -->                                       
+                                    <!-- pengujian dan pelulusan -->
+                                    <?php if($sample['idJenisManufacture'] == 1) : ?> <!-- domestik -->
+                                        <!-- ==================================================== -->
+                                        <?php $pekerjaan = 'domestik' ; ?>
+                                        <?php if($b['idJenisDokumen'] == 2) : ?> <!-- label -->
+                                            <?php $domestik = 'label' ; ?>
+                                            <td>
+                                                <i class="text-danger">tidak ada proses</i>
+                                            </td>
+                                            <td>
+                                                <div id='pelulusan<?= $b['idBatch'] ; ?>'></div>
+                                            </td>
+                                        <?php else : ?> <!-- non label -->
+                                            <?php $domestik = 'non-label' ; ?>
+                                            <td>
+                                                <div id='pengujian<?= $b['idBatch'] ; ?>'></div>
+                                            </td>
+                                            <td>
+                                                <div id='pelulusan<?= $b['idBatch'] ; ?>'></div>
+                                            </td>
+                                        <?php endif ; ?>
+                                        <!-- ==================================================== -->
+
+                                    <?php elseif($sample['idJenisManufacture'] == 2) : ?> <!-- impor -->
+
+                                        <!-- ==================================================== -->
+                                        <?php $pekerjaan = 'impor' ;?>
+                                        <td>
+                                            <div id='pelulusan<?= $b['idBatch'] ; ?>'></div>
+                                        </td>
+                                        <!-- ==================================================== -->
+                                        
+                                    <?php else : ?> <!-- selain impor dan domestik -->
+                                        
+                                        <!-- ==================================================== -->
+                                        <?php $pekerjaan = 'non-vaksin' ; ?>
+                                        <td>
+                                            <div id='pengujian<?= $b['idBatch'] ; ?>'></div>
+                                        </td>
+                                        <!-- ==================================================== -->
+
+                                    <?php endif ; ?> 
+                                    <!-- 8 -->
+
+                                    <script>
+                                        $(document).ready(function(){
+                                            // 
+                                            $('#pelulusan<?= $b['idBatch']; ?>').html(`
+                                                <?php //string ?>
+                                                
+                                                <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($b['idBatch']) ; ?>
+                                                <?php if($verifikasi_berkas) : ?>
+                                                    <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
+                                                        <a href="#" class="badge badge-success" data-toggle='tooltip' title='Diterima, Dokumen Lengkap'><i class="fa fa-check"></i></a>
+                                                        <?php $very_pelulusan = true ; ?>
+                                                    <?php else : //if($verifikasi_berkas['statusVB'] == 2) ?>
+                                                        <i class="text-danger"><?= $verifikasi_berkas['keteranganVB']; ?> <br> Silahkan Lengkapi Dokumen</i>
+                                                        <?php $very_pelulusan = false ; ?>
+                                                    <?php endif ; ?>
                                                 <?php else : ?>
-                                                    <i class="text-danger">Pembayaran Ditolak, Silahkan Unggah Ulang</i>
-                                                    <a href="<?= base_url(); ?>assets/file-upload/biling/file-biling/<?= $verifikasi_berkas['kode_biling'];?>" class="badge badge-secondary" target='blank' data-toggle='tooltip' title='Tampilkan Biling Pembayaran'><i class="fa fa-file"></i></a>
-                                                    <a href="" class="badge badge-primary" data-toggle='modal' data-target='#upload-pembayaran-<?= $b['idBatch'];?>' data-toggle='tooltip' title='Upload File'><i class="fa fa-upload"></i></a>
+                                                    <i class="text-warning">Menunggu Verifikasi Dokumen</i>
+                                                    <?php $very_pelulusan = false ; ?>
+                                                <?php endif ; ?>
+
+                                                <?php //string ?>
+                                            `) ;
+
+                                            // 
+                                            $('#pengujian<?= $b['idBatch']; ?>').html(`
+                                                <?php $verifikasi_pengujian = $this->Petugas_model->getVerifikasiSample($b['idBatch']) ; ?>
+                                                <?php if($verifikasi_pengujian) : ?>
+                                                   <a href="" class="badge badge-success" data-toggle='tooltip' title='Sampel pengujian diterima'><i class="fa fa-check"></i></a>
+                                                    <?php $very_pengujian = true ; ?>
+                                                <?php else : ?> 
+                                                    <i class="text-warning">Menunggu Verifikasi Sampel Pengujian</i>
+                                                    <?php $very_pengujian = false ; ?>
+                                                <?php endif ; ?>
+                                            `) ;
+                                        });
+                                    </script>
+
+                                    <!-- 9 --> <!-- pembayaran / bukti bayar -->
+                                        <td>
+                                            <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($b['idBatch']) ; ?>
+                                            <?php if($verifikasi_pembayaran) : ?>
+                                                <?php if($verifikasi_pembayaran['kode_biling'] == '' ) : ?>
+                                                    <a href="" class="badge badge-primary" data-toggle='tooltip' title='Upload, Bukti Bayar'><i class="fa fa-upload"></i></a>
+                                                    <?php $very_pembayaran = false ; ?>
+                                                <?php else : ?>
+                                                    <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
+                                                        <a href="" class="badge badge-success" data-toggle='tooltip' title='Pembayaran Diterima'><i class="fa fa-check"></i></a>
+                                                        <?php $very_pembayaran = true ; ?>
+                                                    <?php else : ?>
+                                                        <?php $very_pembayaran = false ; ?>
+                                                        <a href="" class="badge badge-danger" data-toggle='tooltip' title='Pembayaran Ditolak Silahkan Upload Kembali'><i class="fa fa-check"></i></a>
+                                                        <a href="" class="badge badge-primary" data-toggle='tooltip' title='Upload ulang, Bukti Bayar'><i class="fa fa-upload"></i></a>
+                                                    <?php endif ; ?>
                                                 <?php endif ; ?>
                                             <?php else : ?>
-                                                <a href="<?= base_url(); ?>assets/file-upload/biling/file-biling/<?= $verifikasi_berkas['kode_biling'];?>" class="badge badge-secondary" target='blank' data-toggle='tooltip' title='Tampilkan Biling Pembayaran'><i class="fa fa-file"></i></a>
-                                                <a href="" class="badge badge-primary" data-toggle='modal' data-target='#upload-pembayaran-<?= $b['idBatch'];?>' data-toggle='tooltip' title='Upload File'><i class="fa fa-upload"></i></a>
+                                                -
+                                                <?php $very_pembayaran = false ; ?>
                                             <?php endif ; ?>
-                                                <!-- Modal pembayaran -->
-                                                    <div class="modal fade text-left" id="upload-pembayaran-<?= $b['idBatch'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Unggah Bukti Bayar</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                    <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <form  method="post" enctype="multipart/form-data" action="<?= base_url();?>sample_/tambah_verifikasi_pembayaran/<?= $sample['idSurat'];?>/<?= $sample['idSample'];?>/<?= $b['idBatch'];?>">
-                                                                    <div class="modal-body">
-                                                                        <label> Biling Pembayaran </label>
-                                                                        <div id="biling-<?=$verifikasi_berkas['idVB'];?>"></div> <br>
-                                                                        <label for="berkas">Unggah Bukti Bayar</label>
-                                                                        <input type="file" name="berkas" id="berkas" class='form-control'>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                        </td>
+                                    <!-- 9 -->
 
-                                                    <script>
-                                                        $(document).ready(function(){
-                                                            $('#biling-<?=$verifikasi_berkas['idVB'];?>').html(`
-                                                            <a href="<?= base_url(); ?>assets/file-upload/biling/file-biling/<?= $verifikasi_berkas['kode_biling'];?>" class="badge badge-secondary" target='blank' data-toggle='tooltip' title='Tampilkan Biling Pembayaran'><i class="fa fa-file"></i></a>
-                                                            `) ;
-                                                        });
-                                                    </script>
-                                                <!-- Modal pembayaran -->
+                                    
+
+                                    <!-- 10 --> <!-- lama pengerjaan -->
+                                    <td>
+                                        <?php if($very_pembayaran == true) : ?>
+                                            
+                                            <?php if($sample['idJenisManufacture'] == 1) : ?> <!-- domestik -->
+                                                <!-- ==================================================== -->
+                                                <?php $pekerjaan = 'domestik' ; ?>
+                                                <?php if($b['idJenisDokumen'] == 2) : ?> <!-- label -->
+                                                    <?= $b['pelulusan']; ?>
+                                                <?php else : ?> <!-- non label -->
+                                                    <?php $usePengujian = $this->User_Sample_model->useJenisSample($sample['idJenisSample']) ; ?>
+                                                    <?php if($usePengujian) : ?>
+                                                        <?php $time_pengujian =  max($usePengujian) ; ?>
+                                                    <?php else : ?>
+                                                        <?php $time_pengujian = 0 ; ?>
+                                                    <?php endif ; ?>
+                                                    <?php $time_pelulusan = $b['pelulusan']; ?>
+
+                                                    <?php $fulltime = $time_pelulusan + $time_pengujian; ?>
+                                                    <span data-toggle='tooltip' title='<?= $time_pelulusan; ?> hari evaluasi dokumen + <?= $time_pengujian; ?> hari pengujian'><?= $fulltime;?> Hari</span>
+                                                <?php endif ; ?>
+                                                <!-- ==================================================== -->
+
+                                            <?php elseif($sample['idJenisManufacture'] == 2) : ?> <!-- impor -->
+
+                                                <!-- ==================================================== -->
+                                                <?= $b['pelulusan']; ?> Hari
+                                                <!-- ==================================================== -->
+                                                
+                                            <?php else : ?> <!-- selain impor dan domestik -->
+                                                
+                                                <!-- ==================================================== -->
+                                                    <?php $usePengujian = $this->User_Sample_model->useJenisSample($sample['idJenisSample']) ; ?>
+                                                        <?php if($usePengujian) : ?>
+                                                            <?=  max($usePengujian) ; ?>
+                                                        <?php else : ?>
+                                                            <?= 0 ; ?>
+                                                        <?php endif ; ?>
+                                                <!-- ==================================================== -->
+
+                                            <?php endif ; ?> 
                                         <?php else : ?>
                                             -
                                         <?php endif ; ?>
                                     </td>
-                                    <td></td>
+                                    <!-- 10 --> <!-- lama pengerjaan -->
 
                                     <!-- modal batch edit -->
                                         <div class="modal fade" id="modalBatch<?= $b['idBatch'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -427,6 +540,7 @@
                         <?php if($sample['idJenisManufacture'] == 1) : ?>
                             <div class="col-md-6">
                                 <!-- vaksin domestik -->
+                                    <?php $this->db->where('idJenisDokumen != 4') ; ?>
                                     <?php $jenisDokumen = $this->db->get('_jenisDokumen')->result_array(); ?>
 
                                     <label for="jd">Jenis Dokumen</label>
@@ -436,11 +550,11 @@
                                             <option value="<?= $jd['idJenisDokumen'];?>|<?= $jd['keteranganDokumen'];?>|<?= $jd['namaJenisDokumen'];?>"><?= $jd['namaJenisDokumen'];?></option>
                                         <?php endforeach ; ?>
                                     </select>
-                                    <div class="col-md-6"></div>
-                                    <div class="col-md-6">
-                                        <div id="jdokumen"></div>
-                                    </div>
-                                <!-- vaksin domestik -->
+                                    <!-- vaksin domestik -->
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div id="jdokumen"></div>
                             </div>
                         <?php elseif($sample['idJenisManufacture'] == 2) : ?>
                             <!-- vaksin impor -->
@@ -541,3 +655,4 @@
         });
     </script>
 <!-- tambah batch -->
+

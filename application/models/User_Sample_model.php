@@ -41,6 +41,11 @@
             $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
             $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _jenisSample.idJenisManufacture');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
+            // $this->db->select('_sample.idJenisSample as idJenisSample, 
+            //                     namaSample, 
+            //                     _jenisManufacture.idJenisManufacture as idJenisManufacture,
+            //                     namaJenisManufacture,
+            //                     jenisSample ') ;
             return $this->db->get('_sample')->row_array();
         }
 
@@ -149,7 +154,7 @@
             $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = sample_batch.idJenisDokumen') ;
             $this->db->select('namaJenisDokumen, sample_batch.idJenisDokumen as idJenisDokumen, sample_batch.idSample as idSample,
                                 namaJenisKemasan,  noBatch, dosis, vial, idBatch,pelulusan, pengiriman,
-                                suhu, tgl_kadaluarsa,satuan,');
+                                suhu, tgl_kadaluarsa,satuan');
             return $this->db->get('sample_batch')->result_array();
         }
 
@@ -190,6 +195,21 @@
             $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch') ;
             $this->db->join('_sample', '_sample.idSample = sample_batch.idSample') ;
             return $this->db->get('petugas')->result_array() ;
+        }
+
+        public function useJenisSample($idJenisSample) 
+        {
+            $this->db->where('_js_used.idJenisSample' , $idJenisSample) ;
+            $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _js_used.idJenisSample') ;
+            $this->db->join('_jenisPengujian', '_jenisPengujian.idJenisPengujian = _js_used.idJenisPengujian') ;
+            $this->db->select('lamaPengujian') ;
+            $lama = $this->db->get('_js_used')->result_array() ;
+            $pengujian = [] ; 
+            foreach($lama as $l) {
+                $pengujian[] = $l['lamaPengujian'] ;
+            }
+
+            return $pengujian ;
         }
 
         

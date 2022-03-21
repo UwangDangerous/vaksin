@@ -64,7 +64,7 @@
                     <th class='align-top'>Data Dukung</th>
                     <td class='align-top'>:</td> 
                     <td>
-                        <div class="dropdown show dropleft" id="berkas">
+                        <div class="dropdown show dropleft">
                             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toogle='tooltip' title='Tampilkan Data Dukung'>
                                 <i class="fa fa-eye"></i>
                             </a>
@@ -85,73 +85,87 @@
                         </div>
                     </td>
                 </tr>
-                <tr>
-                    <th class='align-top'>Verifikasi Berkas</th>
-                    <td class='align-top'>:</td>
-                    <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($batch['idBatch']); ?>
-                    <td>
-                        <?php if($verifikasi_berkas) : ?>
-                            <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
-                                <a href="<?= base_url(); ?>assets/file-upload/biling/file-biling/<?= $verifikasi_berkas['kode_biling'] ;?>" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Biling Pembayaran' target='blank'><i class="fa fa-check"></i></a> 
-                                <?php $verify_berkas = true ; ?>
-                            <?php else : ?>
-                                <a href="#" class="btn btn-danger" data-toggle="tooltip" title='Menunggu Melengkapi Berkas'><i class="fa fa-times"></i></a>
-                            <?php endif ; ?>
-                        <?php else : ?>
-                            <a href="#" class="btn btn-warning" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle='tooltip' title='verifikasi berkas'>Verifikasi</a>
-                        <?php endif ; ?>
-                    </td>
-                </tr>
-                <?php $verifikasi_sample = $this->Petugas_model->getVerifikasiSample($batch['idBatch']) ; ?>
-                <?php if($batch['idJenisDokumen'] == 3) : ?>
-                    <tr>
-                        <th class="align-top">Verifikasi Sampel</th>
-                        <th class="align-top">:</th>
-                        <td class="align-top">
-                            <?php if($verifikasi_sample) : ?>
-                                <a href="" class="btn btn-success" data-toggle='tooltip' title='sampel diterima dan sesuai'><i class="fa fa-check"></i></a>
-                                <?php $verify_sample = true ; ?>
-                            <?php else : ?>
-                                <a href="" class="btn btn-warning" data-toggle='modal' data-target='#verifikasi-sample' data-toggle='tooltip' title='Verifikasi Sampel'>Verifikasi</a>
-                                <?php $verify_sample = false ; ?>
-                            <?php endif ; ?>
-                        </td>
-                    </tr>
-                <?php endif ; ?>
-                <tr>
-                    <th class='align-top'>Verifikasi Pembayaran</th>
-                    <td class='align-top'>:</td>
-                    <td>
-                        <?php if($verify_berkas == true) : ?>
-                                
-                        <?php else : ?>
-                            <i class="text-danger">Berkas Belum Lengkap</i>
-                        <?php endif ; ?>
+                
+                <!-- verifikasi -->
+                
+                    <?php if($batch['idJenisManufacture'] == 1) : ?>
 
-                        <?php if($verify_berkas == true && $verifikasi_sample) : ?>
-                            <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($batch['idBatch']); ?>
-                            <?php if($verifikasi_pembayaran) : ?>
-                                <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                    <a href="<?= base_url();?>/assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar']; ?>" class="btn btn-success" data-toggle="tooltip" title='Tampilkan Bukti Pembayaran'><i class="fa fa-check"></i></a>
-                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
-                                    <i class="text-danger">ditolak</i>
-                                    <a href="#" class="btn btn-warning" data-toggle='modal' data-target='#veri-pembayaran' data-toggle="tooltip" title='Verifikasi Pembayaran'>verifikasi ulang</a>
-                                <?php else : ?>
-                                    <a href="#" class="btn btn-warning" data-toggle='modal' data-target='#veri-pembayaran' data-toggle="tooltip" title='Verifikasi Pembayaran'>verifikasi</a>
-                                <?php endif ; ?>
-                            <?php else : ?>
-                                <i class="text-danger">Belum Melakukan Pembayaran</i>
-                            <?php endif ; ?>
-                        <?php elseif($verify_berkas == true) : ?>
-                            <i class="text-danger">Sampel Belum Di Periksa</i>
-                        <?php elseif($verify_sample == true) : ?>
-                            <i class="text-danger">Berkas Belum Lengkap</i>
-                        <?php else : ?>
-                            <i class="text-danger">Berkas Belum Lengkap & Sampel Belum Di Periksa</i>
-                        <?php endif ; ?>
-                    </td>
-                </tr>
+                        <!-- ================================================================ -->
+                        <!-- domestik hanya untuk evaluasi dokumen (Verifikasi Berkas dan pengujian) -->
+                            <!-- label pelulusan -->
+                                <tr> <!-- verifikasi berkas mau ga mau copas kebawah -->
+                                    <th class='align-top'>Verifikasi Berkas</th>
+                                        <td class='align-top'>:</td>
+                                        <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($batch['idBatch']); ?>
+                                        <td>
+                                            <?php if($verifikasi_berkas) : ?>
+                                                <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
+                                                    <a href="#" class="btn btn-success" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle="tooltip" title='Berkas Di Terima' target='blank'><i class="fa fa-check"></i></a> 
+                                                    <?php $verify_berkas = true ; ?>
+                                                <?php else : ?>
+                                                    <a href="#" class="btn btn-danger" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle="tooltip" title='Menunggu Melengkapi Berkas, Klik Untuk Verifikasi Ulang'><i class="fa fa-times"></i></a>
+                                                <?php endif ; ?>
+                                            <?php else : ?>
+                                                <a href="#" class="btn btn-warning" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle='tooltip' title='verifikasi berkas'>Verifikasi</a>
+                                            <?php endif ; ?>
+                                        </td>
+                                    </th>
+                                </tr> 
+                            <!-- label pelulusan -->
 
+                            <?php if($batch['idJenisDokumen'] == 3) : ?>
+                                <!-- non label pengujian -->
+                                    <tr>
+                                        <th>Verifikasi Sampel</th>
+                                        <td>:</td>
+                                        <td>
+                                            <?php $verifikasi_sample = $this->Petugas_model->getVerifikasiSample($batch['idBatch']) ; ?>
+                                            <?php if($verifikasi_sample) : ?>
+                                                <?php if($verifikasi_sample['status_verifikasi_sample'] == 1) : ?>
+                                                    <a href="" class="btn btn-success" data-toggle='modal' data-target='#verifikasi-sample' data-toggle='tooltip' title='Sampel Sesuai'><i class="fa fa-check"></i></a>
+                                                <?php else : ?>
+                                                    <a href="" class="btn btn-danger" data-toggle='modal' data-target='#verifikasi-sample' data-toggle='tooltip' title='verifikasi sampel ulang'><i class="fa fa-times"></i></a>
+                                                <?php endif ; ?>
+                                            <?php else : ?>
+                                                <a href="" class="btn btn-warning" data-toggle='modal' data-target='#verifikasi-sample' data-toggle='tooltip' title='verifikasi sampel'>Verifikasi</a>
+                                            <?php endif ; ?>
+                                        </td>
+                                    </tr>
+                                <!-- non label pengujian -->
+                            <?php endif ; ?>
+                        <!-- ================================================================ -->
+
+                    <?php elseif($batch['idJenisManufacture'] == 2) : ?>
+
+                        <!-- ================================================================ -->
+                        <!-- impor hanya untuk evaluasi dokumen (Verifikasi Berkas) -->
+                            <tr> <!-- verifikasi berkas mau ga mau copas kebawah -->
+                                <th class='align-top'>Verifikasi Berkas</th>
+                                    <td class='align-top'>:</td>
+                                    <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($batch['idBatch']); ?>
+                                    <td>
+                                        <?php if($verifikasi_berkas) : ?>
+                                            <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
+                                                <a href="#" class="btn btn-success" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle="tooltip" title='Berkas Di Terima' target='blank'><i class="fa fa-check"></i></a> 
+                                                <?php $verify_berkas = true ; ?>
+                                            <?php else : ?>
+                                                <a href="#" class="btn btn-danger" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle="tooltip" title='Menunggu Melengkapi Berkas, Klik Untuk Verifikasi Ulang'><i class="fa fa-times"></i></a>
+                                            <?php endif ; ?>
+                                        <?php else : ?>
+                                            <a href="#" class="btn btn-warning" data-toggle='modal' data-target="#verifikasi-berkas" data-toggle='tooltip' title='verifikasi berkas'>Verifikasi</a>
+                                        <?php endif ; ?>
+                                    </td>
+                                </th>
+                            </tr> 
+                        <!-- ================================================================ -->
+                        
+                    <?php else : ?>
+                        <!-- ================================================================ -->
+                        <!-- selain domestik dan import -->
+                        <!-- ================================================================ -->
+                    <?php endif ; ?>
+                
+                <!-- verifikasi -->
             </table>
         </div>
     </div>
@@ -172,45 +186,79 @@
                         <form action="<?= base_url(); ?>petugas/tambahVerifikasiBerkas/<?= $batch['idSurat'] ;?>/<?= $batch['idSample'] ;?>/<?= $batch['idBatch'] ;?>" method="post" enctype="multipart/form-data" >
                             <div class="modal-body">
                                 <table cellpadding=5 cellspacing=5>
+                                    <!-- data dukung -->
+                                    <?php $verifikasi_berkas = $this->Petugas_model->getVerifikasiBerkas($batch['idBatch']) ; ?>
+                                    <?php if($verifikasi_berkas) : ?>
+                                        <?php if($verifikasi_berkas['statusVB'] == 1) : ?>
+                                            <?php $verify_berkas = true ; ?>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>:</td>
+                                                <td><span class="text-success">Diterima</span></td>
+                                            </tr>
+                                        <?php else : ?>
+                                            <?php $verify_berkas = false ; ?>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>:</td>
+                                                <td><span class="text-danger">Verifikasi Ulang</span></td>
+                                            </tr>
+                                        <?php endif ; ?>
+                                        <tr>
+                                            <th>Tanggal Verifikasi</th>
+                                            <td>:</td>
+                                            <td>
+                                                <?= $this->_Date->formatTanggal( $verifikasi_berkas['tglVB'] ); ?>
+                                                ( <?=  $verifikasi_berkas['jamVB'] ; ?> )
+                                            </td>
+                                        </tr>
+                                    <?php else : ?>
+                                        <?php $verify_berkas = false ; ?>
+                                    <?php endif ; ?>
                                     <tr>
                                         <th class='align-top'>Data Dukung</th>
                                         <td class='align-top'>:</td>
                                         <td>
-                                            <div id="isi-berkas"></div>
+                                            <?php if($dataDukung) : ?>
+                                                <ul class="list-group">
+                                                    <?php foreach ($dataDukung as $dd) : ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <?= $dd['namaJenisDataDukung']; ?>
+                                                            <?php $isiDataDukung = $this->Petugas_model->setDataDukung($batch['idBatch'], $dd['idJenisDataDukung']); ?>
+                                                            <?php if($isiDataDukung) : ?>
+                                                                <a href='/file-upload/data-dukung/<?= $isiDataDukung['fileDataDukung'];?>' class="badge badge-primary" data-toggle='tooltip' title='Tampilkan <?= $dd['namaJenisDataDukung']; ?>'><i class="fa fa-eye"></i></a>
+                                                            <?php else : ?>
+                                                                <span><i class="text-danger">kosong</i></span>
+                                                            <?php endif ; ?>
+                                                        </li>
+                                                    <?php endforeach ; ?>
+                                                </ul>
+                                            <?php endif ; ?>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th class='align-top'></th>
-                                        <td class='align-top'>:</td>
-                                        <td>
-                                            <button type='button' id="verifikasi-terima" class='btn btn-success' data-toggle='tooltip' title='data dukung sesuai'> 
-                                                <i class="fa fa-check"></i>
-                                            </button>
-
-                                            <button type='button' id="verifikasi-tolak" class='btn btn-danger' data-toggle='tooltip' title='data dukung tidak sesuai'>
-                                                <i class="fa fa-times"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class='align-top'></td>
-                                        <td class='align-top'></td>
-                                        <td class='align-top'>
-                                            <div id="veteto"></div>
-                                            <!-- <div id="veto"></div> -->
-                                        </td>
-                                    </tr>
-                                    
+                                    <?php if($verify_berkas != true) : ?>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                                <button type='submit' id='verifikasi-terima' class='btn btn-success' data-toggle='tooltip' title='data dukung sesuai'> 
+                                                    <i class="fa fa-check"></i>
+                                                </button>
+                                                <button type='button' id="verifikasi-tolak" class='btn btn-danger' data-toggle='tooltip' title='data dukung tidak sesuai'>
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                                <div id="veteto"></div>
+                                            </td>
+                                        </tr>
+                                    <?php endif ; ?>
                                     
                                 </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        <!-- Modal verifikasi -->
 
         <!-- Modal Verifikasi Sampel -->
             <div class="modal fade" id="verifikasi-sample" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -224,11 +272,45 @@
                         </div>
                         <div class="modal-body">
                             <table>
+                                <?php $verifikasi_sample = $this->Petugas_model->getVerifikasiSample($batch['idBatch']) ; ?>
+                                <?php if($verifikasi_sample) : ?>
+                                    <?php if($verifikasi_sample['status_verifikasi_sample'] != 1) : ?>
+                                        
+                                    <?php else : ?>
+                                        <tr>
+                                            <th>Status</th>
+                                            <td>:</td>
+                                            <td><span class="text-success">Sampel Sesuai</span></td>
+                                        </tr>
+                                    <?php endif ; ?>
+                                    <tr>
+                                        <th>Jumlah Sampel Saat Tiba</th>
+                                        <td>:</td>
+                                        <td><?= $verifikasi_sample['jumlah_sample']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Suhu Sampel Saat Tiba</th>
+                                        <td>:</td>
+                                        <td><?= $verifikasi_sample['suhu_sample']; ?>  &deg; <?= $verifikasi_sample['satuan_suhu']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tanggal Verifikasi</th>
+                                        <td>:</td>
+                                        <td><?= $this->_Date->formatTanggal( $verifikasi_sample['tgl_verifikasi_sample'] ); ?>  &deg; ( <?= $verifikasi_sample['jam_verifikasi_sample']; ?> )</td>
+                                    </tr>
+                                <?php endif ; ?>
                                 <tr>
                                     <th class='align-top'>Jumlah Sampel Yang Dikirim </th>
                                     <th class='align-top'>: </th>
                                     <td class='align-top'>
-                                        <?= $batch['pengiriman']; ?> <?= $batch['kemasan']; ?>
+                                        <?= $batch['pengiriman']; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class='align-top'>Kemasan </th>
+                                    <th class='align-top'>: </th>
+                                    <td class='align-top'>
+                                        <i><?= $batch['ingJenisKemasan']; ?></i> / <?= $batch['namaJenisKemasan']; ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -333,28 +415,36 @@
             $(document).ready(function(){
                 // verifikasi berkas
                 
-                    $("#isi-berkas").html($("#berkas").html()) ;
-
                     $('#verifikasi-terima').click(function(){
                         $('#veteto').html(`
-                            <span class='text-success'>
-                                Berkas Diterima
-                            </span>
-                            <label for="file-very">Kirim Biling</label>
-                            <input type="file" class="form-control" id="file-very" name="berkas">
                             <input type="hidden" name="status-very" value='1'>
-                            <input type="hidden" name="namaFileTambahan-very" value='<?= $batch['noBatch'] ?>'>
                         `) ;
                     }) ;
 
                     $('#verifikasi-tolak').click(function(){
                         $('#veteto').html(`
+                            <br>
                             <span class='text-danger'>
                                 Berkas Ditolak
                             </span> 
                             <label for="keterangan-very">Keterangan</label>
+                            <div class='row'>
+                                <div class="col-md-6">
+                                    <label for="tipe_pesan">Tipe Pesan</label>
+                                    <select name="tipe_pesan" id="tipe_pesan" class='form-control'>
+                                        <option value="1">Pesan Saja</option>
+                                        <option value="2">Menunggu Respon Tanggapan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="file_pengirim">Kirim File Jika Diperlukan</label>
+                                    <input type='file' class='form-control' name='file_pengirim' >
+                                    <i class='text-danger'>pdf,jpg,png</i>
+                                </div>
+                            </div>
                             <textarea class='form-control' name="keterangan-very" id="keteragan-very" cols="80" rows="5"></textarea>
-                            <input type="hidden" name="status-very" value='2'>
+                            <input type="hidden" name="status-very" value='2'> <br>
+                            <button type='submit' class='btn btn-danger'>Berkas Salah</button>
                         `) ;
                     }) ;
 
@@ -373,15 +463,6 @@
                         `) ;
                     }) ;
 
-                    $('#veri-pembayaran-terima').click(function(){
-                        $('#vepe').html(`
-                            <input type="hidden" name="status-very" value='1'>
-                            <input type="hidden" name="keterangan-very" value='Diterima'>
-                            <span class='text-success'>
-                                Pembayaran Diterima
-                            </span>
-                        `) ;
-                    }) ;
 
                 // verifikasi pembayaran
 
@@ -484,7 +565,7 @@
     <div class="card p-3">
         <div class="row">
             <div class="col">
-                <h4>Petugas Evalausi Dan Verifikasi</h4>   
+                <h4>Petugas</h4> <br>
                 <table cellpadding=2 cellspacing=2>
                     <tr>
                         <!-- evaluator -->

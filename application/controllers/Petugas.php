@@ -68,151 +68,6 @@ class Petugas extends CI_Controller{
         }
     }
 
-    public function tambahPetugas() {
-        if( $iu = $this->input->post('ve') ) {
-            $i = 0 ;
-            for($i; $i<2; $i++) {
-
-                if($i == 0) {
-                    $level = 3; //evaluator
-                }else{
-                    $level = 4; //verifikator
-                }
-                
-                $query = [
-                    'idSample' => $this->input->post('idSample'),
-                    'idIU' => $iu ,
-                    'idLevel' => $level 
-                ];
-                // var_dump($query) ;
-                $this->db->insert('petugas', $query);
-
-            }
-
-            $this->session->set_flashdata('pesan', "Petugas Berhasil Di Simpan");
-            redirect("petugas") ;
-                
-        }else{
-            $i = 0 ;
-            for($i; $i<2; $i++) {
-
-                if($i == 0) {
-                    $level = 3; //evaluator
-                    $iu = $this->input->post('evaluator') ;
-                    
-                    if($iu) {
-                        $query = [
-                            'idSample' => $this->input->post('idSample'),
-                            'idIU' => $iu ,
-                            'idLevel' => $level 
-                        ];
-                        // var_dump($query) ;
-                        $this->db->insert('petugas', $query);
-                    }
-                }else{
-                    $level = 4; //verifikator
-                    $iu = $this->input->post('verifikator');
-                    if($iu) {
-                        $query = [
-                            'idSample' => $this->input->post('idSample'),
-                            'idIU' => $iu ,
-                            'idLevel' => $level 
-                        ];
-                        // var_dump($query) ;
-                        $this->db->insert('petugas', $query);
-                    }
-                }
-                
-            }
-            $this->session->set_flashdata('pesan', "Petugas Berhasil Di Simpan");
-            redirect("petugas") ;
-        }
-
-
-        // var_dump($query) ;
-    }
-
-    public function tambahPetugasSusulan($lvl) 
-    {
-        if($lvl == 4) {
-            $iu = $this->input->post('verifikator') ;
-            $petugas = "Verifikator" ;
-        }else{
-            $iu = $this->input->post('evaluator') ;
-            $petugas = "Evaluator" ;
-        }
-
-        $query = [
-            'idSample' => $this->input->post('idSample'),
-            'idIU' => $iu ,
-            'idLevel' => $lvl 
-        ];
-
-        $this->db->insert('petugas', $query);
-
-        $this->session->set_flashdata('pesan', "Petugas $petugas Berhasil Ditambahkan");
-        redirect("petugas") ;
-        
-    }
-
-    public function ubahPetugasSusulan($lvl) 
-    {
-        if($lvl == 4) {
-            $iu = $this->input->post('verifikator') ;
-            $petugas = "Verifikator" ;
-        }else{
-            $iu = $this->input->post('evaluator') ;
-            $petugas = "Evaluator" ;
-        }
-
-        $query = [
-            'idSample' => $this->input->post('idSample'),
-            'idIU' => $iu ,
-            'idLevel' => $lvl 
-        ];
-
-        $this->db->where('idPetugas', $this->input->post('idPetugas'));
-        $this->db->update('petugas', $query);
-
-        $this->session->set_flashdata('pesan', "Petugas $petugas Berhasil Di Ubah");
-        redirect("petugas") ;
-        
-    }
-
-    public function inputDataKurang($id) 
-    {
-        $query=[
-            'idSample' => $id,
-            'clock_off' => date('Y-m-d'),
-            'judul' => $this->input->post('judul'),
-            'keterangan' => $this->input->post('keterangan',true),
-            'clock_on' => '0000-00-00'
-        ];
-
-        if( $this->db->insert('clockoff', $query) ) {
-            $queryRiwayat = [
-                'idSample' => $id,
-                'tgl_riwayat' => date('Y-m-d'),
-                'keteranganRiwayat' => 'Clock Off ( '.$this->input->post('keterangan',true).' )'
-            ];
-            $this->db->insert('riwayatpekerjaan', $queryRiwayat);
-            $pesan = [
-                'pesan' => 'Data Berhasil Disimpan' ,
-                'warna' => 'success'
-            ];
-            $this->session->set_flashdata($pesan);
-            redirect('petugas/detail/'.$id) ;
-
-            
-        }else{
-            $pesan = [
-                'pesan' => 'Data Gagal Disimpan' ,
-                'warna' => 'danger'
-            ];
-            $this->session->set_flashdata('pesan');
-            redirect('petugas/detail/'.$id) ;
-        }
-    }
 
     public function ubahIdProsesSample($id,$idSurat)
     {
@@ -307,40 +162,54 @@ class Petugas extends CI_Controller{
     public function tambahVerifikasiBerkas($idSurat, $idSample, $id) 
     {
         // echo $this->input->post('file-very'); die
-        $status = $this->input->post('status-very');
-        $file = '' ;
-        $keterangan = 'Diterima' ;
-        if($status == 1) {
-            $this->load->model('_Upload');
-            $file = $this->_Upload->uploadEksUser('berkas',
-                'assets/file-upload/biling/file-biling',
-                'pdf|jpg|png|jpeg',
-                "petugas/detail/$idSurat/$idSample/$id", 
-                'biling batch no '. $this->input->post('namaFileTambahan-very') 
-            );
-        }else{
-            $keterangan = $this->input->post('keterangan-very') ;
-        }
-
+        date_default_timezone_set('Asia/Jakarta');
+        $status = $this->input->post('status-very') ;
         $query = [
             'idBatch' => $id ,
-            'kode_biling' => $file,
             'tglVB' => date('Y-m-d'),
-            'statusVB' => $status,
-            'keteranganVB' => $keterangan
+            'jamVB' => date("G:i:s"),
+            'statusVB' => $status
         ];
+        // jika ditolak
+            if($this->db->insert('verifikasi_berkas', $query)) {
+                $this->load->model('_Riwayat') ;
+                if($status == 2) {
+                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung tidak sesuai silahkan lengkapi') ; 
+                    $berkas = '' ;
+                    if($this->input->post('file_pengirim')) {
+                        $this->load->model('_Upload');
+                        $file = $this->_Upload->uploadEksUser('file_pengirim',
+                            'assets/file-upload/respon',
+                            'pdf|jpg|png|jpeg',
+                            "petugas/detail/$idSurat/$idSample/$id", 
+                            'Respon_Tanggapan' 
+                        );
+                    }
 
-        if($this->db->insert('verifikasi_berkas', $query)) {
-            $pesan = [
-                'pesan' => 'Verifikasi Kelengkapan Dokumen Berhasil Disimpan',
-                'warna' => 'success'
-            ] ;
-        }else{
-            $pesan = [
-                'pesan' => 'Verifikasi Kelengkapan Dokumen Gagal Disimpan',
-                'warna' => 'danger'
-            ] ;
-        }
+                    $query_respon = [
+                        'pesan_pengirim' => $this->input->post('keterangan-very'),
+                        'tgl_respon_pengirim' => date('Y-m-d'),
+                        'jam_respon_pengirim' => date('G:i:s'),
+                        'tipe_pesan' => $this->input->post('tipe_pesan'),
+                        'file_pengirim' => $berkas,
+                        'status_pengirim' => 0
+                    ];
+                    $this->db->insert('_z_respon_tanggapan', $query_respon) ;
+                }else{
+                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung sesuai') ; 
+                }
+
+                $pesan = [
+                    'pesan' => 'Verifikasi Kelengkapan Dokumen Berhasil Disimpan',
+                    'warna' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan' => 'Verifikasi Kelengkapan Dokumen Gagal Disimpan',
+                    'warna' => 'danger'
+                ] ;
+            }
+        // jika ditolak
 
         $this->session->set_flashdata($pesan);
         redirect("petugas/detail/$idSurat/$idSample/$id") ;
@@ -375,8 +244,18 @@ class Petugas extends CI_Controller{
     }
 
     // petugas
-        public function tambahPetugasEvaluator($idSurat, $idSample,$id) 
+        public function tambahPetugasEvaluator($idSurat, $idSample,$id, $tugas)  //tambahPetugasEvaluator
+        //3 evaluator
+        //4 verifikator
+        //5 penguji
         {
+            if($tugas == 3) {
+                $petugas = 'Evaluator' ;
+            }elseif($tugas == 4){
+                $petugas = 'Verifikator' ;
+            }else{
+                $petugas = 'Penguji' ;
+            }
             if($this->input->post('evaluator') == '-') {
                 $pesan = [
                     'pesan' => 'Gagal Ditambah - Silahkan Pilih Petugas',
@@ -395,12 +274,12 @@ class Petugas extends CI_Controller{
             // var_dump($query) ;
             if($this->db->insert('petugas', $query)) {
                 $pesan = [
-                    'pesan' => 'Petugas evaluator Berhasil Ditambah',
+                    'pesan' => 'Petugas '.$petugas.' Berhasil Ditambah',
                     'warna' => 'success'
                 ];
             }else{
                 $pesan = [
-                    'pesan' => 'Petugas evaluator Gagal Ditambah',
+                    'pesan' => 'Petugas '.$petugas.' Gagal Ditambah',
                     'warna' => 'danger'
                 ];
             }
@@ -519,7 +398,7 @@ class Petugas extends CI_Controller{
                     'warna' => 'success'
                 ];
                 $this->load->model('_Riwayat') ;
-                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Diterima') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Sesuai') ;
             }else{
                 $pesan = [
                     'pesan' => 'data gagal disimpan' ,
@@ -541,12 +420,12 @@ class Petugas extends CI_Controller{
                 'jumlah_sample' => $this->input->post('jumlah_sample'),
                 'tgl_verifikasi_sample' => date('Y-m-d'),
                 'jam_verifikasi_sample' => date('G:i:s'),
-                'status_verifikasi_sample' => 1
+                'status_verifikasi_sample' => 2
             ];
 
             if($this->db->insert('verifikasi_sample_batch', $query)) {
                 $this->load->model('_Riwayat') ;
-                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Diterima') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Tidak Sesuai') ;
                 $berkas = '' ;
                 if($this->input->post('file_pengirim')) {
                     $this->load->model('_Upload');

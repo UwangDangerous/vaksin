@@ -32,8 +32,8 @@
             <thead>
                 <tr>
                     <th class='align-middle'>No</th>
-                    <th class='align-middle'>Nama Sample / Produk</th>
-                    <th class='align-middle'>Jenis Vaksin</th>
+                    <th class='align-middle'>Nama Sampel / Produk</th>
+                    <th class='align-middle'>Jenis Sampel</th>
                     <!-- <th class='align-middle'>Tanggal Kadaluarsa</th> -->
                     <th class='align-middle'>Jumlah Batch</th>
                     <th class='align-middle'>Aksi</th>
@@ -45,7 +45,12 @@
                     <tr>
                         <td><?= $no++; ?></td>
                         <td><?= $row['namaSample'];?></td>
-                        <td><?= $row['jenisSample']; ?></td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-6"><?= $row['jenisSample']; ?></div>
+                                <div class="col-md-6"><?= $row['namaJenisManufacture']; ?></div>
+                            </div>
+                        </td>
 
                         <!-- <td> <?//= $this->_Date->formatTanggal($row['tgl_kadaluarsa']); ?> </td> -->
                         <td>

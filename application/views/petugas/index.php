@@ -20,7 +20,8 @@
                     <th class='align-middle'>No</th>
                     <th class='align-middle'>Pengirim</th>
                     <th class='align-middle'>Nama Sampel / Produk</th>
-                    <th class='align-middle'>Jenis Vaksin</th>
+                    <!-- <th class='align-middle'>Jenis Vaksin</th> -->
+                    <th class='align-middle'>Jenis Sampel</th>
                     <th class='align-middle'>Jumlah Batch</th>
                 </tr>
             </thead>
@@ -36,8 +37,20 @@
                         <!-- 3 -->
                         <td><?= $row['namaSample']; ?></td>
                         <!-- 4 -->
-                        <td><?= $row['jenisSample']; ?></td>
+                        <td>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <?= $row['jenisSample']; ?>
+                                </div>
+                                <div class="col-md-6">
+                                    <?= $row['namaJenisManufacture']; ?>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- <td><?//= $row['jenisSample']; ?></td> -->
                         <!-- 5 -->
+                        <!-- <td><?//= $row['namaJenisManufacture']; ?></td> -->
+                        <!-- 6 -->
                         <td>
                             <?php if($batch = $this->User_Sample_model->getBatch($row['idSample']) ) : ?>
                                 <div class="btn-group dropleft">

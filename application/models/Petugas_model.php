@@ -1,14 +1,15 @@
 <?php 
 
     class Petugas_model extends CI_Model{
-        public function getSample($id,$cari) 
+        public function getSample($id) 
         {
             // $this->db->where('idPenerimaan', $id);
             // $this->db->join('jenisSample','sample.idJS = jenisSample.idJS');
-            $this->db->where("_surat.idSurat like '%$id%'");
+            $this->db->where("_surat.idSurat ", $id);
             $this->db->join('_surat', '_surat.idSurat = _sample.idSurat');
             $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU');
             $this->db->join('_jenissample', '_jenissample.idJenisSample = _sample.idJenisSample');
+            $this->db->join('_jenisManufacture', '_jenisSample.idJenisManufacture = _jenisManufacture.idJenisManufacture');
             $this->db->order_by('idSample', 'desc');
             return $this->db->get("_sample")->result_array();
         }
@@ -50,13 +51,13 @@
         public function getVerifikasiBerkas($id) 
         {
             $this->db->where('idBatch', $id);
-            $this->db->order_by('idVB','asc');
+            $this->db->order_by('idVB','desc');
             return $this->db->get('verifikasi_berkas')->row_array();
         }// new
         public function getVerifikasiSample($id) 
         {
             $this->db->where('idBatch', $id);
-            $this->db->order_by('idVsb','asc');
+            $this->db->order_by('idVsb','desc');
             return $this->db->get('verifikasi_sample_batch')->row_array();
         }// new
 

@@ -56,6 +56,7 @@ class Petugas extends CI_Controller{
         $data['jenisDokumen'] = $this->db->get('_jenisDokumen')->result_array() ;
 
         $data['id'] = $id ;
+        // $data['idSample'] = $idSample ;
         $data['satuan'] = ['C','F','K','R'] ;
         if( ($this->session->userdata('key') != null) )
         {
@@ -215,6 +216,48 @@ class Petugas extends CI_Controller{
         redirect("petugas/detail/$idSurat/$idSample/$id") ;
     }
 
+    public function uploadBiling($idSurat, $idSample, $id)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $this->load->model('_Upload');
+        $file = $this->_Upload->uploadEksUser('berkas-biling',
+            'assets/file-upload/biling/file-biling',
+            'pdf|jpg|png|jpeg',
+            "petugas/detail/$idSurat/$idSample/$id", 
+            'biling_pembayaran' 
+        );
+        $query = [
+            'idBatch' => $id ,
+            'kode_biling' => $file ,
+            'tgl_kode_biling' => date('Y-m-d'),
+            'jam_kode_biling' => date('G:i:s') ,
+            'tgl_bayar' => '0000-00-00',
+            'jam_bayar' => '00:00:00',
+            'fileBuktiBayar' => '' ,
+            'tgl_verifikasi_pembayaran' => '0000-00-00',
+            'jam_verifikasi_bayar' => '00:00:00',
+            'status_verifikasi_bayar' => 3
+        ] ;
+
+        if($this->db->insert('_bukti_bayar', $query)) {
+            $this->load->model("_Riwayat") ;
+            $this->_Riwayat->simpanRiwayat($id, "Mengirim Kode Biling") ;
+            
+            $pesan = [
+                'pesan' => 'Kode Biling Berhasil Disimpan' ,
+                'warna' => 'success'
+            ];
+        }else{
+            $pesan = [
+            'pesan' => 'Kode Biling Berhasil Disimpan' ,
+            'warna' => 'success'
+            ];
+        }
+
+        $this->session->set_flashdata($pesan) ;
+        redirect("petugas/detail/$idSurat/$idSample/$id") ;
+    }
+
     public function tambahVerifikasiPembayaran($idSurat, $idSample, $id)
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -244,7 +287,7 @@ class Petugas extends CI_Controller{
     }
 
     // petugas
-        public function tambahPetugasEvaluator($idSurat, $idSample,$id, $tugas)  //tambahPetugasEvaluator
+        public function tambahPetugas($idSurat, $idSample,$id, $tugas)  //tambahPetugasEvaluator
         //3 evaluator
         //4 verifikator
         //5 penguji
@@ -256,7 +299,7 @@ class Petugas extends CI_Controller{
             }else{
                 $petugas = 'Penguji' ;
             }
-            if($this->input->post('evaluator') == '-') {
+            if($this->input->post('petugas'.$tugas) == '-') {
                 $pesan = [
                     'pesan' => 'Gagal Ditambah - Silahkan Pilih Petugas',
                     'warna' => 'danger'
@@ -267,8 +310,8 @@ class Petugas extends CI_Controller{
 
             $query = [
                 'idBatch' => $id,
-                'idIU' => $this->input->post('evaluator'),
-                'idLevel' => 3
+                'idIU' => $this->input->post('petugas'.$tugas),
+                'idLevel' => $tugas
             ] ;
 
             // var_dump($query) ;
@@ -309,68 +352,6 @@ class Petugas extends CI_Controller{
             }else{
                 $pesan = [
                     'pesan' => 'Petugas evaluator Gagal DiUbah',
-                    'warna' => 'danger'
-                ];
-            }
-            
-            $this->session->set_flashdata($pesan) ;
-            redirect("petugas/detail/$idSurat/$idSample/$id") ;
-        }
-
-        public function tambahPetugasVerifikator($idSurat, $idSample,$id) 
-        {
-            if($this->input->post('verifikator') == '-') {
-                $pesan = [
-                    'pesan' => 'Gagal Ditambah - Silahkan Pilih Petugas',
-                    'warna' => 'danger'
-                ];
-                $this->session->set_flashdata($pesan) ;
-                redirect("petugas/detail/$idSurat/$idSample/$id") ;
-            }
-
-            $query = [
-                'idBatch' => $id,
-                'idIU' => $this->input->post('verifikator'),
-                'idLevel' => 4
-            ] ;
-
-            // var_dump($query) ;
-            if($this->db->insert('petugas', $query)) {
-                $pesan = [
-                    'pesan' => 'Petugas verifikator Berhasil Ditambah',
-                    'warna' => 'success'
-                ];
-            }else{
-                $pesan = [
-                    'pesan' => 'Petugas verifikator Gagal Ditambah',
-                    'warna' => 'danger'
-                ];
-            }
-            $this->session->set_flashdata($pesan) ;
-            redirect("petugas/detail/$idSurat/$idSample/$id") ;
-        }
-
-        public function ubahPetugasVerifikator($idSurat, $idSample,$id) 
-        {
-            if($this->input->post('verifikator') == '-') {
-                $pesan = [
-                    'pesan' => 'Gagal Diubah - Silahkan Pilih Petugas',
-                    'warna' => 'danger'
-                ];
-                $this->session->set_flashdata($pesan) ;
-                redirect("petugas/detail/$idSurat/$idSample/$id") ;
-            }
-            
-            $this->db->where('idPetugas', $this->input->post('idVerifikator')) ;
-            $this->db->set( ['idIU' => $this->input->post('verifikator')] ) ;
-            if($this->db->update('petugas')) {
-                $pesan = [
-                    'pesan' => 'Petugas verifikator Berhasil DiUbah',
-                    'warna' => 'success'
-                ];
-            }else{
-                $pesan = [
-                    'pesan' => 'Petugas verifikator Gagal DiUbah',
                     'warna' => 'danger'
                 ];
             }

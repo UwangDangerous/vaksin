@@ -113,24 +113,30 @@
             }
         }
 
-        public function uploadBuktiBayar($id,$idSurat) 
+        public function uploadBuktiBayar($idSurat,$idSample,$id) 
         {
             date_default_timezone_set('Asia/Jakarta');
             $this->load->model('_Upload');
-            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/bukti-bayar','pdf|jpg|jpeg|png','sample_/index/'.$id,'buktibayar');
+            $upload = $this->_Upload->uploadEksUser('berkas',
+                                            'assets/file-upload/bukti-bayar',
+                                            'pdf|jpg|jpeg|png',
+                                            'sample_/index/'.$id,
+                                            'buktibayar');
+
             $query = [
-                'idSample' => $id,
                 'tgl_bayar' => date('Y-m-d') ,
                 'jam_bayar' => date('G:i:s') ,
-                'fileBuktiBayar' => $upload
+                'fileBuktiBayar' => $upload,
+                'status_verifikasi_bayar' => 0
             ];
 
-            if($this->db->insert('_buktibayar', $query) ) {
+            $this->db->where('idBuktiBayar', $id) ;
+            $this->db->set($query) ;
+            if($this->db->update('_bukti_bayar') ) {
                 $pesan = [
                     'pesan' => 'Bukti Bayar Berhasil Ditambahkan' ,
                     'warna' => 'success'
                 ];
-
             }else{
                 $pesan = [
                     'pesan' => 'Bukti Bayar Gagal Ditambahkan' ,
@@ -138,9 +144,8 @@
                 ];
 
             }
-
             $this->session->set_flashdata($pesan);
-            redirect("sample_/index/$idSurat") ;
+            redirect("sample_/batch_add/$idSurat/$idSample") ;
         }
 
         public function tambahImportir($idSurat)

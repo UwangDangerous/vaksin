@@ -328,18 +328,19 @@
                                         <td>
                                             <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($b['idBatch']) ; ?>
                                             <?php if($verifikasi_pembayaran) : ?>
-                                                <?php if($verifikasi_pembayaran['kode_biling'] == '' ) : ?>
-                                                    <a href="" class="badge badge-primary" data-toggle='tooltip' title='Upload, Bukti Bayar'><i class="fa fa-upload"></i></a>
+                                                <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
+                                                    <a href="#" class="badge badge-secondary" data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Tampilkan Bukti Bayar'><i class="fa fa-eye"></i></a>
                                                     <?php $very_pembayaran = false ; ?>
+                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
+                                                    <a href="" class="badge badge-success"  data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Pembayaran Diterima'><i class="fa fa-check"></i></a>
+                                                    <?php $very_pembayaran = true ; ?>
+                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
+                                                    <?php $very_pembayaran = false ; ?>
+                                                    <a href="#" class="badge badge-danger" data-toggle='tooltip' title='Pembayaran Ditolak Silahkan Upload Kembali'><i class="fa fa-times"></i></a>
+                                                    <a href="" class="badge badge-primary"  data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Upload ulang, Bukti Bayar'><i class="fa fa-upload"></i></a>
                                                 <?php else : ?>
-                                                    <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                                        <a href="" class="badge badge-success" data-toggle='tooltip' title='Pembayaran Diterima'><i class="fa fa-check"></i></a>
-                                                        <?php $very_pembayaran = true ; ?>
-                                                    <?php else : ?>
-                                                        <?php $very_pembayaran = false ; ?>
-                                                        <a href="" class="badge badge-danger" data-toggle='tooltip' title='Pembayaran Ditolak Silahkan Upload Kembali'><i class="fa fa-check"></i></a>
-                                                        <a href="" class="badge badge-primary" data-toggle='tooltip' title='Upload ulang, Bukti Bayar'><i class="fa fa-upload"></i></a>
-                                                    <?php endif ; ?>
+                                                    <a href="" class="badge badge-primary"  data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Upload, Bukti Bayar'><i class="fa fa-upload"></i></a>
+                                                    <?php $very_pembayaran = false ; ?>
                                                 <?php endif ; ?>
                                             <?php else : ?>
                                                 -
@@ -476,6 +477,47 @@
                                             </div>
                                         </div>
                                     <!-- modal batch edit -->
+
+                                    <!-- modal bukti bayar -->
+                                        <div class="modal fade" id="upload-bukti-bayar<?= $b['idBatch'];?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Upload Bukti Bayar</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($b['idBatch']) ; ?>
+                                                    <?php if($verifikasi_pembayaran) : ?>
+                                                        <form action="<?= base_url();?>sample_/uploadBuktiBayar/<?= $sample['idSurat'];?>/<?= $b['idSample'];?>/<?= $verifikasi_pembayaran['idBuktiBayar']; ?>" enctype="multipart/form-data" method="post">
+                                                            <div class="modal-body">
+                                                            <label for="">Kode Biling</label>
+                                                                <a href="<?= base_url();?>assets/file-upload/biling/file-biling/<?= $verifikasi_pembayaran['kode_biling'];?>" data-toggle='tooltip' title='Tampilkan Kode Biling' target='blank' class="btn btn-secondary"><i class="fa fa-file"></i></a>
+                                                                <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
+                                                                    <!-- menunggu verifikasi -->
+                                                                    
+                                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
+                                                                    <!-- udah upload dan diterima -->
+                                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
+                                                                    <!-- udah upload tapi ditolak -->
+                                                                    <button type="Submit" class="btn btn-primary">Simpan</button>
+                                                                <?php else : ?>
+                                                                    <!-- blm upload -->
+                                                                    <br>
+                                                                    <label for="berkas">Upload Bukti Bayar</label>
+                                                                    <input type="file" class="form-control" name='berkas' id='berkas'>
+                                                                    <i class="text-danger">*file pdf,jpg,jpeg,png</i>
+                                                                    <br>
+                                                                    <button type="Submit" class="btn btn-primary">Simpan</button>
+                                                                <?php endif ; ?>
+                                                            </div>
+                                                        </form>
+                                                    <?php endif ; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- modal bukti bayar -->
                                     
                             <?php endforeach ; ?>
                         </tbody>

@@ -8,6 +8,7 @@ class Petugas extends CI_Controller{
         $this->load->model('Petugas_model');
         $this->load->model('User_Sample_model');
         $this->load->model('Cetak_model');
+        $this->load->model('_Riwayat') ;
     }
 
     public function index($id=null)
@@ -173,7 +174,6 @@ class Petugas extends CI_Controller{
         ];
         // jika ditolak
             if($this->db->insert('verifikasi_berkas', $query)) {
-                $this->load->model('_Riwayat') ;
                 if($status == 2) {
                     $this->_Riwayat->simpanRiwayat($id, 'Data dukung tidak sesuai silahkan lengkapi') ; 
                     $berkas = '' ;
@@ -188,6 +188,7 @@ class Petugas extends CI_Controller{
                     }
 
                     $query_respon = [
+                        'idBatch' => $id ,
                         'pesan_pengirim' => $this->input->post('keterangan-very'),
                         'tgl_respon_pengirim' => date('Y-m-d'),
                         'jam_respon_pengirim' => date('G:i:s'),
@@ -258,19 +259,47 @@ class Petugas extends CI_Controller{
         redirect("petugas/detail/$idSurat/$idSample/$id") ;
     }
 
-    public function tambahVerifikasiPembayaran($idSurat, $idSample, $id)
+    public function hapusBuktiBayar($idSurat, $idSample, $id, $idBukti)
+    {
+        $this->db->where('idBuktiBayar', $idBukti) ;
+        if($this->db->delete('_bukti_bayar')) {
+            $pesan = [
+                'pesan' => 'Bukti Bayar Berhasil DI Hapus',
+                'warna' => 'success'
+            ] ;
+        }else{
+            $pesan = [
+                'pesan' => 'Bukti Bayar Gagal DI Hapus',
+                'warna' => 'danger'
+            ] ;
+        }
+
+        $this->session->set_flashdata($pesan) ;
+        redirect("petugas/detail/$idSurat/$idSample/$id") ;
+    }
+
+    public function tambahVerifikasiPembayaran($idSurat, $idSample, $id, $idBukti, $status)
     {
         date_default_timezone_set('Asia/Jakarta');
         $query = [
             'tgl_verifikasi_pembayaran' => date('Y-m-d') ,
             'jam_verifikasi_bayar' => date('G:i:s') ,
-            'status_verifikasi_bayar' => $this->input->post('status-very'),
-            'keterangan_bayar' => $this->input->post('keterangan-very')
+            'status_verifikasi_bayar' => $status
         ] ;
         // var_dump($query) ; die ;
         $this->db->set($query);
-        $this->db->where('idBuktiBayar', $this->input->post('id_very'));
+        $this->db->where('idBuktiBayar', $idBukti);
         if($this->db->update("_bukti_bayar")) {
+            if($status == 1){
+                $this->_Riwayat->simpanRiwayat($id, 'Konfirmasi Pembayaran Diterima');
+            }else{
+                $this->_Riwayat->simpanRiwayat($id, $this->input->post('keterangan-pembayaran-tolak'));
+                $this->_Riwayat->responTanggapan($id,
+                    $this->input->post('keterangan-pembayaran-tolak'),
+                    $this->input->post('tipe_pesan'),
+                    0) ;
+                
+            }
             $pesan = [
                 'pesan' => 'Verifikasi Pembayaran Berhasil Disimpan',
                 'warna' => 'success'
@@ -316,6 +345,7 @@ class Petugas extends CI_Controller{
 
             // var_dump($query) ;
             if($this->db->insert('petugas', $query)) {
+                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Ditambahkan") ;
                 $pesan = [
                     'pesan' => 'Petugas '.$petugas.' Berhasil Ditambah',
                     'warna' => 'success'
@@ -330,9 +360,16 @@ class Petugas extends CI_Controller{
             redirect("petugas/detail/$idSurat/$idSample/$id") ;
         }
 
-        public function ubahPetugasEvaluator($idSurat, $idSample,$id) 
+        public function ubahPetugas($idSurat, $idSample,$id,$tugas,$idPetugas) 
         {
-            if($this->input->post('evaluator') == '-') {
+            if($tugas == 3) {
+                $petugas = 'Evaluator' ;
+            }elseif($tugas == 4){
+                $petugas = 'Verifikator' ;
+            }else{
+                $petugas = 'Penguji' ;
+            }
+            if($this->input->post('petugas'.$tugas) == '-') {
                 $pesan = [
                     'pesan' => 'Gagal Diubah - Silahkan Pilih Petugas',
                     'warna' => 'danger'
@@ -342,17 +379,18 @@ class Petugas extends CI_Controller{
             }
             
             // var_dump($query) ;
-            $this->db->where('idPetugas', $this->input->post('idEvaluator')) ;
-            $this->db->set( ['idIU' => $this->input->post('evaluator')] ) ;
+            $this->db->where('idPetugas', $idPetugas) ;
+            $this->db->set( ['idIU' => $this->input->post('petugas'.$tugas)] ) ;
             if($this->db->update('petugas')) {
+                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Ditambahkan") ;
                 $pesan = [
-                    'pesan' => 'Petugas evaluator Berhasil DiUbah',
-                    'warna' => 'success'
+                    'pesan' => "Petugas $petugas Berhasil DiUbah",
+                    "warna" => "success"
                 ];
             }else{
                 $pesan = [
-                    'pesan' => 'Petugas evaluator Gagal DiUbah',
-                    'warna' => 'danger'
+                    "pesan" => "Petugas $petugas Gagal DiUbah",
+                    "warna" => "danger"
                 ];
             }
             
@@ -378,7 +416,6 @@ class Petugas extends CI_Controller{
                     'pesan' => 'data berhasil disimpan' ,
                     'warna' => 'success'
                 ];
-                $this->load->model('_Riwayat') ;
                 $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Sesuai') ;
             }else{
                 $pesan = [
@@ -405,7 +442,6 @@ class Petugas extends CI_Controller{
             ];
 
             if($this->db->insert('verifikasi_sample_batch', $query)) {
-                $this->load->model('_Riwayat') ;
                 $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Tidak Sesuai') ;
                 $berkas = '' ;
                 if($this->input->post('file_pengirim')) {
@@ -419,6 +455,7 @@ class Petugas extends CI_Controller{
                 }
 
                 $query_respon = [
+                    'idBatch' => $id ,
                     'pesan_pengirim' => $this->input->post('pesan_pengirim'),
                     'tgl_respon_pengirim' => date('Y-m-d'),
                     'jam_respon_pengirim' => date('G:i:s'),

@@ -238,7 +238,7 @@
                                     <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
                                         <a href="#" class="btn btn-primary" data-toggle='modal' data-target='#verifikasi-pembayaran' data-toggle='tooltip' title='Verifikasi Pembayaran'><i class="fa fa-eye"></i></a>
                                     <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                        <a href="#" class="btn btn-success" data-toggle='modal' data-target='#verifikasi-pembayaran' data-toggle='tooltip' title='Pembayaran Sesuai'><i class="fa fa-check"></i></a>
+                                        <a href="#" class="btn btn-success" data-toggle='modal' data-target='#verifikasi-pembayaran' data-toggle='tooltip' title='Pembayaran Sesuai' ><i class="fa fa-check"></i></a>
                                     <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
                                         <a href="#" class="btn btn-danger" data-toggle='modal' data-target='#verifikasi-pembayaran' data-toggle='tooltip' title='Pembayaran Tidak Sesuai'><i class="fa fa-times"></i></a>
                                     <?php else : ?>
@@ -475,10 +475,10 @@
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <form action="<?= base_url(); ?>petugas/tambahVerifikasiPembayaran/<?= $batch['idSurat'] ;?>/<?= $batch['idSample'] ;?>/<?= $batch['idBatch'] ;?>" method="post" enctype="multipart/form-data" id='verifikasi-pembayaran-id'>
+                        <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($batch['idBatch']) ; ?>
+                        <?php if($verifikasi_pembayaran) : ?>
+                        <form action="<?= base_url(); ?>petugas/tambahVerifikasiPembayaran/<?= $batch['idSurat'] ;?>/<?= $batch['idSample'] ;?>/<?= $batch['idBatch'] ;?>/<?= $verifikasi_pembayaran['idBuktiBayar']; ?>/2" method="post" enctype="multipart/form-data" id='verifikasi-pembayaran-id'>
                             <div class="modal-body">
-                                <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($batch['idBatch']) ; ?>
-                                <?php if($verifikasi_pembayaran) : ?>
                                     <table>
                                         <tr>
                                             <th>Kode Biling</th>
@@ -500,13 +500,49 @@
 
                                         <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
                                             <tr>
-                                                <th>Verikasi</th>
+                                                <th>Verifikasi</th>
                                                 <td>:</td>
                                                 <td>
-                                                    <a href="" class="btn btn-success"><i class="fa fa-check"></i></a>
-                                                    <a href="" class="btn btn-danger"><i class="fa fa-times"></i></a>
+                                                    <a href="<?= base_url();?>petugas/tambahVerifikasiPembayaran/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $verifikasi_pembayaran['idBuktiBayar'];?>/1" class="btn btn-success" data-toggle='tooltip' title='Pembayaran Sesuai' onclick='return confirm("Pembayaran Sudah Sesuai?");'><i class="fa fa-check"></i></a>
+                                                    <a href="#" id='pembayaran-tolak' class="btn btn-danger" data-toggle='tooltip' title='pembayaran tidak sesuai'><i class="fa fa-times"></i></a>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <th></th>
+                                                <td></td>
+                                                <td>
+                                                    <div id="pembayaran-tolak-tampil"></div>
+                                                </td>
+                                            </tr>
+                                            <script> 
+                                                $(document).ready(function (){
+                                                    $("#pembayaran-tolak").click(function(){
+                                                        $("#pembayaran-tolak-tampil").html(`
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="tipe_pesan">Tipe Pesan</label>
+                                                                    <select name="tipe_pesan" id="tipe_pesan" class='form-control'>
+                                                                        <option value="1">Pesan Saja</option>
+                                                                        <option value="2">Menunggu Respon Tanggapan</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="file_pengirim">Kirim File Jika Diperlukan</label>
+                                                                    <input type='file' class='form-control' name='file_pengirim' >
+                                                                    <i class='text-danger'>pdf,jpg,png</i>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <label for='keterangan-pembayaran-tolak'>Keterangan</label>
+                                                                    <textarea name="keterangan-pembayaran-tolak" id="keterangan-pembayaran-tolak" cols="30" rows="5" class='form-control'></textarea>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <button type='submit' class='btn btn-primary'> Konfirmasi </button>
+                                                                </div>
+                                                            </div>
+                                                        `) ;
+                                                    }) ;
+                                                });
+                                            </script>
                                         <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
                                             <tr>
                                                 <th>Status</th>
@@ -524,7 +560,7 @@
                                             <tr>
                                                 <th>Status</th>
                                                 <td>:</td>
-                                                <td><i class="text-danger">Pembayaran Tidak Sesuai - Konfirmasi Ulang ?</i></td>
+                                                <td><i class="text-danger">Pembayaran Tidak Sesuai - Menunggu Konfirmasi Ulang</i></td>
                                             </tr>
                                             <tr>
                                                 <th>Tanggal Verifikasi</th>
@@ -533,29 +569,19 @@
                                                     <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_verifikasi_pembayaran']) ; ?> ( <?= $verifikasi_pembayaran['jam_verifikasi_bayar']; ?>)
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <a href="#" class="btn btn-danger" data-toggle='tooltip' title='Hapus Bukti Bayar' onclick='return confirm("hapus bukti bayar?");'><i class="fa fa-trash"></i></a>
-                                                </td>
-                                            </tr>
                                         <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 3) : ?>
                                             <tr>
                                                 <td></td>
                                                 <td></td>
                                                 <td>
-                                                    <a href="#" class="btn btn-danger" data-toggle='tooltip' title='Hapus Bukti Bayar' onclick='return confirm("hapus bukti bayar?");'><i class="fa fa-trash"></i></a>
+                                                    <a href="<?= base_url(); ?>petugas/hapusBuktiBayar/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $verifikasi_pembayaran['idBuktiBayar'];?>" class="btn btn-danger" data-toggle='tooltip' title='Hapus Kode Biling' onclick='return confirm("hapus kode biling?");'><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         <?php endif ; ?>
                                     </table>
-                                <?php endif ; ?>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        <?php endif ; ?>
                     </div>
                 </div>
             </div>
@@ -786,7 +812,7 @@
                                             $inuser = $this->db->get('inuser')->result_array() ;
                                         ?>
                                         <?php if($petugas_pengerjaan) : ?>
-                                            <form action="<?= base_url();?>petugas/ubahPetugas/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $i;?>" method="post">
+                                            <form action="<?= base_url();?>petugas/ubahPetugas/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $i;?>/<?= $petugas_pengerjaan['idPetugas'];?>" method="post">
                                                 <div class="input-group mb-3">
                                                     <input type="hidden" name='idPetugas' value='<?= $petugas_pengerjaan['idPetugas'];?>'>
                                                     <select name="petugas<?= $i; ?>" class='form-control' style='width:400px'>
@@ -828,3 +854,42 @@
         </div>
     </div>
 <!-- petugas evaluasi dan verifikasi -->
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <!-- riwayat pekerjaan -->
+        <div class="card p-2">
+            <h5>Riwayat Pekerjaan</h5> <br>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered text-center" id="tabel_riwayat_petugas_detail">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $riwayat = $this->_Riwayat->getDataRiwayat($batch['idBatch']) ; ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($riwayat as $ri) : ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= $this->_Date->formatTanggal($ri['tgl_riwayat']); ?> (<?= $ri['jam_riwayat']; ?> )</td>
+                                <td><?= $ri['keteranganRiwayat']; ?></td>
+                            </tr>
+                        <?php endforeach ; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- riwayat pekerjaan -->
+    </div>
+    <div class="col-md-6">
+        <!-- respon tanggapan -->
+        <div class="card p-2">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium facere doloremque dolores sint nulla qui! Expedita consequuntur inventore obcaecati fugit, hic, iste nesciunt commodi excepturi quidem sequi consectetur vel atque!
+        </div>
+        <!-- respon tanggapan -->
+    </div>
+</div>

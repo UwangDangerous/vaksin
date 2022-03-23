@@ -63,6 +63,8 @@
                 $('#tabelManufactureXjenisSample').dataTable();
 
                 $('#tabel_tambah_pengujian').dataTable();
+
+                $('#tabel_riwayat_petugas_detail').dataTable();
             } );
         </script>
 

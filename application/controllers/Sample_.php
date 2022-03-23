@@ -113,15 +113,24 @@
             }
         }
 
-        public function uploadBuktiBayar($idSurat,$idSample,$id) 
+        public function uploadBuktiBayar($idSurat,$idSample,$id,$idBatch) 
         {
+            $this->db->where('sample_batch.idSample', $idSample) ;
+            $this->db->where('idBatch', $idBatch) ;
+            $this->db->join('_sample', '_sample.idSample = sample_batch.idSample');
+            $this->db->select('namaSample, noBatch') ;
+            $sample = $this->db->get('sample_batch')->row_array() ;
+            $namaSample = preg_replace('/[\@\.\;\" "]+/', '', $sample['namaSample']);
+            $noBatch = preg_replace('/[\@\.\;\" "]+/', '', $sample['noBatch']);
+
+
             date_default_timezone_set('Asia/Jakarta');
             $this->load->model('_Upload');
             $upload = $this->_Upload->uploadEksUser('berkas',
-                                            'assets/file-upload/bukti-bayar',
+                                            'assets/file-upload/biling/bukti-bayar',
                                             'pdf|jpg|jpeg|png',
-                                            'sample_/index/'.$id,
-                                            'buktibayar');
+                                            "sample_/batch_add/$idSurat/$idBatch",
+                                            "buktibayar_$namaSample"."_$noBatch");
 
             $query = [
                 'tgl_bayar' => date('Y-m-d') ,

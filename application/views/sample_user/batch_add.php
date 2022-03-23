@@ -336,8 +336,7 @@
                                                     <?php $very_pembayaran = true ; ?>
                                                 <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
                                                     <?php $very_pembayaran = false ; ?>
-                                                    <a href="#" class="badge badge-danger" data-toggle='tooltip' title='Pembayaran Ditolak Silahkan Upload Kembali'><i class="fa fa-times"></i></a>
-                                                    <a href="" class="badge badge-primary"  data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Upload ulang, Bukti Bayar'><i class="fa fa-upload"></i></a>
+                                                    <a href="#" class="badge badge-danger" data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Pembayaran Ditolak Silahkan Upload Kembali'><i class="fa fa-times"></i></a>
                                                 <?php else : ?>
                                                     <a href="" class="badge badge-primary"  data-toggle='modal' data-target='#upload-bukti-bayar<?= $b['idBatch']; ?>' data-toggle='tooltip' title='Upload, Bukti Bayar'><i class="fa fa-upload"></i></a>
                                                     <?php $very_pembayaran = false ; ?>
@@ -490,27 +489,122 @@
                                                     </div>
                                                     <?php $verifikasi_pembayaran = $this->Petugas_model->getVerifikasiPembayaran($b['idBatch']) ; ?>
                                                     <?php if($verifikasi_pembayaran) : ?>
-                                                        <form action="<?= base_url();?>sample_/uploadBuktiBayar/<?= $sample['idSurat'];?>/<?= $b['idSample'];?>/<?= $verifikasi_pembayaran['idBuktiBayar']; ?>" enctype="multipart/form-data" method="post">
+                                                        <form action="<?= base_url();?>sample_/uploadBuktiBayar/<?= $sample['idSurat'];?>/<?= $b['idSample'];?>/<?= $verifikasi_pembayaran['idBuktiBayar']; ?>/<?= $b['idBatch'];?>" enctype="multipart/form-data" method="post">
                                                             <div class="modal-body">
-                                                            <label for="">Kode Biling</label>
-                                                                <a href="<?= base_url();?>assets/file-upload/biling/file-biling/<?= $verifikasi_pembayaran['kode_biling'];?>" data-toggle='tooltip' title='Tampilkan Kode Biling' target='blank' class="btn btn-secondary"><i class="fa fa-file"></i></a>
-                                                                <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
-                                                                    <!-- menunggu verifikasi -->
-                                                                    
-                                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
-                                                                    <!-- udah upload dan diterima -->
-                                                                <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
-                                                                    <!-- udah upload tapi ditolak -->
-                                                                    <button type="Submit" class="btn btn-primary">Simpan</button>
-                                                                <?php else : ?>
-                                                                    <!-- blm upload -->
-                                                                    <br>
-                                                                    <label for="berkas">Upload Bukti Bayar</label>
-                                                                    <input type="file" class="form-control" name='berkas' id='berkas'>
-                                                                    <i class="text-danger">*file pdf,jpg,jpeg,png</i>
-                                                                    <br>
-                                                                    <button type="Submit" class="btn btn-primary">Simpan</button>
-                                                                <?php endif ; ?>
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <label for="">Kode Biling</label>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        : <a href="<?= base_url();?>assets/file-upload/biling/file-biling/<?= $verifikasi_pembayaran['kode_biling'];?>" data-toggle='tooltip' title='Tampilkan Kode Biling' target='blank' class="btn btn-secondary"><i class="fa fa-file"></i></a>
+                                                                    </div>
+                                                                
+                                                                
+                                                                    <?php if($verifikasi_pembayaran['status_verifikasi_bayar'] == 0) : ?>
+                                                                        <!-- menunggu verifikasi -->
+                                                                        <div class="col-4">
+                                                                            <label for="">Status</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <i class="text-warning">Menuggu Konfirmasi Admin</i>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Upload</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_bayar']); ?>
+                                                                            ( <?= $verifikasi_pembayaran['jam_bayar']; ?> )
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Bukti Bayar</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <a href="<?= base_url();?>assets/file-upload/biling/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar'];?>" data-toggle='tooltip' title='Tampilkan Bukti Bayar' target='blank' class="btn btn-secondary"><i class="fa fa-eye"></i></a>
+                                                                        </div>
+                                                                    <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 1) : ?>
+                                                                        <!-- udah upload dan diterima -->
+                                                                        <div class="col-4">
+                                                                            <label for="">Status</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <i class="text-success">Pembayaran Sesuai (Pekerjaan Dimulai)</i>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Upload</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_bayar']); ?>
+                                                                            ( <?= $verifikasi_pembayaran['jam_bayar']; ?> )
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Bukti Bayar</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <a href="<?= base_url();?>assets/file-upload/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar'];?>" data-toggle='tooltip' title='Tampilkan Bukti Bayar' target='blank' class="btn btn-secondary"><i class="fa fa-eye"></i></a>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Tanggal Konfirmasi</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_verifikasi_pembayaran']); ?>
+                                                                            ( <?= $verifikasi_pembayaran['jam_verifikasi_bayar']; ?> )
+                                                                        </div>
+                                                                    <?php elseif($verifikasi_pembayaran['status_verifikasi_bayar'] == 2) : ?>
+                                                                        <!-- udah upload tapi ditolak -->
+                                                                        <div class="col-4">
+                                                                            <label for="">Status</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <i class="text-danger">Pembayaran Tidak Sesuai (Silahkan Konformasi Ulang Pembayaran)</i>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Upload</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_bayar']); ?>
+                                                                            ( <?= $verifikasi_pembayaran['jam_bayar']; ?> )
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Bukti Bayar</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <a href="<?= base_url();?>assets/file-upload/bukti-bayar/<?= $verifikasi_pembayaran['fileBuktiBayar'];?>" data-toggle='tooltip' title='Tampilkan Bukti Bayar' target='blank' class="btn btn-secondary"><i class="fa fa-eye"></i></a>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <label for="">Tanggal Konfirmasi</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            : <?= $this->_Date->formatTanggal($verifikasi_pembayaran['tgl_verifikasi_pembayaran']); ?>
+                                                                            ( <?= $verifikasi_pembayaran['jam_verifikasi_bayar']; ?> )
+                                                                        </div>
+                                                                        <br><br>
+                                                                        <div class="col-4">
+                                                                            <label for="berkas">Upload Ulang</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <input type="file" class="form-control" name='berkas' id='berkas'>
+                                                                            <i class="text-danger">*file pdf,jpg,jpeg,png</i>
+                                                                        </div>
+                                                                        <div class="col-4 mt-3"></div>
+                                                                        <div class="col-8">
+                                                                            <button type="Submit" class="btn btn-primary">Simpan</button>
+                                                                        </div>
+                                                                    <?php else : ?>
+                                                                        <!-- blm upload -->
+                                                                        <br>
+                                                                        <div class="col-4">
+                                                                            <label for="berkas">Upload Bukti Bayar</label>
+                                                                        </div>
+                                                                        <div class="col-8">
+                                                                            <input type="file" class="form-control" name='berkas' id='berkas'>
+                                                                            <i class="text-danger">*file pdf,jpg,jpeg,png</i>
+                                                                        </div>
+                                                                        <div class="col-4 mt-3"></div>
+                                                                        <div class="col-8">
+                                                                            <button type="Submit" class="btn btn-primary">Simpan</button>
+                                                                        </div>
+                                                                    <?php endif ; ?>
+                                                                </div>
                                                             </div>
                                                         </form>
                                                     <?php endif ; ?>

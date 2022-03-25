@@ -76,8 +76,6 @@
         }
 
         public function surat_perintah_pengujian(){
-            // $data['judul'] = 'Form Penerimaan Sampel' ;
-            // $data['css'] = 'form_penerimaan_sampel' ;
             $data['header'] = $this->form_header('Surat Perintah Pengujian', 'surat_perintah_pengujian') ;
             // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
             // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
@@ -88,8 +86,6 @@
         }
 
         public function surat_perintah_evaluasi(){
-            // $data['judul'] = 'Form Penerimaan Sampel' ;
-            // $data['css'] = 'form_penerimaan_sampel' ;
             $data['header'] = $this->form_header('Surat Perintah Evaluasi', 'surat_perintah_evaluasi') ;
             // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
             // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
@@ -97,6 +93,16 @@
             $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> SURAT PERINTAH EVALUASI' ;
 
             $this->load->view('cetak/form/surat_perintah_evaluasi',$data) ;
+        }
+
+        public function surat_perintah_kerja(){
+            $data['header'] = $this->form_header('Surat Perintah Kerja', 'surat_perintah_kerja') ;
+            // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> SURAT PERINTAH KERJA' ;
+
+            $this->load->view('cetak/form/surat_perintah_kerja',$data) ;
         }
 
         

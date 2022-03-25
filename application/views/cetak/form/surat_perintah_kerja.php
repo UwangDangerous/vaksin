@@ -10,39 +10,35 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
 // body 
     $html .= '
         <div class="isi">
-            <table>
+            <table class="tbl-kepada">
                 <tr>
-                    <td style="padding-right:100px; vertical-align:top;">Kepada</td>
-                    <td style="vertical-align:top;">:</td>
-                    <td>xxxxxx <br> xxxx</td>
+                    <td width="60%"></td>
+                    <td>Jakarta</td>
                 </tr>
+                <tr><td></td><td>Kepada Yth</td></tr>
+                <tr><td></td><td><u>xxxxxxx,</u></td></tr>
             </table>
 
             <br>
             
             <table cellspacing=3 cellpadding=3 >
                 <tr> 
-                    <td valign="top"  style="padding-right:50px;"> Perihal </td>
+                    <td valign="top"  style="padding-right:50px;"> Hal </td>
                     <td valign="top"> : </td>
                     <td></td>
                 </tr>
                 <tr> 
-                    <td valign="top"  style="padding-right:50px;"> Asal Contoh </td>
+                    <td valign="top"  style="padding-right:50px;"> Asal </td>
                     <td valign="top"> : </td>
                     <td></td>
                 </tr>
                 <tr> 
-                    <td valign="top"  style="padding-right:50px;"> No./ Tanggal Surat Pengiriman </td>
+                    <td valign="top"  style="padding-right:50px;"> No.Surat Permintaan </td>
                     <td valign="top"> : </td>
                     <td></td>
                 </tr>
                 <tr> 
-                    <td valign="top"  style="padding-right:50px;"> Tanggal Terima di PPPOMN </td>
-                    <td valign="top"> : </td>
-                    <td></td>
-                </tr>
-                <tr> 
-                    <td valign="top"  style="padding-right:50px;"> Tanggal Terima di Balai </td>
+                    <td valign="top"  style="padding-right:50px;"> Tanggal Surat </td>
                     <td valign="top"> : </td>
                     <td></td>
                 </tr>
@@ -50,7 +46,7 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
 
             <br>
 
-            Agar dilakukan evaluasi dengan parameter seperti tersebut di bawah ini untuk contoh sebagai berikut : 
+            Bersama ini kami kirimkan contoh untuk dilakukan pengujian : 
             <br>
 
             <div class="param-uji">
@@ -59,10 +55,10 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
                 <table class="tbl-param" border="1" cellspacing=3 cellpadding=3>
                     <tr> 
                         <th valign="top">No</th> 
-                        <th valign="top">No. Kode Contoh</th>
-                        <th valign="top">Nama Contoh dan <br> Nomor bets</th>
-                        <th valign="top">Paramter</th>
-                        <th valign="top">Metode /<br> Pustaka</th>
+                        <th valign="top">No. ADM. PPPOMN</th>
+                        <th valign="top">Nama Sampel / <br> Contoh</th>
+                        <th valign="top">Jenis Pengujian</th>
+                        <th valign="top">Jumlah</th>
                     </tr> 
                     <tr> 
                         <td valign="top"> 1 </td>
@@ -84,6 +80,22 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
                 
             </div>
 
+            <table>
+                <tr>
+                    <td>Catatan</td>
+                <tr>
+                <tr>
+                    <td>Terima di PPPOMN</td>
+                    <td>:</td>
+                    <td>xx/xxxxxx/xxxx</td>
+                <tr>
+                <tr>
+                    <td>Terima di Balai</td>
+                    <td>:</td>
+                    <td>xx/xxxxxx/xxxx</td>
+                <tr>
+            </table>
+
             Kami harap hasil dilaporkan dalam waktu yang singkat. Atas kerjasamanya diucapkan terima kasih.
 
             <br>
@@ -95,19 +107,21 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
             <table class="ttd" cellpadding=2 cellspacing=2>
                 <tr>
                     <td width=33% valign=top>Yang Menerima</td>
-                    <td width=33% valign=top></td>
+                    <td width=33% valign=top>Verifikator</td>
                     <td width=33% valign=top>Yang menyerahkan <br> Plt. Kasie Pengujian Mutu PB</td>
                 </tr>
                 <tr>
                     <td><img src="'.base_url().'assets/file-upload/ttd/contoh.png" height=80px></td>
-                    <td></td>
+                    <td><img src="'.base_url().'assets/file-upload/ttd/contoh.png" height=80px></td>
                     <td><img src="'.base_url().'assets/file-upload/ttd/contoh.png" height=80px></td>
                 </tr>
                 <tr>
                     <td><u> 
                         namanamanamanam <br> NIP. 00000000
                     </u></td>
-                    <td></td>
+                    <td><u> 
+                        namanamanamanam <br> NIP. 00000000
+                    </u></td>
                     <td><u> 
                         namanamanamanam <br> NIP. 00000000
                     </u></td>

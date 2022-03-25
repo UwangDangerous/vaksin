@@ -1,0 +1,63 @@
+body{
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12;
+}
+
+.header{
+    width:100%; 
+    text-align:center; 
+    font-size:14;
+    /* margin-bottom: 90px; */
+}
+.isi{
+    /* width:100%;  */
+    /* background-color: red ; */
+    /* text-align:center;  */
+    /* font-size:14; */
+    padding-top: 40px;
+}
+
+.param-uji{
+    width:100%; 
+    text-align:center; 
+}
+
+.tbl-param{
+    width:100%; 
+    text-align:center; 
+    border-collapse: collapse;
+}
+
+.tbl-param .untuk-list{
+    padding-left: 30px;
+    text-align: left;
+}
+
+.ttd {
+    width:100%; 
+    text-align:left; 
+    /* border-collapse: collapse; */
+}
+.tbl-kepada {
+    width:100%; 
+    text-align:left; 
+    /* border-collapse: collapse; */
+}
+
+/* ul .ul-param{
+    list-style-type: none;
+} */
+
+.footer{
+    /* padding-left:60px ; */
+    width: 90%;
+    float : left ;
+    /* padding-top: 20px; */
+}
+
+.footer-kanan{
+    width : 10% ;
+    float : left ;
+    text-align: right;
+    /* margin-top: 20px; */
+}

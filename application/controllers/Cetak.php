@@ -105,6 +105,16 @@
             $this->load->view('cetak/form/surat_perintah_kerja',$data) ;
         }
 
+        public function surat_permintaan_sample(){
+            $data['header'] = $this->form_header('Surat Permintaan Sample', 'surat_permintaan_sample') ;
+            // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = '' ;
+
+            $this->load->view('cetak/form/surat_permintaan_sample',$data) ;
+        }
+
         
 
     }

@@ -66,8 +66,6 @@
         //template form
 
         public function form_penerimaan_sample($idSurat){
-            // $data['judul'] = 'Form Penerimaan Sampel' ;
-            // $data['css'] = 'form_penerimaan_sampel' ;
             $data['header'] = $this->form_header('Form Penerimaan Sampel', 'form_penerimaan_sampel') ;
             $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
             $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
@@ -87,6 +85,18 @@
             $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> SURAT PERINTAH PENGUJIAN' ;
 
             $this->load->view('cetak/form/surat_perintah_pengujian',$data) ;
+        }
+
+        public function surat_perintah_evaluasi(){
+            // $data['judul'] = 'Form Penerimaan Sampel' ;
+            // $data['css'] = 'form_penerimaan_sampel' ;
+            $data['header'] = $this->form_header('Surat Perintah Evaluasi', 'surat_perintah_evaluasi') ;
+            // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> SURAT PERINTAH EVALUASI' ;
+
+            $this->load->view('cetak/form/surat_perintah_evaluasi',$data) ;
         }
 
         

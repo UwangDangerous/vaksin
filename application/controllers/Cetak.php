@@ -43,6 +43,52 @@
             $this->load->view('cetak/sertifikat_domestik',$data);
         }
 
+        //template form
+            public function form_header($judul,$css) 
+            {
+                $html = '
+                    <!DOCTYPE html>
+                        <html lang="en">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <link rel="stylesheet" href="'.base_url().'assets/css/cetak/'.$css.'.css">
+                                <link rel="icon" href="'.base_url().'assets/img/logo-bpom.png">
+                                <title>'.$judul.'</title>
+                            </head>
+
+                            <body>
+                    ' ;
+
+                return $html ;
+            } 
+        //template form
+
+        public function form_penerimaan_sample($idSurat){
+            // $data['judul'] = 'Form Penerimaan Sampel' ;
+            // $data['css'] = 'form_penerimaan_sampel' ;
+            $data['header'] = $this->form_header('Form Penerimaan Sampel', 'form_penerimaan_sampel') ;
+            $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> FORM PENERIMAAN SAMPEL' ;
+
+            $this->load->view('cetak/form/form_penerimaan_sample',$data) ;
+        }
+
+        public function surat_perintah_pengujian(){
+            // $data['judul'] = 'Form Penerimaan Sampel' ;
+            // $data['css'] = 'form_penerimaan_sampel' ;
+            $data['header'] = $this->form_header('Surat Perintah Pengujian', 'form_penerimasurat_perintahan_sampel') ;
+            $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> FORM PENERIMAAN SAMPEL' ;
+
+            $this->load->view('cetak/form/form_penerimaan_sample',$data) ;
+        }
+
         
 
     }

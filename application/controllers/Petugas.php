@@ -175,7 +175,7 @@ class Petugas extends CI_Controller{
         // jika ditolak
             if($this->db->insert('verifikasi_berkas', $query)) {
                 if($status == 2) {
-                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung tidak sesuai silahkan lengkapi') ; 
+                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung tidak sesuai silahkan lengkapi', 'Data Dukung', 1) ; 
                     $berkas = '' ;
                     if($this->input->post('file_pengirim')) {
                         $this->load->model('_Upload');
@@ -198,7 +198,7 @@ class Petugas extends CI_Controller{
                     ];
                     $this->db->insert('_z_respon_tanggapan', $query_respon) ;
                 }else{
-                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung sesuai') ; 
+                    $this->_Riwayat->simpanRiwayat($id, 'Data dukung sesuai','Data Dukung', 1) ; 
                 }
 
                 $pesan = [
@@ -241,8 +241,7 @@ class Petugas extends CI_Controller{
         ] ;
 
         if($this->db->insert('_bukti_bayar', $query)) {
-            $this->load->model("_Riwayat") ;
-            $this->_Riwayat->simpanRiwayat($id, "Mengirim Kode Biling") ;
+            $this->_Riwayat->simpanRiwayat($id, "Mengirim Kode Biling", 'Pembayaran',1) ;
             
             $pesan = [
                 'pesan' => 'Kode Biling Berhasil Disimpan' ,
@@ -291,9 +290,9 @@ class Petugas extends CI_Controller{
         $this->db->where('idBuktiBayar', $idBukti);
         if($this->db->update("_bukti_bayar")) {
             if($status == 1){
-                $this->_Riwayat->simpanRiwayat($id, 'Konfirmasi Pembayaran Diterima');
+                $this->_Riwayat->simpanRiwayat($id, 'Konfirmasi Pembayaran Diterima', 'Pembayaran', 1);
             }else{
-                $this->_Riwayat->simpanRiwayat($id, $this->input->post('keterangan-pembayaran-tolak'));
+                $this->_Riwayat->simpanRiwayat($id, $this->input->post('keterangan-pembayaran-tolak', 'Pembayaran', 1));
                 $this->_Riwayat->responTanggapan($id,
                     $this->input->post('keterangan-pembayaran-tolak'),
                     $this->input->post('tipe_pesan'),
@@ -345,7 +344,7 @@ class Petugas extends CI_Controller{
 
             // var_dump($query) ;
             if($this->db->insert('petugas', $query)) {
-                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Ditambahkan") ;
+                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Ditambahkan" , 'Petugas', 1) ;
                 $pesan = [
                     'pesan' => 'Petugas '.$petugas.' Berhasil Ditambah',
                     'warna' => 'success'
@@ -382,7 +381,7 @@ class Petugas extends CI_Controller{
             $this->db->where('idPetugas', $idPetugas) ;
             $this->db->set( ['idIU' => $this->input->post('petugas'.$tugas)] ) ;
             if($this->db->update('petugas')) {
-                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Ditambahkan") ;
+                $this->_Riwayat->simpanRiwayat($id, "Petugas $petugas Diubah", 'Petugas', 2) ;
                 $pesan = [
                     'pesan' => "Petugas $petugas Berhasil DiUbah",
                     "warna" => "success"
@@ -416,7 +415,7 @@ class Petugas extends CI_Controller{
                     'pesan' => 'data berhasil disimpan' ,
                     'warna' => 'success'
                 ];
-                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Sesuai') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Sesuai', 'Sampel Pengujian', 1) ;
             }else{
                 $pesan = [
                     'pesan' => 'data gagal disimpan' ,
@@ -442,7 +441,7 @@ class Petugas extends CI_Controller{
             ];
 
             if($this->db->insert('verifikasi_sample_batch', $query)) {
-                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Tidak Sesuai') ;
+                $this->_Riwayat->simpanRiwayat($id, 'Sampel Untuk Pengujian Tidak Sesuai', 'Sampel Pengujian', 1) ;
                 $berkas = '' ;
                 if($this->input->post('file_pengirim')) {
                     $this->load->model('_Upload');

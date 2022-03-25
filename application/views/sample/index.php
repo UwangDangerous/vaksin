@@ -35,6 +35,7 @@
                 </td>
                 <td>
                     <a href="<?=base_url(); ?>petugas/index/<?=$row['idSurat'];?>" data-toggle='tooltip' title='Data Sample' class="badge badge-primary"><i class="fa fa-bars"></i></a>
+                    <a href="<?= base_url();?>cetak/form_penerimaan_sample/<?= $row['idSurat'];?>" class="badge badge-warning" data-toggle='tooltip' title='Cetak Form Penerimaan Sampel' target='blank'><i class="fa fa-envelope"></i></a>
                 </td>
             </tr>
         <?php endforeach ; ?>

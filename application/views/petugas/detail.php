@@ -885,6 +885,7 @@
         </div>
         <!-- riwayat pekerjaan -->
     </div>
+    
     <div class="col-md-6">
         <!-- respon tanggapan -->
         <div class="card p-2">

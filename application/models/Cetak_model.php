@@ -80,6 +80,57 @@
             $this->db->where('idSample',$idSample);
             return $this->db->get('_importir')->row_array();
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // form penerimaan 
+            public function getInformasiPenerimaan() 
+            {
+                return $this->db->get('_y_form_penerimaan_sample')->result_array() ;
+            }
+            public function getSubInformasiPenerimaan($id) 
+            {
+                $this->db->where('id_penerimaan',$id) ;
+                return $this->db->get('_y_form_penerimaan_sample_sub')->result_array() ;
+            }
+            public function getInformasiContoh()
+            {
+                return $this->db->get('_y_penerimaan_contoh')->result_array() ;
+            }
+            public function getInformasiContohSub($id)
+            {
+                $this->db->where('id_contoh', $id) ;
+                return $this->db->get('_y_penerimaan_contoh_sub')->result_array() ;
+            }
+            public function getDataSuratPengantar($id=7)
+            {
+                $this->db->where('idSurat', $id) ;
+                $this->db ->join('eksuser', 'eksuser.idEU = _surat.idEU') ;
+                return $this->db->get('_surat')->row_array() ;
+            }
+        // form penerimaan 
     }
 
 

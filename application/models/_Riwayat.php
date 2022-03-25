@@ -1,14 +1,16 @@
 <?php 
 
     class _Riwayat extends CI_Model {
-        public function simpanRiwayat($id, $keterangan)
+        public function simpanRiwayat($id, $keterangan, $perihal,$view)
         {
             date_default_timezone_set('Asia/Jakarta');
             $query = [
                 'idBatch' => $id ,
                 'tgl_riwayat' => date('Y-m-d'),
                 'jam_riwayat' => date('G:i:s'),
-                'keteranganRiwayat' => $keterangan
+                'perihal_riwayat' => $perihal ,
+                'keteranganRiwayat' => $keterangan,
+                'view_riwayat' => $view
             ] ;
 
             $this->db->insert('_z_riwayatpekerjaan', $query) ;

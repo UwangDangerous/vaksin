@@ -53,7 +53,7 @@
                                 <meta charset="UTF-8">
                                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <link rel="stylesheet" href="'.base_url().'assets/css/cetak/'.$css.'.css">
+                                <link rel="stylesheet" href="'.base_url().'assets/css/cetak/form/'.$css.'.css">
                                 <link rel="icon" href="'.base_url().'assets/img/logo-bpom.png">
                                 <title>'.$judul.'</title>
                             </head>
@@ -80,13 +80,13 @@
         public function surat_perintah_pengujian(){
             // $data['judul'] = 'Form Penerimaan Sampel' ;
             // $data['css'] = 'form_penerimaan_sampel' ;
-            $data['header'] = $this->form_header('Surat Perintah Pengujian', 'form_penerimasurat_perintahan_sampel') ;
-            $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
-            $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            $data['header'] = $this->form_header('Surat Perintah Pengujian', 'surat_perintah_pengujian') ;
+            // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
             // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
-            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> FORM PENERIMAAN SAMPEL' ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI <BR> SURAT PERINTAH PENGUJIAN' ;
 
-            $this->load->view('cetak/form/form_penerimaan_sample',$data) ;
+            $this->load->view('cetak/form/surat_perintah_pengujian',$data) ;
         }
 
         

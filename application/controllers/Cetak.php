@@ -115,6 +115,16 @@
             $this->load->view('cetak/form/surat_permintaan_sample',$data) ;
         }
 
+        public function form_konfirmasi_pengujian(){
+            $data['header'] = $this->form_header('Form Konfirmasi Pengujian', 'form_konfirmasi_pengujian') ;
+            // $data['dokumen'] = $this->Cetak_model->getInformasiPenerimaan() ;
+            // $data['contoh'] = $this->Cetak_model->getInformasiContoh() ;
+            // $data['surat'] = $this->Cetak_model->getDataSuratPengantar($idSurat) ;
+            $data['judul'] = 'FORM KONFIRMASI PENGUJIAN' ;
+
+            $this->load->view('cetak/form/form_konfirmasi_pengujian',$data) ;
+        }
+
         
 
     }

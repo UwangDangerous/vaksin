@@ -125,6 +125,13 @@
             $this->load->view('cetak/form/form_konfirmasi_pengujian',$data) ;
         }
 
+        public function lembar_tanggapan(){
+            $data['header'] = $this->form_header('Lembar Tanggapan', 'lembar_tanggapan') ;
+            $data['judul'] = 'BALAI PENGUJIAN PRODUK BIOLOGI' ;
+
+            $this->load->view('cetak/form/lembar_tanggapan',$data) ;
+        }
+
         
 
     }

@@ -9,6 +9,9 @@ body{
     font-size:14;
     /* margin-bottom: 90px; */
 }
+h3{
+    text-align: center;
+}
 .isi{
     width:100%; 
     /* background-color: red ; */
@@ -23,8 +26,10 @@ table{
     width: 100%;
 }
 
-._12{
-    border : 1 ;
+.dituju{
+    width: 100%;
+    border-collapse: collapse;
+    /* padding: 10px; */
 }
 
 .footer{

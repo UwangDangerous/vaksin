@@ -799,7 +799,7 @@
                                     <td class='align-top'>
                                         <?php 
                                             $this->db->where('idBatch', $batch['idBatch']) ;
-                                            $this->db->where('petugas.idLevel', $i) ;
+                                            $this->db->where('petugas.idTugas', $i) ;
                                             $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
                                             $petugas_pengerjaan = $this->db->get('petugas')->row_array() ;
 

@@ -471,6 +471,44 @@
                     $this->session->set_flashdata($pesan) ;
                     redirect("jenisSample/tabel_tambah_pengujian/$idJenisSample") ;
             }
+        //pengaturan pengujian
+
+        public function Tugas() 
+        {
+            $data['judul'] =  "Tugas "  . $this->session->userdata('namaLevel'); 
+            $data['header'] =  "Tugas " ; 
+            $data['bread'] = '<a href='.base_url().'>  </a> / Dashboard';
+            $data['tugas'] = $this->db->get('tugas')->result_array() ;
+            if( ($this->session->userdata('key') != null) )
+            {
+                $this->load->view('temp/dashboardHeader',$data);
+                $this->load->view('jenisSample/tugas');
+                $this->load->view('temp/dashboardFooter');
+            }else{
+                $this->session->set_flashdata('login' , 'Silahkan Login Kembali');
+                redirect('auth/inuser') ;
+            }
+        }
+
+        public function ubahDataTugas($id) 
+        {
+            $query = [ 'namaTugas' => $this->input->post('nama') ] ;
+            $this->db->where('idTugas', $id) ;
+            if($this->db->update('tugas', $query)) {
+                $pesan = [
+                    'pesan' => 'Data Berhasil Diubah' ,
+                    'warna' => 'success' 
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Data Gagal Diubah',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            redirect('jenisSample/tugas') ;
+        }
     } 
 
 ?>

@@ -86,6 +86,10 @@
                                             <div class="sb-nav-link-icon"><i class="fas fa-file"></i></div>
                                             Jenis Dokumen
                                         </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>jenisSample/tugas">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-user-tie"></i></div>
+                                            Jenis Tugas
+                                        </a>
                                         <a class="nav-link" href="<?= base_url(); ?>libur">
                                             <div class="sb-nav-link-icon"><i class="fas fa-calendar-day"></i></div> Libur Nasional
                                         </a>

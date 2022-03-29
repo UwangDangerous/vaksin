@@ -20,6 +20,15 @@
             $this->load->view('home/temp');
         }
 
+        public function riwayat($idBatch) {
+            $this->load->model('_Date') ;
+            $this->load->model('_Riwayat') ;
+
+            $data['riwayat_pekerjaan']  = $this->_Riwayat->getDataRiwayat($idBatch);
+            $data['idBatch'] = $idBatch ;
+            $this->load->view('home/riwayat', $data) ;
+        }
+
         
 
     }

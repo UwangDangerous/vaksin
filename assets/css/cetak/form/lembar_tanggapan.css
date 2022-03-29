@@ -46,4 +46,9 @@ table{
     /* margin-top: 20px; */
 }
 
+ol li{
+    display: flex;
+  justify-content: space-evenly;
+}
+
 

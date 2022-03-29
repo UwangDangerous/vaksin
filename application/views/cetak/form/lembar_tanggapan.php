@@ -45,11 +45,11 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
                         Tanggapan <br> <br>
 
                         <ol>
-                            <li> Untuk diketahui </li>
-                            <li> Untuk digunakan </li>
-                            <li> Untuk ditindaklanjuti </li>
-                            <li> Untuk diteliti kelayakannya </li>
-                            <li> Dibahas Bersama </li>
+                            <li> Untuk diketahui <input type="checkbox"></li>
+                            <li> Untuk digunakan <input type="checkbox"> </li> 
+                            <li> Untuk ditindaklanjuti <input type="checkbox"> </li>
+                            <li> Untuk diteliti kelayakannya <input type="checkbox"> </li>
+                            <li> Dibahas Bersama <input type="checkbox"> </li>
                         </ol>
 
                         <br><br><br>

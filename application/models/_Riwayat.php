@@ -19,6 +19,8 @@
         public function getDataRiwayat($id) 
         {
             $this->db->where('idBatch', $id) ;
+            $this->db->order_by('tgl_riwayat', 'desc') ;
+            $this->db->order_by('jam_riwayat', 'desc') ;
             return $this->db->get('_z_riwayatpekerjaan')->result_array() ;
         }
 

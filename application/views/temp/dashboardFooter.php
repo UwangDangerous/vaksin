@@ -64,8 +64,6 @@
 
                 $('#tabel_tambah_pengujian').dataTable();
 
-                $('#tabel_riwayat_petugas_detail').dataTable();
-
                 $('#tabel-tugas').dataTable();
             } );
         </script>

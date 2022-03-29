@@ -858,30 +858,8 @@
 <div class="row mt-4">
     <div class="col-md-6">
         <!-- riwayat pekerjaan -->
-        <div class="card p-2">
-            <h5>Riwayat Pekerjaan</h5> <br>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered text-center" id="tabel_riwayat_petugas_detail">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal</th>
-                            <th>Keterangan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $riwayat = $this->_Riwayat->getDataRiwayat($batch['idBatch']) ; ?>
-                        <?php $no = 1; ?>
-                        <?php foreach ($riwayat as $ri) : ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td><?= $this->_Date->formatTanggal($ri['tgl_riwayat']); ?> (<?= $ri['jam_riwayat']; ?> )</td>
-                                <td><?= $ri['keteranganRiwayat']; ?></td>
-                            </tr>
-                        <?php endforeach ; ?>
-                    </tbody>
-                </table>
-            </div>
+        <div class="card p-2" >
+            <div id="riwayat"></div>
         </div>
         <!-- riwayat pekerjaan -->
     </div>
@@ -894,3 +872,11 @@
         <!-- respon tanggapan -->
     </div>
 </div>
+
+
+
+<script>
+    $(document).ready(function(){
+        $("#riwayat").load("<?= base_url();?>home/riwayat/<?= $batch['idBatch'];?>") ;
+    });
+</script>

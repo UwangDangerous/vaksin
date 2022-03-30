@@ -867,7 +867,7 @@
     <div class="col-md-6">
         <!-- respon tanggapan -->
         <div class="card p-2">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium facere doloremque dolores sint nulla qui! Expedita consequuntur inventore obcaecati fugit, hic, iste nesciunt commodi excepturi quidem sequi consectetur vel atque!
+            <div id="respon_tanggapan"></div>
         </div>
         <!-- respon tanggapan -->
     </div>
@@ -878,5 +878,11 @@
 <script>
     $(document).ready(function(){
         $("#riwayat").load("<?= base_url();?>home/riwayat/<?= $batch['idBatch'];?>") ;
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#respon_tanggapan").load("<?= base_url();?>home/respon_tanggapan/<?= $batch['idBatch'];?>") ;
     });
 </script>

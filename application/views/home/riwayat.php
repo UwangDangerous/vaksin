@@ -1,6 +1,6 @@
 <h5>Riwayat Pekerjaan</h5> <br>
 <div class="table-responsive">
-    <table class="table table-striped table-bordered text-center" id="tabel_riwayat_petugas_detail">
+    <table class="table table-striped table-bordered text-center table-sm" style="font-size:10pt;" id="tabel_riwayat_petugas_detail">
         <thead>
             <tr>
                 <th>No</th>
@@ -13,7 +13,7 @@
             <?php foreach ($riwayat_pekerjaan as $ri) : ?>
                 <tr>
                     <td><?= $no++; ?></td>
-                    <td><?= $this->_Date->formatTanggal($ri['tgl_riwayat']); ?> (<?= $ri['jam_riwayat']; ?> )</td>
+                    <td><?= $this->_Date->formatTanggal($ri['tgl_riwayat']); ?> (<?= $ri['jam_riwayat']; ?>)</td>
                     <td><?= $ri['keteranganRiwayat']; ?></td>
                 </tr>
             <?php endforeach ; ?>

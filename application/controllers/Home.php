@@ -29,6 +29,15 @@
             $this->load->view('home/riwayat', $data) ;
         }
 
+        public function respon_tanggapan($idBatch) {
+            $this->load->model('_Date') ;
+            $this->load->model('_Riwayat') ;
+
+            $data['respon']  = $this->_Riwayat->getDataResponTaggapan($idBatch);
+            $data['idBatch'] = $idBatch ;
+            $this->load->view('home/respon_tanggapan', $data) ;
+        }
+
         
 
     }

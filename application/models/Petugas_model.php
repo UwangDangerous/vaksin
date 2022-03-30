@@ -68,6 +68,20 @@
             $this->db->order_by('idBuktiBayar','desc');
             return $this->db->get('_bukti_bayar')->row_array();
         }
+
+
+
+
+
+
+
+
+        public function getUsedPekerjaan($id, $idPekerjaan) 
+        {
+            $this->db->where('idBatch', $id) ;
+            $this->db->where('idJenisPekerjaan', $idPekerjaan) ;
+            return $this->db->get('_jp_add')->row_array() ;
+        }
     }
 
 ?>

@@ -5,6 +5,7 @@
             <tr>
                 <th>No</th>
                 <th>Tanggal</th>
+                <th>Hal</th>
                 <th>Keterangan</th>
             </tr>
         </thead>
@@ -14,6 +15,7 @@
                 <tr>
                     <td><?= $no++; ?></td>
                     <td><?= $this->_Date->formatTanggal($ri['tgl_riwayat']); ?> (<?= $ri['jam_riwayat']; ?>)</td>
+                    <td><?= $ri['perihal_riwayat']; ?></td>
                     <td><?= $ri['keteranganRiwayat']; ?></td>
                 </tr>
             <?php endforeach ; ?>
@@ -29,11 +31,13 @@
             <tr>
                 <td><?= $no++; ?></td>
                 <td> <?= $this->_Date->formatTanggal( $surat['tgl_submit'] ); ?> </td>
+                <td>Sampel</td>
                 <td>Submit Sampel ( <?= $surat['namaSample']; ?> )</td>
             </tr>
             <tr>
                 <td><?= $no; ?></td>
                 <td> <?= $this->_Date->formatTanggal( $surat['tgl_submit_sample'] ); ?> </td>
+                <td>Surat</td>
                 <td>Submit Surat ( <?= $surat['namaSurat']; ?> )</td>
             </tr>
         </tbody>

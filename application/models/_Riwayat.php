@@ -2,7 +2,7 @@
 
     class _Riwayat extends CI_Model {
         //riwayat
-            public function simpanRiwayat($id, $keterangan, $perihal,$view)
+            public function simpanRiwayat($id, $keterangan, $perihal,$view) //view 0 untuk global 1 untuk petugas
             {
                 date_default_timezone_set('Asia/Jakarta');
                 $query = [

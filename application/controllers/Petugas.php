@@ -484,6 +484,124 @@ class Petugas extends CI_Controller{
             redirect("petugas/detail/$idSurat/$idSample/$id") ;
         }
     //petugas
+
+
+
+
+    // kelengkapan berkas
+        public function kelengkapan_berkas($idBatch,$idJenisManufacture) 
+        {
+            $data['id'] = $idBatch ;
+            $data['idJenisManufacture'] = $idJenisManufacture ;
+            $data['dataDukung'] = $this->Petugas_model->getJenisDataDukung($idJenisManufacture) ;
+
+            $this->load->view('petugas/detail/verifikasi_berkas',$data) ;
+        }
+
+        public function aksi_kelengkapan_berkas($idBatch,$idJenisManufacture,$status) 
+        {
+            date_default_timezone_set('Asia/Jakarta');
+            if($status == 'terima') {
+                $ket = 'Data Dukung Sesuai' ;
+                $rwy = 'Diterima' ;
+                $sts = 1; 
+            }else{
+                $ket = $this->input->post('ket') ;
+                $rwy = $this->input->post('ket') ;
+                $sts = 0 ;
+            }
+            $query = [
+                'idBatch' => $idBatch ,
+                'tglVB' => date('Y-m-d') ,
+                'jamVB' => date('G:i:s'),
+                'statusVB' => $sts ,
+                'keteranganVB' => $ket
+            ] ;
+
+            if($this->db->insert('verifikasi_berkas', $query)) {
+                $this->_Riwayat->simpanRiwayat($idBatch, $rwy , 'Data Dukung', 0) ;
+                $pesan = [
+                    'pesan_verif' => 'Data Berhasil Di Simpan' ,
+                    'warna_verif' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan_verif' => 'Data Gagal Di Simpan' ,
+                    'warna_verif' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->kelengkapan_berkas($idBatch,$idJenisManufacture) ;
+            
+        }
+
+        public function verifikasi_berkas_tolak($id,$idJenisManufacture) 
+        {
+            $data['id'] = $id ;
+            $data['idJenisManufacture'] = $idJenisManufacture ;
+            $this->load->view('petugas/detail/verifikasi_berkas_tolak', $data) ;
+        }
+
+    // kelengkapan berkas
+
+    // pekerjaan
+
+            public function getPekerjaan($id) 
+            {
+                $data['id'] = $id ;
+                $data['pekerjaan'] = $this->db->get('_jenisPekerjaan')->result_array() ;
+                $this->load->view('petugas/detail/pekerjaan', $data) ; 
+            }
+
+            public function tambah_pekerjaan($id, $idPekerjaan) 
+            {
+                $namaPekerjaan = $this->db->get_where('_jenisPekerjaan', ['idJenisPekerjaan' => $idPekerjaan])->row_array() ;
+                $namaPekerjaan = $namaPekerjaan['namaJenisPekerjaan'] ;
+                $query = [
+                    'idJenisPekerjaan' => $idPekerjaan,
+                    'idBatch' => $id
+                ];
+                if($this->db->insert('_jp_add', $query)) {
+                    $this->_Riwayat->simpanRiwayat($id, "Pekerjaan $namaPekerjaan Di Tambah" , 'Pekerjaan Sampel Label', 1) ;
+                    $pesan = [
+                        'pesan_kerja' => 'Pekerjaan Berhasil Ditambah' ,
+                        'warna_kerja' => 'success'
+                    ] ;
+                }else{
+                    $pesan = [
+                        'pesan_kerja' => 'Pekerjaan Gagal Ditambah' ,
+                        'warna_kerja' => 'danger'
+                    ] ;
+                }
+
+                $this->session->set_flashdata($pesan) ;
+                $this->getPekerjaan($id) ;
+            }
+
+            public function hapus_pekerjaan($id, $idJP, $idPekerjaan) 
+            {
+                $namaPekerjaan = $this->db->get_where('_jenisPekerjaan', ['idJenisPekerjaan' => $idPekerjaan])->row_array() ;
+                $namaPekerjaan = $namaPekerjaan['namaJenisPekerjaan'] ;
+                $this->db->where('idJP', $idJP) ;
+                if($this->db->delete('_jp_add')) {
+                    $this->_Riwayat->simpanRiwayat($id, "Pekerjaan $namaPekerjaan Di Hapus" , 'Pekerjaan Sampel Label', 1) ;
+                    $pesan = [
+                        'pesan_kerja' => 'Pekerjaan Berhasil Dihapus' ,
+                        'warna_kerja' => 'success'
+                    ] ;
+                }else{
+                    $pesan = [
+                        'pesan_kerja' => 'Pekerjaan Gagal Dihapus' ,
+                        'warna_kerja' => 'danger'
+                    ] ;
+                }
+
+                $this->session->set_flashdata($pesan) ;
+                $this->getPekerjaan($id) ;
+            }
+
+    // pekerjaan
 }
 
 ?>

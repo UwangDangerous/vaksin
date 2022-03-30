@@ -734,10 +734,44 @@
 
 <br>
 
+<!-- kelengkapan berkas dan sampel -->
+
+<div class="card p-3">
+    <?php if($batch['idJenisManufacture'] == 2) : ?>
+        <h4>Verifikasi Berkas</h4>
+    <?php elseif($batch['idJenisManufacture'] == 1) : ?>
+        <?php if($batch['idJenisDokumen'] == 2) : ?>
+            <h4>Verifikasi Berkas</h4>
+        <?php else : ?>
+            <h4>Verifikasi Berkas dan Sampel</h4>
+        <?php endif ; ?>
+    <?php else : ?>
+        <h4>Verifikasi dan Sampel</h4>
+    <?php endif ; ?>
+    
+    <div id="kelengkapan-berkas"></div>
+    
+    <div id="kelengkapan-sampel"></div>
+
+    <?php if($batch['idJenisManufacture'] == 2) : ?> <!-- impor -->
+        <script> 
+            $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+        </script>
+    <?php elseif($batch['idJenisManufacture'] == 1) : ?> <!-- domesik label -->
+        <?php if($batch['idJenisDokumen'] == 3) : ?> <!-- domestik non-label -->
+            
+        <?php endif ; ?>
+        <script> 
+            $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+        </script>
+    <?php else : ?>
+    <?php endif ; ?>
+</div>
 
 
+<!-- kelengkapan berkas dan sampel -->
 
-
+<br>
 
 <!-- petugas evaluasi dan verifikasi -->
     <div class="card p-3">
@@ -855,23 +889,27 @@
     </div>
 <!-- petugas evaluasi dan verifikasi -->
 
-<div class="row mt-4">
-    <div class="col-md-6">
-        <!-- riwayat pekerjaan -->
-        <div class="card p-2" >
-            <div id="riwayat"></div>
+<!-- riwayat dan respon tanggapan -->
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <!-- riwayat pekerjaan -->
+            <div class="card p-2" >
+                <div id="riwayat"></div>
+            </div>
+            <!-- riwayat pekerjaan -->
         </div>
-        <!-- riwayat pekerjaan -->
-    </div>
-    
-    <div class="col-md-6">
-        <!-- respon tanggapan -->
-        <div class="card p-2">
-            <div id="respon_tanggapan"></div>
+        
+        <div class="col-md-6">
+            <!-- respon tanggapan -->
+            <div class="card p-2">
+                <div id="respon_tanggapan"></div>
+            </div>
+            <!-- respon tanggapan -->
         </div>
-        <!-- respon tanggapan -->
     </div>
-</div>
+
+<!-- riwayat dan respon tanggapan -->
 
 
 

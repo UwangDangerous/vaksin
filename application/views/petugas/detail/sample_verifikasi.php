@@ -116,7 +116,13 @@
         </div>
 
         <?php if($vs == true) : ?>
-            <div class="col-md-6"> ok </div>
+            <div class="col-md-6"> 
+                <div id="pengujian-sample"></div>  
+
+                <script>
+                    $("#pengujian-sample").load("<?= base_url();?>petugas/pengujian_sample/<?= $id; ?>") ;
+                </script>
+            </div>
         <?php endif ; ?>
     </div>
 </div>
@@ -129,4 +135,6 @@
     $("#sample-tidak-sesuai").click(function(){
         $("#sample-sesuai-aksi").load("<?= base_url();?>petugas/kelengkapan_sample_aksi/<?= $id;?>/tidak_sesuai/<?= $sample['idJenisManufacture'];?>/<?= $sample['idJenisDokumen'];?>") ;
     }) ;
+
+    $("#tabel-pilih-pengujian").dataTable();
 </script>

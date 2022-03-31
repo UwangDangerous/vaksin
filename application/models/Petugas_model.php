@@ -82,6 +82,13 @@
             $this->db->where('idJenisPekerjaan', $idPekerjaan) ;
             return $this->db->get('_jp_add')->row_array() ;
         }
+
+        public function getJPUsed($id, $idJP)
+        {
+            $this->db->where('idBatch', $id) ;
+            $this->db->where('idJenisPengujian', $idJP) ;
+            return $this->db->get('_jp_used')->row_array() ;
+        }
     }
 
 ?>

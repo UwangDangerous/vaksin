@@ -12,7 +12,7 @@
     <h5>Jenis Pekerjaan</h5>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped text-center" id='tabel-verifikasi-pekerjaan'>
+        <table class="table table-bordered table-striped text-center table-sm" id='tabel-verifikasi-pekerjaan'>
             <thead>
                 <tr>
                     <th>No</th>
@@ -29,9 +29,9 @@
                         <td>
                             <?php $pekerjaan_used = $this->Petugas_model->getUsedPekerjaan($id,$p['idJenisPekerjaan']) ; ?>
                             <?php if($pekerjaan_used) : ?>
-                                <button href="#" data-toggle='tooltip' title='hapus Pekerjaan' class="badge badge-danger" id='hapus_pekerjaan_<?= $p['idJenisPekerjaan'];?>'><i class="fa fa-minus"></i></button> <!-- hapus -->
+                                <a href="#" data-toggle='tooltip' title='hapus Pekerjaan' class="badge badge-danger" id='hapus_pekerjaan_<?= $p['idJenisPekerjaan'];?>'><i class="fa fa-minus"></i></a> <!-- hapus -->
                             <?php else : ?>
-                                <button href="#" data-toggle='tooltip' title='Tambah Pekerjaan' class="badge badge-primary" id='tambah_pekerjaan_<?= $p['idJenisPekerjaan'];?>'><i class="fa fa-plus"></i></button> <!-- tambah -->
+                                <a href="#" data-toggle='tooltip' title='Tambah Pekerjaan' class="badge badge-primary" id='tambah_pekerjaan_<?= $p['idJenisPekerjaan'];?>'><i class="fa fa-plus"></i></a> <!-- tambah -->
                             <?php endif ; ?>
 
                             <script>

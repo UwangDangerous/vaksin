@@ -667,6 +667,65 @@ class Petugas extends CI_Controller{
             $this->session->set_flashdata($pesan) ;
             $this->kelengkapan_sample($id) ;
         }
+
+        public function pengujian_sample($id) 
+        {
+            $data['id'] = $id ;
+            $data['pengujian'] = $this->db->get('_jenisPengujian')->result_array() ;
+            $this->load->view('petugas/detail/pengujian', $data) ;
+        }
+
+        public function tambah_pengujian_sample($id, $idJP) 
+        {
+            $this->db->where('idJenisPengujian' , $idJP) ;
+            $namaPengujian = $this->db->get('_jenisPengujian')->row_array() ;
+            $namaPengujian = $namaPengujian['namaJenisPengujian'] ;
+            $query = [
+                'idBatch' => $id ,
+                'idJenisPengujian' => $idJP
+            ] ;
+
+            if($this->db->insert('_jp_used', $query)) {
+                $this->_Riwayat->simpanRiwayat($id, "Pengujian $namaPengujian Di Tambahkan", 'Tambah Pengujian',1) ;
+                $pesan = [
+                    'pesan_pengujian' => 'Pengujian Berhasil Ditambah',
+                    'warna_pengujian' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan_pengujian' => 'Pengujian Gagal Ditambah',
+                    'warna_pengujian' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->pengujian_sample($id) ;
+        }
+
+        public function hapus_pengujian_sample($id, $idJP) 
+        {
+            $this->db->where('idJenisPengujian' , $idJP) ;
+            $namaPengujian = $this->db->get('_jenisPengujian')->row_array() ;
+            $namaPengujian = $namaPengujian['namaJenisPengujian'] ;
+
+            $this->db->where('idBatch', $id) ;
+            $this->db->where('idJenisPengujian', $idJP) ;
+            if($this->db->delete('_jp_used')) {
+                $this->_Riwayat->simpanRiwayat($id, "Pengujian $namaPengujian Di Hapus", 'Hapus Pengujian',1) ;
+                $pesan = [
+                    'pesan_pengujian' => 'Pengujian Berhasil Dihapus',
+                    'warna_pengujian' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan_pengujian' => 'Pengujian Gagal Dihapus',
+                    'warna_pengujian' => 'danger'
+                ];
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->pengujian_sample($id) ;
+        }
     // kelengkapan Sampel
 }
 

@@ -1,19 +1,19 @@
 <?php $vb = false ; ?>
 <?php $vs = false ; ?>
 <div class="card p-2" id='kelengkapan-berkas'>
-    <?php if(!empty($this->session->flashdata('pesan_verif') )) : ?>
-            
-            <div class="alert alert-<?= $this->session->flashdata('warna_verif') ?> alert-dismissible fade show" role="alert">
-                <?=  $this->session->flashdata('pesan_verif'); ?>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            
-    <?php endif ; ?>
     
     <div class="row">
         <div class="col-md-6">
+            <?php if(!empty($this->session->flashdata('pesan_verif') )) : ?>
+                    
+                    <div class="alert alert-<?= $this->session->flashdata('warna_verif') ?> alert-dismissible fade show" role="alert">
+                        <?=  $this->session->flashdata('pesan_verif'); ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    
+            <?php endif ; ?>
             
             <h5>Data Dukung</h5>
             <ul class="list-group mt-2">
@@ -47,7 +47,8 @@
                 <?php endif ; ?>
                 
             <?php else : ?>
-                
+                <?php $vb = false ;?>
+
                 <button id="aksi-terima" class='btn btn-success' data-toggle='tooltip' title='Verifikasi Data Dukung Sesuai'><i class="fa fa-check"></i></button>
                 <button id="aksi-tolak" class='btn btn-danger' data-toggle='tooltip' title='Verifikasi Data Dukung Tidak Sesuai'><i class="fa fa-times"></i></button>
                 
@@ -57,9 +58,13 @@
             <div id="aksi_kelengkapan_berkas"></div>
         </div>
 
-        <div class="col-md-6">
-            <div id="pekerjaan"></div>
-        </div>
+        <?php if($vb == true) : ?>
+                
+            <div class="col-md-6">
+                <div id="pekerjaan"></div>
+            </div>
+            
+        <?php endif ; ?>
     </div>
 
 </div>
@@ -89,7 +94,3 @@
 </script>
 
 <br>
-
-<div class="card p-2">
-    
-</div>

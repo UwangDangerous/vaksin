@@ -736,37 +736,44 @@
 
 <!-- kelengkapan berkas dan sampel -->
 
-<div class="card p-3">
-    <?php if($batch['idJenisManufacture'] == 2) : ?>
-        <h4>Verifikasi Berkas</h4>
-    <?php elseif($batch['idJenisManufacture'] == 1) : ?>
-        <?php if($batch['idJenisDokumen'] == 2) : ?>
+    <div class="card p-3">
+        <?php if($batch['idJenisManufacture'] == 2) : ?>
             <h4>Verifikasi Berkas</h4>
+        <?php elseif($batch['idJenisManufacture'] == 1) : ?>
+            <?php if($batch['idJenisDokumen'] == 2) : ?>
+                <h4>Verifikasi Berkas</h4>
+            <?php else : ?>
+                <h4>Verifikasi Berkas dan Sampel</h4>
+            <?php endif ; ?>
         <?php else : ?>
-            <h4>Verifikasi Berkas dan Sampel</h4>
+            <h4>Verifikasi Sampel</h4>
         <?php endif ; ?>
-    <?php else : ?>
-        <h4>Verifikasi dan Sampel</h4>
-    <?php endif ; ?>
-    
-    <div id="kelengkapan-berkas"></div>
-    
-    <div id="kelengkapan-sampel"></div>
+        
+        <div id="kelengkapan-berkas"></div>
+        
+        <div id="kelengkapan-sample"></div>
 
-    <?php if($batch['idJenisManufacture'] == 2) : ?> <!-- impor -->
         <script> 
-            $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+            <?php if($batch['idJenisManufacture'] == 2) : ?> <!-- impor -->
+                    $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+                
+            <?php elseif($batch['idJenisManufacture'] == 1) : ?> <!-- domesik label -->
+                // <?//php if($batch['idJenisDokumen'] == 3) : ?> <!-- domestik non-label -->
+                    
+                //         $("#kelengkapan-sample").load("<?//= base_url(); ?>petugas/kelengkapan_sample/<?//= $batch['idBatch'];?>") ;
+                    
+                // <?//php endif ; ?>
+                
+                    $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+                    $("#kelengkapan-sample").load("<?= base_url(); ?>petugas/kelengkapan_sample/<?= $batch['idBatch'];?>") ;
+                
+            <?php else : ?>
+                
+                    $("#kelengkapan-sample").load("<?= base_url(); ?>petugas/kelengkapan_sample/<?= $batch['idBatch'];?>") ;
+
+            <?php endif ; ?>
         </script>
-    <?php elseif($batch['idJenisManufacture'] == 1) : ?> <!-- domesik label -->
-        <?php if($batch['idJenisDokumen'] == 3) : ?> <!-- domestik non-label -->
-            
-        <?php endif ; ?>
-        <script> 
-            $("#kelengkapan-berkas").load("<?= base_url(); ?>petugas/kelengkapan_berkas/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
-        </script>
-    <?php else : ?>
-    <?php endif ; ?>
-</div>
+    </div>
 
 
 <!-- kelengkapan berkas dan sampel -->

@@ -65,6 +65,7 @@
                 $('#tabel_tambah_pengujian').dataTable();
 
                 $('#tabel-tugas').dataTable();
+
             } );
         </script>
 

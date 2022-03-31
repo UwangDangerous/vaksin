@@ -12,7 +12,7 @@
     <h5>Jenis Pekerjaan</h5>
 
     <div class="table-responsive">
-        <table class="table table-bordered table-striped text-center">
+        <table class="table table-bordered table-striped text-center" id='tabel-verifikasi-pekerjaan'>
             <thead>
                 <tr>
                     <th>No</th>
@@ -76,3 +76,7 @@
         </table>
     </div>
 </div>
+
+<script>
+    $('#tabel-verifikasi-pekerjaan').dataTable();
+</script>

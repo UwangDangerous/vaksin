@@ -602,6 +602,72 @@ class Petugas extends CI_Controller{
             }
 
     // pekerjaan
+
+    // kelengkapan Sampel
+        
+        public function kelengkapan_sample($id) 
+        {
+            $this->load->model('_Date') ;
+            $data['id'] = $id ; //idBatch
+            $data['sample'] = $this->Petugas_model->getDetailBatch($id) ;
+            $data['verifikasi_sample'] = $this->Petugas_model->getVerifikasiSample($id) ;
+
+            $this->load->view('petugas/detail/sample_verifikasi',$data) ;
+        }
+
+        public function kelengkapan_sample_aksi($id, $status, $idJenisManufacture, $idJenisDokumen) 
+        {
+            // if($status == 'terima') {
+                
+            // }
+
+            $data['id'] = $id ; //idBatch
+            $data['status'] = $status ;
+            $data['idJenisManufacture'] = $idJenisManufacture ;
+            $data['idJenisDokumen'] = $idJenisDokumen ;
+
+            $this->load->view('petugas/detail/sample_verifikasi_aksi',$data) ;
+        }
+
+        public function simpan_kelengkapan_sample($id) {
+            date_default_timezone_set('Asia/Jakarta');
+
+            $query = [
+                'idBatch' => $id,
+                'suhu_sample' => $this->input->post('suhu'),
+                'satuan_suhu' => $this->input->post('satuan'),
+                'jumlah_sample' => $this->input->post('jml'),
+                'tgl_verifikasi_sample' => date("Y-m-d"),
+                'jam_verifikasi_sample' => date("G:i:s"),
+                'status_verifikasi_sample' => $this->input->post('status'),
+                'keterangan_verifikasi_sample' => $this->input->post('ket'),
+                'tgl_kedatangan' => $this->input->post('tgl') ,
+                'jenis_pengiriman' => $this->input->post('pengiriman'),
+                'keperluan_sample' => $this->input->post('keperluan') 
+            ];
+
+            if($this->db->insert('verifikasi_sample_batch', $query)){
+                if($this->input->post('status') == 1) {
+                    $keterangan = 'Sampel diterima sesuai' ;
+                }else{
+                    $keterangan = 'Sampel diterima tidak sesuai - '. $this->input->post('ket') ;
+                }
+                $this->_Riwayat->simpanRiwayat($id, $keterangan, "Penerimaan Sampel",0);
+                $pesan = [
+                    'pesan_sample' => 'Verifikasi sampel berhasil disimpan' ,
+                    'warna_sample' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan_sample' => 'Verifikasi sampel gagal disimpan' ,
+                    'warna_sample' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->kelengkapan_sample($id) ;
+        }
+    // kelengkapan Sampel
 }
 
 ?>

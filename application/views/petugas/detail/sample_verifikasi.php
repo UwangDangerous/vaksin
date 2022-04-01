@@ -1,9 +1,9 @@
 <?php $vs = false ; ?>
-<div id="kelengkapan-sample" class='card p-2'>
+<div id="kelengkapan-sample" >
     <div class="row">
         <div class="col-md-6">
-            <h5>Penerimaan Sampel</h5> 
             <div class="card p-2">
+                <h5>Penerimaan Sampel</h5> 
                 <?php if(!empty($this->session->flashdata('pesan_sample') )) : ?>
                                     
                     <div class="alert alert-<?= $this->session->flashdata('warna_sample') ?> alert-dismissible fade show" role="alert">

@@ -59,6 +59,57 @@
                 redirect("$redirect") ;  
             }
         }
+
+        public function uploadWithAjax($namaBerkas, $path, $type,$namaTambahan = '', $sesi)
+        {
+           
+            if( $_FILES[$namaBerkas]['name'] ) {
+                $filename = explode("." , $_FILES[$namaBerkas]['name']) ;
+                $ekstensi = strtolower(end($filename)) ;
+                $config['upload_path'] = './'.$path; //assets/file-upload/surat 
+                $config['allowed_types'] = "$type"; //'pdf|jpg|png|jpeg'
+                $hashDate = substr(md5(date('Y-m-d H:i:s')),1,5) ;
+                
+                $namaFile = explode(' ',$filename[0]);
+                $file = '' ;
+                $j = 0 ;
+                for($j; $j<count($namaFile); $j++) {
+                    $file .= $namaFile[$j].'_' ;
+                }
+
+                $tambahan = explode(' ',$namaTambahan);
+                $tmbh = '' ;
+                $x = 0 ;
+                for($x; $x<count($tambahan); $x++) {
+                    $tmbh .= $tambahan[$x].'_' ;
+                }
+
+                $berkas = rtrim($file,'_').'_'.$hashDate.'_'.rtrim($tmbh,'_') ;
+
+                $config['file_name'] = $berkas ;
+                $this->load->library('upload',$config);
+
+                if($this->upload->do_upload($namaBerkas)){
+                    $this->upload->initialize($config);
+                }else{
+                    $pesan = [
+                        'pesan'.$sesi => 'tipe file tidak sesuai',
+                        'warna'.$sesi => 'danger'
+                    ];
+                    $this->session->set_flashdata($pesan);
+                    return 'error' ;// redirect("$redirect") ;  
+                }
+
+                return $config['file_name'].'.'.$ekstensi ;
+            } else{
+                $pesan = [
+                    'pesan'.$sesi => 'berkas tidak boleh kosong',
+                    'warna'.$sesi => 'danger'
+                ];
+                $this->session->set_flashdata($pesan);
+                return 'error' ;// redirect("$redirect") ;  
+            }
+        }
     }
 
 ?>

@@ -217,47 +217,6 @@ class Petugas extends CI_Controller{
         redirect("petugas/detail/$idSurat/$idSample/$id") ;
     }
 
-    public function uploadBiling($idSurat, $idSample, $id)
-    {
-        date_default_timezone_set('Asia/Jakarta');
-        $this->load->model('_Upload');
-        $file = $this->_Upload->uploadEksUser('berkas-biling',
-            'assets/file-upload/biling/file-biling',
-            'pdf|jpg|png|jpeg',
-            "petugas/detail/$idSurat/$idSample/$id", 
-            'biling_pembayaran' 
-        );
-        $query = [
-            'idBatch' => $id ,
-            'kode_biling' => $file ,
-            'tgl_kode_biling' => date('Y-m-d'),
-            'jam_kode_biling' => date('G:i:s') ,
-            'tgl_bayar' => '0000-00-00',
-            'jam_bayar' => '00:00:00',
-            'fileBuktiBayar' => '' ,
-            'tgl_verifikasi_pembayaran' => '0000-00-00',
-            'jam_verifikasi_bayar' => '00:00:00',
-            'status_verifikasi_bayar' => 3
-        ] ;
-
-        if($this->db->insert('_bukti_bayar', $query)) {
-            $this->_Riwayat->simpanRiwayat($id, "Mengirim Kode Biling", 'Pembayaran',1) ;
-            
-            $pesan = [
-                'pesan' => 'Kode Biling Berhasil Disimpan' ,
-                'warna' => 'success'
-            ];
-        }else{
-            $pesan = [
-            'pesan' => 'Kode Biling Berhasil Disimpan' ,
-            'warna' => 'success'
-            ];
-        }
-
-        $this->session->set_flashdata($pesan) ;
-        redirect("petugas/detail/$idSurat/$idSample/$id") ;
-    }
-
     public function hapusBuktiBayar($idSurat, $idSample, $id, $idBukti)
     {
         $this->db->where('idBuktiBayar', $idBukti) ;
@@ -727,6 +686,140 @@ class Petugas extends CI_Controller{
             $this->pengujian_sample($id) ;
         }
     // kelengkapan Sampel
+
+    // pembayaran
+        public function ver_pembayaran($id, $idJenisManufacture)  
+        {
+            $data['id'] = $id ;
+            $data['idJenisManufacture'] = $idJenisManufacture ;
+            $this->load->model('_Date') ;
+
+            $this->load->view('petugas/detail/ver_pembayaran', $data) ; 
+        }
+
+        public function uploadBiling($id, $idJenisManufacture)
+        {
+            date_default_timezone_set('Asia/Jakarta');
+            $this->load->model('_Upload');
+            $file = $this->_Upload->uploadWithAjax('berkas',
+                'assets/file-upload/biling/file-biling', //
+                'pdf|jpg|png|jpeg',
+                'biling_pembayaran',
+                '_bayar' 
+            );
+
+            if($file == 'error') {
+                $this->ver_pembayaran($id, $idJenisManufacture) ;
+            }else{
+            
+                $query = [
+                    'idBatch' => $id ,
+                    'kode_biling' => $file ,
+                    'tgl_kode_biling' => date('Y-m-d'),
+                    'jam_kode_biling' => date('G:i:s') ,
+                    'tgl_bayar' => '0000-00-00',
+                    'jam_bayar' => '00:00:00',
+                    'fileBuktiBayar' => '' ,
+                    'tgl_verifikasi_pembayaran' => '0000-00-00',
+                    'jam_verifikasi_bayar' => '00:00:00',
+                    'status_verifikasi_bayar' => 3
+                ] ;
+
+                if($this->db->insert('_bukti_bayar', $query)) {
+                    $this->_Riwayat->simpanRiwayat($id, "Mengirim Kode Biling", 'Pembayaran',0) ;
+                    
+                    $pesan = [
+                        'pesan_bayar' => 'Kode Biling Berhasil Disimpan' ,
+                        'warna_bayar' => 'success'
+                    ];
+                }else{
+                    $pesan = [
+                    'pesan_bayar' => 'Kode Biling Berhasil Disimpan' ,
+                    'warna_bayar' => 'success'
+                    ];
+                }
+
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->ver_pembayaran($id, $idJenisManufacture) ;
+        }
+
+        public function hapus_pembayaran($id, $idJenisManufacture, $idPembayaran) 
+        {
+            $this->db->where('idBuktiBayar', $idPembayaran) ;
+            $this->db->select('kode_biling') ;
+            $namaFile = $this->db->get('_bukti_bayar')->row_array();
+            $namaFile = $namaFile['kode_biling'] ;
+            $path = './assets/file-upload/biling/file-biling/'.$namaFile;
+            unlink($path);
+
+            
+            $this->db->where('idBuktiBayar', $idPembayaran) ;
+            if($this->db->delete('_bukti_bayar')) {
+
+                $this->_Riwayat->simpanRiwayat($id, 'Hapus Kode Biling', 'Pembayaran',0) ;
+
+                $pesan = [
+                    'pesan_bayar' => 'Kode Biling Berhasil Dihapus' ,
+                    'warna_bayar' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan_bayar' => 'Kode Biling Gagal Dihapus' ,
+                    'warna_bayar' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->ver_pembayaran($id, $idJenisManufacture) ;
+        }
+
+        public function aksi_pembayaran($id, $idJenisManufacture, $idPembayaran, $sts)
+        {
+            $this->load->model('_Date') ;
+            date_default_timezone_set('Asia/Jakarta');
+            if(date("G") >= 12) {
+                $besok = 1 ;
+            }else{
+                $besok = 0 ;
+            }
+            
+            $mulai = date('Y-m-d', strtotime("+$besok day") ) ; //jika lebih jam 12 siang di alihkan besok
+
+
+            $query = [
+                'tgl_verifikasi_pembayaran' => date("Y-m-d") ,
+                'jam_verifikasi_bayar' => date("G:i:s") ,
+                'status_verifikasi_bayar' => $sts
+            ] ;
+
+            // var_dump($query) ;
+
+            $this->db->where('idBuktiBayar', $idPembayaran) ;
+            $this->db->set($query) ;
+            if($this->db->update('_bukti_bayar', $query)){
+
+                if($sts == 1){
+                    $this->_Riwayat->simpanRiwayat($id, 'Pembayaran Di Terima - Pekerjaan Dimulai Tanggal '. $this->_Date->formatTanggal($mulai), 'Pembayaran',0) ;
+                }else{
+                    $this->_Riwayat->simpanRiwayat($id, 'Pembayaran Tidak Di Terima - Silahkan Verifikasi Ulang', 'Pembayaran',0) ;
+                }
+                $pesan = [
+                    'pesan_pembayaran' => 'Verifikasi Pembayaran Berhasil Disimpan' ,
+                    'warna_pembayaran' => 'success'
+                ] ;
+            }else{
+                $pesan = [
+                    'pesan_pembayaran' => 'Verifikasi Pembayaran Gagal Disimpan' ,
+                    'warna_pembayaran' => 'danger'
+                ] ;
+            }
+
+            $this->session->set_flashdata($pesan) ;
+            $this->ver_pembayaran($id, $idJenisManufacture) ;
+        }
+    // pembayaran
 }
 
 ?>

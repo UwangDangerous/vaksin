@@ -1,4 +1,0 @@
-0 menunggu pembayaran
-1 pembayaran diterima
-2 pembayaran ditolak
-3 biling dikirim

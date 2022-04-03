@@ -58,7 +58,11 @@
     <br>
 
     <div class="card p-2">
-        <h3>Pembayaran</h3>
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-11"><h3>Pembayaran</h3></div>
+            <div class="col-md-1"><button class="btn btn-info"><i class="fa fa-sync" data-toggle='tooltip' title='Refresh' id="refresh-pembayaran"></i></button></div>
+        </div>
+        
         <?php if($verify_bayar == true) : ?>
             <div class="row">
                 <div class="col-md-6">
@@ -271,5 +275,9 @@
                 $('#pembayaran').html(data) ;      
             }
         });
+    }) ;
+
+    $("#refresh-pembayaran").click(function(){
+        $('#pembayaran').load("<?= base_url(); ?>petugas/ver_pembayaran/<?= $id;?>/<?= $idJenisManufacture;?>") ;
     }) ;
 </script>

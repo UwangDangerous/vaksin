@@ -54,6 +54,55 @@
                 </tr>
             </table>
         </div>
+
+        <div class="col-md-6">
+            <table cellpadding=2 cellspacing=2>
+
+                <?php if($batch['idJenisManufacture'] == 2) : ?> <!-- impor -->
+                    
+                    <!-- pelulusan -->
+                    <tr>
+                        <th valign='top'>No. Adm. Pelulusan</th>
+                        <th valign='top'>:</th>
+                        <td valign='top'><div id="no_urut_pelulusan"></div></td>
+                    </tr>
+                    
+                <?php elseif($batch['idJenisManufacture'] == 1) : ?> <!-- domestik -->
+
+                    <!-- pelulusan -->
+                    <tr>
+                        <th valign='top'>No. Adm. Pelulusan</th>
+                        <th valign='top'>:</th>
+                        <td valign='top'><div id="no_urut_pelulusan"></div></td>
+                    </tr>
+
+                    <?php if($batch['idJenisDokumen'] == 3) : ?> <!-- non label -->
+                        
+                        <!-- pengujian -->
+                        <tr>
+                            <th valign='top'>No. Adm. Pengujian</th>
+                            <th valign='top'>:</th>
+                            <td valign='top'><div id="no_urut_pengujian"></div></td>
+                        </tr>
+
+                    <?php endif ; ?>
+                    
+                <?php else : ?>
+
+                    <!-- pengujian -->
+                    <tr>
+                        <th valign='top'>No. Adm. Pengujian</th>
+                        <th valign='top'>:</th>
+                        <td valign='top'><div id="no_urut_pengujian_pbal"></div></td>
+                    </tr>
+
+                <?php endif ; ?>
+            </table>
+
+            <script>
+                $("#no_urut_pelulusan").load("<?= base_url() ; ?>_NoAdm/no_adm_pelulusan/<?= $batch['idBatch'];?>") ;
+            </script>
+        </div>
     </div>
 </div>
 
@@ -112,119 +161,7 @@
 <br>
 
 <!-- petugas evaluasi dan verifikasi -->
-    <div class="card p-3">
-        <div class="row">
-            <div class="col">
-                <h4>Petugas</h4> <br>
-                <table cellpadding=2 cellspacing=2>
-                    <tr>
-                        <?php if($batch['idJenisManufacture'] == 1) : ?>
-
-                            <?php if($batch['idJenisDokumen'] == 2) : ?>
-                                <?php $evaluator = true ; ?>
-                                <?php $pengujian = false ; ?>
-                            <?php elseif($batch['idJenisDokumen'] == 3) : ?>
-                                <?php $evaluator = true ; ?>
-                                <?php $pengujian = true ; ?>
-                            <?php else : ?>
-                                <?php $evaluator = false ; ?>
-                                <?php $pengujian = false ; ?>
-                            <?php endif ; ?>
-
-                        <?php elseif($batch['idJenisManufacture'] == 2) : ?>
-
-                            <?php $evaluator = false ; ?>
-                            <?php $pengujian = true ; ?>
-
-                        <?php else : ?>
-
-                            <?php $evaluator = false ; ?>
-                            <?php $pengujian = true ; ?>
-
-                        <?php endif ; ?>
-
-                        <?php for($i = 3; $i <= 5 ; $i++ ):?>
-                            <tr>
-                                <?php if($i == 3) : ?>
-                                    <?php $petugas = "Verifikator" ?>
-                                    <?php $aktif = true ?>
-                                <?php elseif($i == 4) : ?>
-                                    <?php $petugas = "Evaluator" ?>
-                                    <?php if($evaluator == true) : ?>
-                                        <?php $aktif = true ?>
-                                    <?php else : ?>
-                                        <?php $aktif = false ?>
-                                    <?php endif ; ?>
-                                <?php else : ?>
-                                    <?php $petugas = "Pengujian" ?>
-                                    <?php if($pengujian == true) : ?>
-                                        <?php $aktif = true ?>
-                                    <?php else : ?>
-                                        <?php $aktif = false ?>
-                                    <?php endif ; ?>
-                                <?php endif ; ?>
-                                
-                                <?php if($aktif == true) : ?>
-                                    
-                                    <th class='align-top'><?= $petugas; ?></th>
-                                    <th class='align-top'>:</th>
-                                    <td class='align-top'>
-                                        <?php 
-                                            $this->db->where('idBatch', $batch['idBatch']) ;
-                                            $this->db->where('petugas.idTugas', $i) ;
-                                            $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
-                                            $petugas_pengerjaan = $this->db->get('petugas')->row_array() ;
-
-                                            if($i != 3){
-                                                $this->db->where("idLevel = $i OR idLevel = 3");
-                                            }else{
-                                                $this->db->where('idLevel', $i);
-                                            }
-                                            // $this->db->where('idBatch', $batch['idBatch']) ;
-                                            $inuser = $this->db->get('inuser')->result_array() ;
-                                        ?>
-                                        <?php if($petugas_pengerjaan) : ?>
-                                            <form action="<?= base_url();?>petugas/ubahPetugas/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $i;?>/<?= $petugas_pengerjaan['idPetugas'];?>" method="post">
-                                                <div class="input-group mb-3">
-                                                    <input type="hidden" name='idPetugas' value='<?= $petugas_pengerjaan['idPetugas'];?>'>
-                                                    <select name="petugas<?= $i; ?>" class='form-control' style='width:400px'>
-                                                        <option value="-">-pilih-</option>
-                                                        <?php foreach ($inuser as $iu) : ?>
-                                                            <?php if($iu['idIU'] == $petugas_pengerjaan['idIU']) : ?>
-                                                                <option selected value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
-                                                            <?php else : ?>
-                                                                <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
-                                                            <?php endif ; ?>
-                                                        <?php endforeach ; ?>
-                                                    </select>
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-success" type="submit" id="button-addon2" data-toggle='tooltip' title='Ubah Data Petugas <?= $petugas; ?>'><i class="fa fa-edit"></i></button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        <?php else : ?>
-                                            <form action="<?= base_url();?>petugas/tambahPetugas/<?= $batch['idSurat'];?>/<?= $batch['idSample'];?>/<?= $batch['idBatch'];?>/<?= $i; ?>" method="post">
-                                                <div class="input-group mb-3">
-                                                    <select name="petugas<?= $i; ?>" class='form-control' style='width:400px'>
-                                                        <option value="-">-pilih-</option>
-                                                        <?php foreach ($inuser as $iu) : ?>
-                                                            <option value="<?=$iu['idIU'] ;?>"><?= $iu['namaIU']; ?></option>
-                                                        <?php endforeach ; ?>
-                                                    </select>
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-primary" type="submit" id="button-addon2" data-toggle='tooltip' title='Simpan Data Petugas <?= $petugas; ?>'><i class="fa fa-save"></i></button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        <?php endif ; ?>
-                                    </td>
-                                <?php endif ; ?>
-                            </tr>
-                        <?php endfor ; ?>
-                </table>
-            </div>
-        </div>
-    </div>
+<div id="petugas"></div>
 <!-- petugas evaluasi dan verifikasi -->
 
 <!-- riwayat dan respon tanggapan -->
@@ -254,11 +191,7 @@
 <script>
     $(document).ready(function(){
         $("#riwayat").load("<?= base_url();?>home/riwayat/<?= $batch['idBatch'];?>") ;
-    });
-</script>
-
-<script>
-    $(document).ready(function(){
         $("#respon_tanggapan").load("<?= base_url();?>home/respon_tanggapan/<?= $batch['idBatch'];?>") ;
+        $("#petugas").load("<?= base_url();?>_petugas/index/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
     });
 </script>

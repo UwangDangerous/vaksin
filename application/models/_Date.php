@@ -42,6 +42,44 @@
             }
         }
 
+        public function formatRomawi($bulan) 
+        {
+            switch ($bulan) {
+                case 1 :
+                    $b = 'I' ; break ;
+                case 2 :
+                    $b = 'II' ; break ;
+                case 3 :
+                    $b = 'III' ; break ;
+                case 4 :
+                    $b = 'IV' ; break ;
+                case 5 :
+                    $b = 'V' ; break ;
+                case 6 :
+                    $b = 'VI' ; break ;
+                case 7 :
+                    $b = 'VII' ; break ;
+                case 8 :
+                    $b = 'VIII' ; break ;
+                case 9 :
+                    $b = 'IX' ; break ;
+                case 10 :
+                    $b = 'X' ; break ;
+                case 11 :
+                    $b = 'XI' ; break ;
+                case 12 :
+                    $b = 'XII' ; break ;
+                default :
+                    $b = '00' ;
+            }
+
+            if($b == '00') {
+                return '-' ;
+            }else{
+                return $b;
+            }
+        }
+
         public function formatTanggalHari($tanggal) 
         {
             $bulan = date('Y-m-d l', strtotime($tanggal)) ;

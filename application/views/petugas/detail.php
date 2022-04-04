@@ -56,7 +56,7 @@
         </div>
 
         <div class="col-md-6">
-            <table cellpadding=2 cellspacing=2>
+            <table cellpadding=2 cellspacing=2 class='text-left'>
 
                 <?php if($batch['idJenisManufacture'] == 2) : ?> <!-- impor -->
                     
@@ -93,7 +93,7 @@
                     <tr>
                         <th valign='top'>No. Adm. Pengujian</th>
                         <th valign='top'>:</th>
-                        <td valign='top'><div id="no_urut_pengujian_pbal"></div></td>
+                        <td valign='top'><div id="no_urut_pengujian"></div></td>
                     </tr>
 
                 <?php endif ; ?>
@@ -101,6 +101,7 @@
 
             <script>
                 $("#no_urut_pelulusan").load("<?= base_url() ; ?>_NoAdm/no_adm_pelulusan/<?= $batch['idBatch'];?>") ;
+                $("#no_urut_pengujian").load("<?= base_url() ; ?>_NoAdm/no_adm_pengujian/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>")
             </script>
         </div>
     </div>

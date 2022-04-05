@@ -22,6 +22,7 @@
                     <th class='align-top'>Jenis Vaksin</th>
                     <td class='align-top'>:</td>
                     <td><?= $batch['jenisSample']; ?></td>
+                    <!-- <td><?//= $sample['namaJenisManufacture']; ?></td> -->
                 </tr>
                 <tr>
                     <th class='align-top'>Nama Perusahaan</th>
@@ -47,11 +48,13 @@
                     <td class='align-top'>:</td> 
                     <td><?= $batch['dosis']; ?></td>
                 </tr>
-                <tr>
-                    <th class='align-top'>Jenis Dokumen</th>
-                    <td class='align-top'>:</td> 
-                    <td><?= $batch['namaJenisDokumen']; ?></td>
-                </tr>
+                <?php if($batch['idJenisManufacture'] == 1) : ?>
+                    <tr>
+                        <th class='align-top'>Jenis Dokumen</th>
+                        <td class='align-top'>:</td> 
+                        <td><?= $batch['namaJenisDokumen']; ?></td>
+                    </tr>
+                <?php endif ; ?>
             </table>
         </div>
 
@@ -193,6 +196,6 @@
     $(document).ready(function(){
         $("#riwayat").load("<?= base_url();?>home/riwayat/<?= $batch['idBatch'];?>") ;
         $("#respon_tanggapan").load("<?= base_url();?>home/respon_tanggapan/<?= $batch['idBatch'];?>") ;
-        $("#petugas").load("<?= base_url();?>_petugas/index/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>") ;
+        $("#petugas").load("<?= base_url();?>_petugas/index/<?= $batch['idBatch'];?>/<?= $batch['idJenisManufacture'];?>/<?= $batch['idJenisDokumen'];?>") ;
     });
 </script>

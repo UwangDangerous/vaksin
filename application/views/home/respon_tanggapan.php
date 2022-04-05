@@ -1,13 +1,14 @@
 <div id="respon_tanggapan">
     <div class="row">
         <div class="col-10">
-            <h5>Respon Tanggapan</h5>
+            <h6>Respon Tanggapan</h6>
         </div>
         <div class="col-2">
-        <a href="#respon_tanggapan" class="btn btn-info" data-toggle='tooltip' title='Refresh' id='refresh-respon'><i class="fa fa-sync"></i></a>
-    </div>
+            <a href="#respon_tanggapan" class="btn btn-info" data-toggle='tooltip' title='Refresh' id='refresh-respon'><i class="fa fa-sync"></i></a>
         </div>
     </div>
+</div>
+<br>
     <div class="table-responsive">
         <table class="table table-sm table-striped table-bordered text-center" style="font-size:10pt;" id="tabel_respon_tanggapan">
             <thead>

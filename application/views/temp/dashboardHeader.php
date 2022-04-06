@@ -185,6 +185,26 @@
                                 Evaluasi Sample
                             </a>
 <?php elseif($lvl == 3) : ?> <!-- Verifikator dan Evaluator -->
+
+                            <!-- konfirmasi petugas -->
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-clipboard-check"></i></div>
+                                    Konfirmasi Petugas
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="<?= base_url(); ?>v_konfirmasi/pelulusan">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
+                                            Pelulusan
+                                        </a>
+                                        <a class="nav-link" href="<?= base_url(); ?>v_konfirmasi/pengujian">
+                                            <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
+                                            Pengujian
+                                        </a>
+                                    </nav>
+                                </div>
+                            <!-- Konfirmasi petugas -->
                             <a class="nav-link" href="<?= base_url(); ?>evaluasi">
                                 <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
                                 Evaluasi Sample

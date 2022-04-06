@@ -1,11 +1,11 @@
-<section>
+<!-- <section>
   <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="<?= base_url(); ?>assets/img/slide-bar/1.jpg" class="d-block w-100" alt="<?= SEO ; ?>">
+        <img src="<?//= base_url(); ?>assets/img/slide-bar/1.jpg" class="d-block w-100" alt="<?//= SEO ; ?>">
       </div>
       <div class="carousel-item">
-        <img src="<?= base_url(); ?>assets/img/slide-bar/2.jpg" class="d-block w-100" alt="<?= SEO ; ?>">
+        <img src="<?//= base_url(); ?>assets/img/slide-bar/2.jpg" class="d-block w-100" alt="<?//= SEO ; ?>">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -17,7 +17,7 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-</section>
+</section> -->
 
 <section id="informasi" class='bg-light'>
   <div class="container">

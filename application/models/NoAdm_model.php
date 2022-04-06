@@ -7,7 +7,7 @@
             $this->db->where('kodeAdm', $kd) ;
             // $this->db->where('kodeBulan', $bln) ;
             $this->db->where('tahun', $thn) ;
-            $this->db->order_by('idAdm', 'desc') ;
+            $this->db->order_by('idAdm', 'asc') ;
             $this->db->select('noAdm') ;
             return $this->db->get('no_admin')->result_array() ;
         }

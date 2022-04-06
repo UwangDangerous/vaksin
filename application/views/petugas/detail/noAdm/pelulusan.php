@@ -8,7 +8,7 @@
         <?php $no = $no['noAdm'] ; ?>
     <?php endforeach ; ?>
 
-    <?php $no += 1 ; ?>
+    <?php $no = $no + 1 ; ?>
 
     <?php $no_urut = $this->NoAdm_model->getNoUrutUsed($id) ; ?>
     <?php if($no_urut) : ?>

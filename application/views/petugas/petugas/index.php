@@ -14,7 +14,7 @@
                             <div class="input-group mb-3">
                                 <select name="idIU" class='form-control' style='width:400px'>
                                     <?php foreach ($verifikator as $ver) : ?> 
-                                        <?php if($petugas_verifikator['idIU']) : ?>
+                                        <?php if($petugas_verifikator['idIU'] == $ver['idIU']) : ?>
                                             <option selected value="<?= $ver['idIU']; ?>"><?= $ver['namaIU']; ?></option>
                                         <?php else : ?>
                                             <option value="<?= $ver['idIU']; ?>"><?= $ver['namaIU']; ?></option>

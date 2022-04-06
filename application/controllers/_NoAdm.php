@@ -107,7 +107,7 @@
 
                 if($this->db->insert('no_admin_pengujian', $query)) {
                     $this->load->model('_Riwayat') ;
-                    $this->_Riwayat->simpanRiwayat($id, 'No Admin Pengujian Disimpan', "No Admin Pengujian", 1) ;
+                    $this->_Riwayat->simpanRiwayat($idBatch, 'No Admin Pengujian Disimpan', "No Admin Pengujian", 1) ;
 
                     $pesan = [
                         'pesan_no_pengujian' => 'Nomor Admin Berhasil Disimpan',
@@ -129,7 +129,7 @@
                 $this->db->where('PidAdm', $id) ;
                 if($this->db->delete('no_admin_pengujian')) {
                     $this->load->model('_Riwayat') ;
-                    $this->_Riwayat->simpanRiwayat($id, 'Hapus No Admin Pengujian', "No Admin Pengujian", 1) ;
+                    $this->_Riwayat->simpanRiwayat($idBatch, 'Hapus No Admin Pengujian', "No Admin Pengujian", 1) ;
 
                     $pesan = [
                         'pesan_no_pengujian' => 'Nomor Admin Berhasil Dihapus',

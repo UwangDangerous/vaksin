@@ -14,7 +14,7 @@
                             <?php endif ; ?>
                         <?php endforeach ; ?>
                     </select>
-                    <input type="hidden" name='idPetugas' value='<?= $petugas_evaluator['idIU'];?>'>
+                    <input type="hidden" name='idPetugas' value='<?= $petugas_evaluator['idPetugas'];?>'>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit" id="button-addon2" data-toggle='tooltip' title='Ubah Petugas Evaluator'><i class="fa fa-edit"></i></button>
                     </div>

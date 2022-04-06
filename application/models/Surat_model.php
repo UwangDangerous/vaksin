@@ -30,7 +30,7 @@
 
             if($this->db->insert('_surat', $query)){
                 $pesan = [
-                    'pesan' => 'Data Berhasil Di Tambah, Silahkan lengkapi datas sampel untuk tahap selanjutnya',
+                    'pesan' => 'Data Berhasil Di Tambah, Silahkan lengkapi data sampel untuk tahap selanjutnya',
                     'warna' => 'success' 
                 ];
 
@@ -43,7 +43,7 @@
                 }
 
                 $this->session->set_flashdata($pesan);
-                redirect('sample_/index/'.$idSurat) ;
+                redirect('surat') ;
             }else{
                 $pesan = [
                     'pesan' => 'Data Gagal Di Tambah',

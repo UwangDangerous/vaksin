@@ -31,17 +31,20 @@
         public function simpanPetugas($id, $idJenisManufacture, $idJenisDokumen, $tugas)
         {
 
+            if($tugas == 1) {
+                $petugas = "Verifikator" ;
+                $konformasi = 1 ;
+            }else{
+                $petugas = "Evaluator" ;
+                $konformasi = 0 ;
+            }
+
             $query = [
                 'idBatch' => $id, 
                 'idIU' => $this->input->post('idIU') ,
-                'idTugas' => $tugas 
+                'idTugas' => $tugas ,
+                'konfirmasi' => $konformasi
             ] ;
-
-            if($tugas == 1) {
-                $petugas = "Verifikator" ;
-            }else{
-                $petugas = "Evaluator" ;
-            }
 
             if($this->db->insert('petugas', $query)) {
                 $this->load->model("_Riwayat") ;
@@ -76,7 +79,7 @@
                 $petugas = "Evaluator" ;
             }
 
-            $this->db->where('idPetugas', $this->input->post('id')) ;
+            $this->db->where('idPetugas', $this->input->post('idPetugas')) ;
             $this->db->set('idIU', $this->input->post('idIU')) ;
 
             if($this->db->update('petugas')) {
@@ -152,12 +155,12 @@
                     $this->load->model("_Riwayat") ;
                     $this->_Riwayat->simpanRiwayat($id, "Ubah Petugas Penguji", "Petugas",1) ;
                     $pesan = [
-                        "pesan_Penguji_$idJP" => "Petugas Penguji Berhasil Dihapus" ,
+                        "pesan_Penguji_$idJP" => "Petugas Penguji Berhasil DIubah" ,
                         "warna_Penguji_$idJP" => "success" 
                     ];
                 }else{
                     $pesan = [
-                        "pesan_Penguji_$idJP" => "Petugas Penguji Gagal Dihapus" ,
+                        "pesan_Penguji_$idJP" => "Petugas Penguji Gagal DIubah" ,
                         "warna_Penguji_$idJP" => "danger" 
                     ];
                 }
@@ -174,12 +177,12 @@
                     $this->load->model("_Riwayat") ;
                     $this->_Riwayat->simpanRiwayat($id, "Hapus Petugas Penguji", "Petugas",1) ;
                     $pesan = [
-                        "pesan_Penguji_$idJP" => "Petugas Penguji Berhasil Diubah" ,
+                        "pesan_Penguji_$idJP" => "Petugas Penguji Berhasil Dihapus" ,
                         "warna_Penguji_$idJP" => "success" 
                     ];
                 }else{
                     $pesan = [
-                        "pesan_Penguji_$idJP" => "Petugas Penguji Gagal Diubah" ,
+                        "pesan_Penguji_$idJP" => "Petugas Penguji Gagal Dihapus" ,
                         "warna_Penguji_$idJP" => "danger" 
                     ];
                 }

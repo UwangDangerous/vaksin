@@ -23,6 +23,16 @@
                 redirect('auth/inuser') ;
             }
         }
+
+        // verifikator 
+
+            public function verifikator() {
+                
+                $this->load->view('dashboard/verifikator/index') ;
+
+            }
+
+        // verifikator
     }
 
 ?>

@@ -351,50 +351,11 @@
                                     
 
                                     <!-- 10 --> <!-- lama pengerjaan -->
-                                    <td>
-                                        <?php if($very_pembayaran == true) : ?>
-                                            
-                                            <?php if($sample['idJenisManufacture'] == 1) : ?> <!-- domestik -->
-                                                <!-- ==================================================== -->
-                                                <?php $pekerjaan = 'domestik' ; ?>
-                                                <?php if($b['idJenisDokumen'] == 2) : ?> <!-- label -->
-                                                    <?= $b['pelulusan']; ?>
-                                                <?php else : ?> <!-- non label -->
-                                                    <?php $usePengujian = $this->User_Sample_model->useJenisSample($sample['idJenisSample']) ; ?>
-                                                    <?php if($usePengujian) : ?>
-                                                        <?php $time_pengujian =  max($usePengujian) ; ?>
-                                                    <?php else : ?>
-                                                        <?php $time_pengujian = 0 ; ?>
-                                                    <?php endif ; ?>
-                                                    <?php $time_pelulusan = $b['pelulusan']; ?>
 
-                                                    <?php $fulltime = $time_pelulusan + $time_pengujian; ?>
-                                                    <span data-toggle='tooltip' title='<?= $time_pelulusan; ?> hari evaluasi dokumen + <?= $time_pengujian; ?> hari pengujian'><?= $fulltime;?> Hari</span>
-                                                <?php endif ; ?>
-                                                <!-- ==================================================== -->
-
-                                            <?php elseif($sample['idJenisManufacture'] == 2) : ?> <!-- impor -->
-
-                                                <!-- ==================================================== -->
-                                                <?= $b['pelulusan']; ?> Hari
-                                                <!-- ==================================================== -->
-                                                
-                                            <?php else : ?> <!-- selain impor dan domestik -->
-                                                
-                                                <!-- ==================================================== -->
-                                                    <?php $usePengujian = $this->User_Sample_model->useJenisSample($sample['idJenisSample']) ; ?>
-                                                        <?php if($usePengujian) : ?>
-                                                            <?=  max($usePengujian) ; ?>
-                                                        <?php else : ?>
-                                                            <?= 0 ; ?>
-                                                        <?php endif ; ?>
-                                                <!-- ==================================================== -->
-
-                                            <?php endif ; ?> 
-                                        <?php else : ?>
-                                            -
-                                        <?php endif ; ?>
-                                    </td>
+                                    <!-- hapus dulu dibackup view--> 
+                                    
+                                    <td>lgi di hapus dulu</td>
+                                    
                                     <!-- 10 --> <!-- lama pengerjaan -->
 
                                     <!-- modal batch edit -->

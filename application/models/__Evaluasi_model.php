@@ -12,9 +12,12 @@
 
             $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample') ;
             $this->db->join('_jenisKemasan','_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan') ;
+            $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _jenisSample.idJenisManufacture') ;
+            $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = sample_batch.idJenisDokumen') ;
+            $this->db->join('verifikasi_sample_batch', 'verifikasi_sample_batch.idBatch = sample_batch.idBatch') ;
 
             $this->db->order_by('idAdm', 'desc') ;
-            $this->db->select('noAdm, kodeAdm, sample_batch.idBatch, kodeBulan, tahun, pengiriman, namaSample,noBatch, ingJenisKemasan ') ;
+            $this->db->select('noAdm, kodeAdm, sample_batch.idBatch, kodeBulan, tahun, jumlah_sample as pengiriman, namaSample,noBatch, ingJenisKemasan ,namaJenisManufacture, _jenisManufacture.idJenisManufacture as idJenisManufacture, namaJenisDokumen') ;
             return $this->db->get("petugas")->result_array();
         }
 
@@ -25,6 +28,7 @@
             $this->db->select('namaJenisPekerjaan') ;
             return $this->db->get('_jp_add')->result_array() ;
         }
+
     }
 
 ?>

@@ -82,6 +82,56 @@
         }
 
 
+        // surat perintah kerja model
+            public function getDataSurat($id)
+            {
+                $this->db->where('sample_batch.idBatch', $id) ;
+                $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU') ;
+                $this->db->join('_sample', '_sample.idSurat = _surat.idSurat') ;
+                $this->db->join('sample_batch', 'sample_batch.idSample = _sample.idSample') ;
+
+                $this->db->join('no_admin', 'no_admin.idBatch = sample_batch.idBatch') ;
+                $this->db->join('verifikasi_sample_batch', 'verifikasi_sample_batch.idBatch = sample_batch.idBatch') ;
+                $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample') ;
+                $this->db->join('_jenisKemasan','_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan') ;
+
+                $this->db->where('idTugas', 2) ; //evaluator
+                $this->db->join('petugas', 'petugas.idBatch = sample_batch.idBatch') ;
+                $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
+
+                $this->db->select('
+                    noSurat, namaEU, namaDepan, tgl_kirim_surat,
+
+                    noAdm,kodeAdm,kodeBulan,tahun,
+                    namaSample, noBatch,
+
+                    jumlah_sample,ingJenisKemasan,
+                    
+                    namaIU,tanda_tangan,nip,
+
+                    tgl_verifikasi_sample
+                ') ;
+                return $this->db->get('_surat')->row_array() ;
+            }
+
+            public function getDataPengujian($id) {
+                $this->db->where('idBatch', $id) ;
+                $this->db->join('_jenisPekerjaan', '_jenisPekerjaan.idJenisPekerjaan = _jp_add.idJenisPekerjaan') ;
+                $this->db->select('namaJenisPekerjaan') ;
+                return $this->db->get('_jp_add')->result_array() ;
+            }
+
+            public function petugasVerifikasiPelulusan($id)
+            {
+                $this->db->where('idBatch', $id) ;
+                $this->db->where('idTugas', 1) ;
+                $this->db->join('inuser', 'inuser.idIU = petugas.idIU') ;
+                $this->db->select('nip, tanda_tangan,namaIU') ;
+                return $this->db->get('petugas')->row_array() ;
+            }
+        // surat perintah kerja model
+
+
 
 
 

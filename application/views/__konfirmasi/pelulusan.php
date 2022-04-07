@@ -10,13 +10,13 @@
 <?php endif ; ?>
 
 <div class="table-responsive mt-2">
-    <table class="table table-bordered table-striped text-center" id="tabel-tugs">
+    <table class="table table-bordered table-striped text-center" id="tabel-tugas">
         <thead>
             <tr>
-                <th>NO Admin</th>
-                <th>No Batch</th>
-                <th>Nama Petugas</th>
-                <th>Konfirmas</th>
+                <th class='align-middle'>NO Admin</th>
+                <th class='align-middle'>No Batch</th>
+                <th class='align-middle'>Nama Petugas</th>
+                <th class='align-middle'>Konfirmas</th>
             </tr>
         </thead>
         <tbody>

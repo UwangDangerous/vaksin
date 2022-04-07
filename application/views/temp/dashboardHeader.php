@@ -180,7 +180,7 @@
                                 Evaluasi Sample
                             </a>
 <?php elseif($lvl == 4) : ?> <!-- evaluator --> 
-                            <a class="nav-link" href="<?= base_url(); ?>evaluasi">
+                            <a class="nav-link" href="<?= base_url(); ?>__evaluasi">
                                 <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
                                 Evaluasi Sample
                             </a>
@@ -194,11 +194,11 @@
                                 </a>
                                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="<?= base_url(); ?>v_konfirmasi/pelulusan">
+                                        <a class="nav-link" href="<?= base_url(); ?>__konfirmasi/pelulusan">
                                             <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
                                             Pelulusan
                                         </a>
-                                        <a class="nav-link" href="<?= base_url(); ?>v_konfirmasi/pengujian">
+                                        <a class="nav-link" href="<?= base_url(); ?>__konfirmasi/pengujian">
                                             <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
                                             Pengujian
                                         </a>
@@ -207,11 +207,11 @@
                             <!-- Konfirmasi petugas -->
                             <a class="nav-link" href="<?= base_url(); ?>evaluasi">
                                 <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
-                                Evaluasi Sample
+                                Evaluasi Sample(x)
                             </a> 
                             <a class="nav-link" href="<?= base_url(); ?>verifikasi_">
                                 <div class="sb-nav-link-icon"><i class="fas fa-file-signature"></i></div>
-                                Verifikasi Sample
+                                Verifikasi Sample(x)
                             </a>
 
 <?php else : ?>

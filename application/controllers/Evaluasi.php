@@ -4,152 +4,23 @@
         public function __construct() 
         {
             parent::__construct() ;
-            $this->load->library('form_validation');
+            // $this->load->library('form_validation');
             $this->load->model('Evaluasi_model');
-            // $this->load->model('User_Sample_model');
         }
-
-        public function index()
-        {
-            $this->load->model('_Date');
-            $data['judul'] = 'Data Sample '. $this->session->userdata('namaLevel'); 
-            $data['header'] = 'Data Sample'; 
-            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Evaluasi'; 
-            $data['sample'] = $this->Evaluasi_model->getDataSample();
-            if( $this->session->userdata('key') != null )
-            {
-                $this->load->view('temp/dashboardHeader',$data);
-                $this->load->view('evaluasi/index');
-                $this->load->view('temp/dashboardFooter');
-            }else{
-                $this->session->set_flashdata('login' , 'Anda Bukan Internal User');
-                redirect('auth/inuser') ;
-            }
-        }
-
-        public function tambahEvaluasi($id)
-        {
-            $this->load->model('_Upload');
-            $upload = $this->_Upload->uploadEksUser('berkas','assets/file-upload/hasil-evaluasi','pdf','evaluasi','hasil-evaluasi');
-            // $namaBerkas, $path, $type,$redirect,$namaTambahan = ''
-
-            $query = [
-                'idSample' => $id,
-                'hasilEvaluasi' => $upload
-            ];
-            $queryRiwayat = [
-                'idSample' => $id,
-                'tgl_riwayat' => date('Y-m-d'),
-                'keteranganRiwayat' => 'Di Evaluasi Oleh '. $this->session->userdata('nama')
-            ];
-
-            if($this->db->insert('evaluasi', $query)){
-                if($this->db->insert('riwayatPekerjaan', $queryRiwayat)) {
-                    $pesan = [
-                        'pesan' => 'Data Berhasil Di Tambah',
-                        'warna' => 'success' 
-                    ];
-                    $this->session->set_flashdata($pesan);
-                    redirect("evaluasi") ;
-                }else{
-                    $pesan = [
-                        'pesan' => 'Data Gagal Di Tambah',
-                        'warna' => 'danger' 
-                    ];
-                    $this->session->set_flashdata($pesan);
-                    redirect("evaluasi") ;
-                }
-            }else{
-                $pesan = [
-                    'pesan' => 'Data Gagal Di Tambah',
-                    'warna' => 'danger' 
-                ];
-                $this->session->set_flashdata($pesan);
-                redirect("evaluasi") ;
-            }
-        }
-
-
-        public function pesanEvaluasi($id)
-        {
-            $query = [
-                'idSample' => $id,
-                'clock_off' => date('Y-m-d'),
-                'judul' => $this->input->post('judul'),
-                'keterangan' => $this->input->post('isi'),
-                'clock_on' => '0000-00-00'
-            ];
-            $queryRiwayat = [
-                'idSample' => $id,
-                'tgl_riwayat' => date('Y-m-d'),
-                'keteranganRiwayat' => 'Clock off '.$this->input->post('judul').' | Oleh ' . $this->session->userdata('nama'). ' (Evaluasi)'
-            ];
-
-            if($this->db->insert('clockoff', $query)){
-                if($this->db->insert('riwayatPekerjaan', $queryRiwayat)) {
-                    $pesan = [
-                        'pesan' => 'Data Berhasil Di Tambah',
-                        'warna' => 'success' 
-                    ];
-                    $this->session->set_flashdata($pesan);
-                    redirect("evaluasi") ;
-                }else{
-                    $pesan = [
-                        'pesan' => 'Data Gagal Di Tambah',
-                        'warna' => 'danger' 
-                    ];
-                    $this->session->set_flashdata($pesan);
-                    redirect("evaluasi") ;
-                }
-            }else{
-                $pesan = [
-                    'pesan' => 'Data Gagal Di Tambah',
-                    'warna' => 'danger' 
-                ];
-                $this->session->set_flashdata($pesan);
-                redirect("evaluasi") ;
-            }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
         // form
-            public function form($id, $idSurat, $idSample) //$id = $idJenisSample
+            public function form($id, $idBatch) //$id = $idJenisSample
             {
                 $data['judul'] = 'Lengkapi Data '. $this->session->userdata('namaLevel'); 
                 $data['header'] = 'Lengkapi Data'; 
-                $data['bread'] = 'Dashboard / Riwayat Surat / <a href="'.base_url().'sample_/index/'.$idSurat.'">  Informasi Sample </a> / Lengkapi Dokumen '; 
+                $data['bread'] = 'Dashboard / <a href="'.base_url().'__evaluasi">  Evaluasi </a> / Form '; 
 
                 $data['id'] = $id ;
-                $data['idSample'] = $idSample ;
+                $data['idBatch'] = $idBatch ;
 
-                $data['tabelProses'] = $this->Evaluasi_model->getDataForTabel($id) ;
+                // $data['tabelProses'] = $this->Evaluasi_model->getDataForTabel($id) ;
                 
                 if( $this->session->userdata('key') != null )
                 {
@@ -163,15 +34,15 @@
             }
 
             // general informasi
-                public function general_informasi($id, $idSample) 
+                public function general_informasi($id, $idBatch) 
                 {
                     $data['id'] = $id ;
-                    $data['idSample'] = $idSample ;
+                    $data['idBatch'] = $idBatch ;
                     $data['general_informasi'] = $this->Evaluasi_model->getDataForGI($id);
                     $this->load->view('evaluasi/form/general_informasi', $data) ;
                 }
 
-                public function tambah_gi($id, $idSample) 
+                public function tambah_gi($id, $idBatch) 
                 {
                     if($this->input->post('isi_gi') == '') {
                         $pesan = [
@@ -180,7 +51,7 @@
                         ];
                     }else{
                         $query = [
-                            'idSample' => $idSample,
+                            'idBatch' => $idBatch,
                             'id_gi_used' => $this->input->post('id_isi_gi'),
                             'isi_gi' => $this->input->post('isi_gi')
                         ] ; 
@@ -199,10 +70,10 @@
                     }
 
                     $this->session->set_flashdata($pesan) ;
-                    $this->general_informasi($id, $idSample) ;
+                    $this->general_informasi($id, $idBatch) ;
                 }
 
-                public function ubah_gi($id, $idSample) 
+                public function ubah_gi($id, $idBatch) 
                 {
                     $this->db->where('id_isi_gi', $this->input->post('id_isi_gi') );
                     if($this->db->update('isi_tbl_gi', ['isi_gi' => $this->input->post('isi_gi')] ) ) {
@@ -218,10 +89,10 @@
                     }
 
                     $this->session->set_flashdata($pesan) ;
-                    $this->general_informasi($id, $idSample) ;
+                    $this->general_informasi($id, $idBatch) ;
                 }
 
-                public function hapus_gi($id, $idSample, $idIsi)
+                public function hapus_gi($id, $idBatch, $idIsi)
                 {
                     $this->db->where('id_isi_gi', $idIsi) ;
                     if($this->db->delete('isi_tbl_gi')) {
@@ -237,7 +108,7 @@
                     }
 
                     $this->session->set_flashdata($pesan) ;
-                    $this->general_informasi($id, $idSample) ;
+                    $this->general_informasi($id, $idBatch) ;
                 }
             // general informasi
 
@@ -249,20 +120,20 @@
 
 
             //tabel 
-                public function tabel($id, $idSample)
+                public function tabel($id, $idBatch)
                 {
                     $data['id'] = $id ;
-                    $data['idSample'] = $idSample ;
+                    $data['idBatch'] = $idBatch ;
                     $data['tabelProses'] = $this->Evaluasi_model->getDataForTabel($id);
                     $this->load->view('evaluasi/form/tabel', $data) ;
                 }
 
                 // header
-                    public function header($idTbl, $id, $idSample) //id tabel proses , id jenis sample, idsample
+                    public function header($idTbl, $id, $idBatch) //id tabel proses , id jenis sample, idsample
                     {
                         $data['id'] = $id ;
                         $data['idTbl'] = $idTbl ;
-                        $data['idSample'] = $idSample ;
+                        $data['idBatch'] = $idBatch ;
                         $data['header'] =$this->Evaluasi_model->getDataForTabelHeader($idTbl) ;
                         $this->load->view('evaluasi/form/tabel/header', $data);
                     }

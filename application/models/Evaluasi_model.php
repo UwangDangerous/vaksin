@@ -1,55 +1,49 @@
 <?php 
 
     class Evaluasi_model extends CI_Model{
-        public function getDataSample() 
-        {
-            $this->db->where('petugas.idLevel', '3' );
-            $this->db->where('idIU', $this->session->userdata('key') );
-            // $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch');
-            // $this->db->join('sample_batch', '_sample.idSample = sample_batch.idSample') ;
-            // $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
-            // $this->db->join('_jenisDokumen', '_jenisDokumen.idJenisDokumen = _sample.idJenisDokumen');
-            // $this->db->join('_jenisManufacture', '_jenisManufacture.idJenisManufacture = _sample.idJenisManufacture');
-            // $this->db->order_by('_sample.idSample', 'desc');
+        // public function getDataSample() 
+        // {
+        //     $this->db->where('petugas.idLevel', '3' );
+        //     $this->db->where('idIU', $this->session->userdata('key') );
 
-            $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch') ;
-            $this->db->join('_sample', '_sample.idSample = sample_batch.idSample') ;
-            $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
-            return $this->db->get('petugas')->result_array();
-        }
+        //     $this->db->join('sample_batch', 'sample_batch.idBatch = petugas.idBatch') ;
+        //     $this->db->join('_sample', '_sample.idSample = sample_batch.idSample') ;
+        //     $this->db->join('_jenisSample', '_sample.idJenisSample = _jenisSample.idJenisSample');
+        //     return $this->db->get('petugas')->result_array();
+        // }
 
-        public function getDataDukung($id) 
-        {
-            $this->db->where('idSample', $id);
-            $this->db->join('_jenisDataDukung', '_jenisDataDukung.idJenisDataDukung = _dataDukung.idJenisDataDukung');
-            return $this->db->get('_dataDukung')->result_array();
-        }
+        // public function getDataDukung($id) 
+        // {
+        //     $this->db->where('idSample', $id);
+        //     $this->db->join('_jenisDataDukung', '_jenisDataDukung.idJenisDataDukung = _dataDukung.idJenisDataDukung');
+        //     return $this->db->get('_dataDukung')->result_array();
+        // }
 
-        public function buktiBayar($id)
-        {
-            $this->db->where('idSample', $id);
-            return $this->db->get('_buktiBayar')->row_array();
-        }
+        // public function buktiBayar($id)
+        // {
+        //     $this->db->where('idSample', $id);
+        //     return $this->db->get('_buktiBayar')->row_array();
+        // }
 
-        public function getDataEvaluasi($id)
-        {
-            $this->db->where('idSample', $id);
-            return $this->db->get('evaluasi')->row_array();
-        } //hapus
+        // public function getDataEvaluasi($id)
+        // {
+        //     $this->db->where('idSample', $id);
+        //     return $this->db->get('evaluasi')->row_array();
+        // } //hapus
 
-        public function clockoff($id)
-        {
-            $this->db->where('idSample',$id);
-            $this->db->order_by('idClockOff', 'desc');
-            return $this->db->get('clockoff')->row_array() ;
-        }
+        // public function clockoff($id)
+        // {
+        //     $this->db->where('idSample',$id);
+        //     $this->db->order_by('idClockOff', 'desc');
+        //     return $this->db->get('clockoff')->row_array() ;
+        // }
 
-        public function clock_on($id)
-        {
-            $this->db->where('idSample',$id);
-            $this->db->join('clockoff_dokumen', 'clockoff_dokumen.idClockOff = clockoff.idClockOff');
-            return $this->db->get('clockoff')->result_array() ;
-        }
+        // public function clock_on($id)
+        // {
+        //     $this->db->where('idSample',$id);
+        //     $this->db->join('clockoff_dokumen', 'clockoff_dokumen.idClockOff = clockoff.idClockOff');
+        //     return $this->db->get('clockoff')->result_array() ;
+        // }
         
     
 
@@ -84,7 +78,6 @@
                 public function getDataForGI($id)
                 {
                     $this->db->where('idJenisSample', $id) ;
-                    // $this->db->where('tugasGI', 2) ;
                     $this->db->join('tbl_general_informasi', 'tbl_general_informasi.idGI = tbl_gi_used.idGI') ;
                     return $this->db->get('tbl_gi_used')->result_array() ;
                 }

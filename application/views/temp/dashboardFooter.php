@@ -24,11 +24,6 @@
 
 
         <!-- Initialize Quill editor -->
-        <script>
-            tinymce.init({
-                selector: '#mytextarea'
-            });
-        </script>
 
 
 

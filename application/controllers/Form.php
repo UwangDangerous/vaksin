@@ -13,7 +13,7 @@
             $this->load->model('_Date');
             $data['judul'] = 'Form Evaluasi '. $this->session->userdata('namaLevel'); 
             $data['header'] = 'Form Evaluasi'; 
-            $data['bread'] = '<a href="'.base_url().'dashboard"> Dashboard </a> / Form Evaluasi'; 
+            $data['bread'] = 'Dashboard / <a href="'.base_url().'jenisSample"> Jenis Vaksin </a> / Form Evaluasi'; 
             $data['general_informasi'] = $this->db->get('tbl_general_informasi')->result_array() ;
             $data['idJenisSample'] = $id ;
             $data['jenisSample'] = $this->Form_model->jenisSample($id);

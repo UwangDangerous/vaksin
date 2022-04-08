@@ -5,16 +5,6 @@
                 <i class="fa fa-pen"></i>
             </a>
         </div>
-        <!-- <div class="col-md-6">
-            <form action="<?//= base_url(); ?>jenisSample" method='post'>
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Cari..." aria-describedby="basic-addon2" name='cari' id='cari' autofocus>
-                    <div class="input-group-append">
-                        <input class="btn btn-outline-primary" type="submit" name='btn-cari' value='cari' > 
-                    </div>
-                </div>
-            </form>
-        </div> -->
     </div>
 
     <?php if(!empty($this->session->flashdata('pesan') )) : ?>
@@ -58,12 +48,9 @@
                             <a href="#"  data-toggle="modal" data-target="#ubahData<?= $row['idJenisSample'];?>"  data-toggle='tooltip' title='Ubah Data' class="badge badge-success">
                                 <i class="fa fa-edit"></i>
                             </a>
-                            <a href="<?= base_url(); ?>form/index/<?= $row['idJenisSample']; ?>" data-toggle='tooltip' title='Buat Form' class="badge badge-primary">
-                                <i class="fa fa-table"></i>
-                            </a>
-                            <?php if($row['idJenisManufacture'] != 2) : ?>
-                                <a href="<?= base_url() ;?>jenisSample/tabel_tambah_pengujian/<?= $row['idJenisSample']?>" class="badge badge-warning" data-toggle='tooltip' title='Pilih Pengujian'>
-                                    <i class="fa fa-syringe"></i>
+                            <?php if($row['idJenisManufacture'] <= 2) : ?>
+                                <a href="<?= base_url(); ?>form/index/<?= $row['idJenisSample']; ?>" data-toggle='tooltip' title='Buat Form Evaluasi' class="badge badge-primary">
+                                    <i class="fa fa-table"></i>
                                 </a>
                             <?php endif ; ?>
                         </td>

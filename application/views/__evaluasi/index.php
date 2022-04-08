@@ -21,6 +21,8 @@
                         </td>
                         <td><?= $row['namaSample']; ?> <br> (<?= $row['noBatch']; ?>)</td>
                         <td>
+                            <b><?= $row['jenisSample']; ?></b>
+                            <br>
                             <?php if($row['idJenisManufacture'] == 1) : ?>
                                 <?= $row['namaJenisManufacture']; ?> <br> (<?= $row['namaJenisDokumen']; ?>)
                             <?php else : ?>
@@ -42,9 +44,9 @@
 
                         </td>
                         <td><?= $row['pengiriman']; ?> <?= $row['ingJenisKemasan']; ?> </td>
-                        <td><a href="<?= base_url();?>cetak/surat_perintah_kerja/<?= $row['idBatch'];?>/1" class="btn btn-warning" data-toggle='tooltip' title='cetak surat perintah kerja'><i class="fa fa-print"></i></a></td>
+                        <td><a href="<?= base_url();?>cetak/surat_perintah_kerja/<?= $row['idBatch'];?>/1" class="btn btn-warning" data-toggle='tooltip' title='cetak surat perintah kerja' target='blank'><i class="fa fa-print"></i></a></td>
                         <td>blm selesai</td>
-                        <td><a href="<?= base_url();?>cetak/surat_perintah_kerja/<?= $row['idBatch'];?>" class="btn btn-primary" data-toggle='tooltip' title='Evaluasi Dokumen'><i class="fa fa-pen"></i></a></td>
+                        <td><a href="<?= base_url();?>Evaluasi/form/<?= $row['idJenisSample'];?>/<?= $row['idBatch'];?>" class="btn btn-primary" data-toggle='tooltip' title='Evaluasi Dokumen'><i class="fa fa-pen"></i></a></td>
                     </tr>
                 <?php endforeach ; ?>
             </tbody>

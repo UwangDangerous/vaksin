@@ -29,7 +29,7 @@
         <script src="<?= base_url(); ?>assets/js/dataTables.bootstrap4.min.js" ></script>
 
 
-        <script src="<?= base_url(); ?>assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+        <!-- <script src="<?//= base_url(); ?>assets/tinymce/js/tinymce/tinymce.min.js" referrerpolicy="origin"></script> -->
 
         
     </head> 

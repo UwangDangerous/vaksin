@@ -17,7 +17,7 @@
             $this->db->join('verifikasi_sample_batch', 'verifikasi_sample_batch.idBatch = sample_batch.idBatch') ;
 
             $this->db->order_by('idAdm', 'desc') ;
-            $this->db->select('noAdm, kodeAdm, sample_batch.idBatch, kodeBulan, tahun, jumlah_sample as pengiriman, namaSample,noBatch, ingJenisKemasan ,namaJenisManufacture, _jenisManufacture.idJenisManufacture as idJenisManufacture, namaJenisDokumen') ;
+            $this->db->select('noAdm, kodeAdm, sample_batch.idBatch, kodeBulan, tahun, jumlah_sample as pengiriman, namaSample,noBatch, ingJenisKemasan ,namaJenisManufacture, _jenisManufacture.idJenisManufacture as idJenisManufacture, namaJenisDokumen, _sample.idJenisSample as idJenisSample, jenisSample') ;
             return $this->db->get("petugas")->result_array();
         }
 

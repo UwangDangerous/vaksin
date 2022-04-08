@@ -25,14 +25,11 @@
     
 
 
-    <script>
-        $(document).ready(function(){
-            $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idSample;?>") ;
+<script>
+    $(document).ready(function(){
+        $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idBatch;?>") ;
 
-            $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idSample;?>") ;
-        
-            $("#check").load("<?= base_url(); ?>evaluasi/check/<?= $id; ?>/<?= $idSample;?>") ;
-            
-        });
+        $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idBatch;?>") ;
+    });
 
-    </script>
+</script>

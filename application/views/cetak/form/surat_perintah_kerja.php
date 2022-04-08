@@ -21,7 +21,7 @@ if($tugas == 1){
                     <td width="60%"></td>
                     <td>Jakarta, '. $this->_Date->formatTanggal( date("Y-m-d") ).'</td>
                 </tr>
-                <tr><td></td><td>Kepada Yth</td></tr>
+                <tr><td></td><td>Kepada Yth,</td></tr>
                 <tr><td></td><td><u>'.$surat['namaIU'].'</u></td></tr>
             </table>
 

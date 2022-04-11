@@ -49,19 +49,19 @@
                             
                             <a class="nav-link" href="<?= base_url(); ?>surat/kirim">
                                 <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                                Surat Pengiriman
+                                Surat Pengjuan
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                Riwayat dan Keterangan
+                                Dokumen dan Sampel
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat/penundaan">
                                 <div class="sb-nav-link-icon"><i class="fa fa-clock"></i></div>
-                                Penundaan
+                                Respon Tanggapan (x)
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat/pengaturan">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cog"></i></div>
-                                Pengaturan
+                                Pengaturan (x)
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>auth/logoutEks">
                                 <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>

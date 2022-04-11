@@ -129,7 +129,41 @@
                 $this->db->select('nip, tanda_tangan,namaIU') ;
                 return $this->db->get('petugas')->row_array() ;
             }
+
+            public function getDataSuratPengujian($id)
+            {
+                $this->db->where('_jp_used.idJP_used', $id) ;
+
+                $this->db->join('eksuser', 'eksuser.idEU = _surat.idEU') ;
+                $this->db->join('_sample', '_sample.idSurat = _surat.idSurat') ;
+                $this->db->join('sample_batch', 'sample_batch.idSample = _sample.idSample') ;
+                $this->db->join('verifikasi_sample_batch', 'verifikasi_sample_batch.idBatch = sample_batch.idBatch') ;
+                $this->db->join('_jenisSample', '_jenisSample.idJenisSample = _sample.idJenisSample') ;
+                $this->db->join('_jenisKemasan','_jenisKemasan.idJenisKemasan = _jenisSample.idJenisKemasan') ;
+
+                $this->db->join('_jp_used','_jp_used.idBatch = sample_batch.idBatch') ;
+                $this->db->join('_jenisPengujian','_jenisPengujian.idJenisPengujian = _jp_used.idJenisPengujian') ;
+                $this->db->join('no_admin_pengujian', 'no_admin_pengujian.idJP_used = _jp_used.idJP_used') ;
+                $this->db->join('petugas_penguji', 'petugas_penguji.idJP_used = _jp_used.idJP_used') ;
+                $this->db->join('inuser', 'inuser.idIU = petugas_penguji.idIU') ;
+    
+    
+                $this->db->select('
+                    noSurat, namaEU, namaDepan, tgl_kirim_surat,
+    
+                    PnoAdm as noAdm,PkodeAdm as kodeAdm,PkodeBulan as kodeBulan,Ptahun as tahun,
+                    namaSample, noBatch,namaJenisPengujian,
+    
+                    jumlah_sample,ingJenisKemasan,
+                    
+                    namaIU,tanda_tangan,nip,
+    
+                    tgl_verifikasi_sample
+                ') ;
+                return $this->db->get('_surat')->row_array() ;
+            }
         // surat perintah kerja model
+
 
 
 

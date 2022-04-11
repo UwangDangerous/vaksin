@@ -7,12 +7,6 @@ $mpdf->SetHTMLHeader('<div class="header"><b>'.$judul.'</b></div>') ;
     $html =$header ;
 // header
 
-if($tugas == 1){
-    $hal = 'Pelulusan Produk' ;
-}else{
-    $hal = 'Pengujian' ;
-}
-
 // body 
     $html .= '
         <div class="isi">
@@ -31,7 +25,7 @@ if($tugas == 1){
                 <tr> 
                     <td valign="top"  style="padding-right:50px;"> Hal </td>
                     <td valign="top"> : </td>
-                    <td>'.$hal.'</td>
+                    <td>'.$tugas.'</td>
                 </tr>
                 <tr> 
                     <td valign="top"  style="padding-right:50px;"> Asal </td>
@@ -63,14 +57,18 @@ if($tugas == 1){
                         <th valign="top">No</th> 
                         <th valign="top">No. ADM. PPPOMN</th>
                         <th valign="top">Nama Sampel / <br> Contoh</th>
-                        <th valign="top">Jenis Pengujian</th>
+                        <th valign="top">Jenis Pekerjaan</th>
                         <th valign="top">Jumlah</th>
                     </tr> 
                     <tr> 
                         <td valign="top"> 1 </td>
                         <td valign="top"> '.$surat['noAdm'].'/'.$surat['kodeAdm'].'/'.$surat['kodeBulan'].'/'.$surat['tahun'].' </td>
                         <td valign="top"> '.$surat['namaSample'].' <br> ('.$surat['noBatch'].') </td>
-                        <td class="untuk-list">
+                        ' ;
+                    if($tugas == 'Pengujian') {
+    $html .= '          <td valign="top">' .$surat['namaJenisPengujian'].' </td>' ;
+                    }else{
+    $html .= '          <td class="untuk-list">   
                             <ul class="ul-param"> ';
                             
                             $pekerjaan = $this->Cetak_model->getDataPengujian($id) ;
@@ -79,8 +77,10 @@ if($tugas == 1){
                             }
                                
     $html .= '              </ul>
-                        </td> 
-                        <td>'.$surat['jumlah_sample'].' '.$surat['ingJenisKemasan'].'</td>
+                        </td> ';
+                    }
+    $html .= '              
+                        <td valign="top">'.$surat['jumlah_sample'].' '.$surat['ingJenisKemasan'].'</td>
                     </tr> 
                 </table>
 

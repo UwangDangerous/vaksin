@@ -1,21 +1,13 @@
-<script>
-        $(document).ready(function(){
-            $("#general_informasi").load("<?= base_url(); ?>evaluasi/general_informasi/<?= $id; ?>/<?= $idSample;?>") ;
-
-            $("#tabel").load("<?= base_url(); ?>evaluasi/tabel/<?= $id; ?>/<?= $idSample;?>") ;
-        
-            $("#check").load("<?= base_url(); ?>evaluasi/check/<?= $id; ?>/<?= $idSample;?>") ;
-            
-        });
-
-    </script>
-
+<?php $pekerjaan = $this->__Evaluasi_model->getDataPekerjaan($row['idBatch']) ; ?>
+                            <?php if($pekerjaan) : ?>
+                                <ul>
+                                    <?php foreach ($pekerjaan as $work) : ?>
+                                        <li><?= $work['namaJenisPekerjaan']; ?></li>
+                                    <?php endforeach ; ?>
+                                </ul>
+                            <?php else : ?>
+                                
+                            <?php endif ; ?>
 
 
-<!-- ============================================== -->
-
-<script>
-    $("#kolom<?= $idTbl; ?>").load("<?= base_url(); ?>evaluasi/kolom/<?= $idTbl; ?>/<?= $id; ?>/<?= $idBatch;?>") ;
-                        
-                        $("#footer<?= $idTbl; ?>").load("<?= base_url(); ?>evaluasi/footer/<?= $idTbl; ?>/<?= $id; ?>/<?= $idBatch;?>") ;
-</script>
+                            <td><a href="<?= base_url();?>Evaluasi/form/<?= $row['idJenisSample'];?>/<?= $row['idBatch'];?>" class="btn btn-primary" data-toggle='tooltip' title='Evaluasi Dokumen'><i class="fa fa-pen"></i></a></td>

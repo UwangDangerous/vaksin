@@ -182,7 +182,11 @@
 <?php elseif($lvl == 4) : ?> <!-- evaluator --> 
                             <a class="nav-link" href="<?= base_url(); ?>__evaluasi">
                                 <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
-                                Evaluasi Sample
+                                Pelulusan Dokumen
+                            </a>
+                            <a class="nav-link" href="<?= base_url(); ?>__pengujian">
+                                <div class="sb-nav-link-icon"><i class="fas fa-vial"></i></div>
+                                Pengujian Sampel
                             </a>
 <?php elseif($lvl == 3) : ?> <!-- Verifikator dan Evaluator -->
 

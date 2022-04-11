@@ -38,13 +38,13 @@
 <script>
     $(document).ready(function(){
         $("#print").click(function(){
-            window.open('<?= base_url(); ?>cetak/form_evaluasi/<?= $id; ?>/<?= $idSample; ?>', '_blank');
+            window.open('<?= base_url(); ?>cetak/form_evaluasi/<?= $id; ?>/<?= $idBatch; ?>', '_blank');
         });
     
         $("#simpan-no-ceklis").submit(function(e){
             e.preventDefault();
             $.ajax({
-                url: '<?= base_url(); ?>evaluasi/simpanNoCeklis/<?= $id; ?>/<?= $idSample ; ?>',
+                url: '<?= base_url(); ?>evaluasi/simpanNoCeklis/<?= $id; ?>/<?= $idBatch ; ?>',
                 type: 'post',
                 data: $(this).serialize(),             
                 success: function(data) {               
@@ -56,7 +56,7 @@
         $("#ubah-no-ceklis").submit(function(e){
             e.preventDefault();
             $.ajax({
-                url: '<?= base_url(); ?>evaluasi/ubahNoCeklis/<?= $id; ?>/<?= $idSample ; ?>',
+                url: '<?= base_url(); ?>evaluasi/ubahNoCeklis/<?= $id; ?>/<?= $idBatch ; ?>',
                 type: 'post',
                 data: $(this).serialize(),             
                 success: function(data) {               

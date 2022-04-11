@@ -30,7 +30,7 @@
             $loop = 0 ; 
             $loop2 = 0 ;
             $klm = [] ;
-            $isi_kolom_array = $this->Evaluasi_model->getDataFor_Isi_kolom_array($idTbl, $idSample); 
+            $isi_kolom_array = $this->Evaluasi_model->getDataFor_Isi_kolom_array($idTbl, $idBatch); 
             foreach ($isi_kolom_array as $ika) : 
                     $klm[] = $ika['id_isi_tbl_kolom'].'|'.$ika['isi_kolom'] ;
             endforeach ; 
@@ -71,7 +71,7 @@
                                     $("#ubahData_isi_kolom<?= $row3[0]; ?>").submit(function(e){
                                         e.preventDefault();
                                         $.ajax({
-                                            url: '<?= base_url(); ?>evaluasi/ubahIsiKolom/<?= $idTbl.'/'.$id.'/'.$idSample.'/'.$row3[0] ;?>',
+                                            url: '<?= base_url(); ?>evaluasi/ubahIsiKolom/<?= $idTbl.'/'.$id.'/'.$idBatch.'/'.$row3[0] ;?>',
                                             type: 'post',
                                             data: $(this).serialize(),             
                                             success: function(data) {               
@@ -95,7 +95,7 @@
                                 if(confirm("hapus data?")){
                                     e.preventDefault();
                                     $.ajax({
-                                        url: '<?= base_url(); ?>evaluasi/hapusIsiKolom/<?= $idTbl.'/'.$id.'/'.$idSample.'/'.rtrim($id_isi_kolom,'|'); ?>',
+                                        url: '<?= base_url(); ?>evaluasi/hapusIsiKolom/<?= $idTbl.'/'.$id.'/'.$idBatch.'/'.rtrim($id_isi_kolom,'|'); ?>',
                                         type: 'post',
                                         data: $(this).serialize(),             
                                         success: function(data) {               
@@ -109,11 +109,11 @@
                         </script>
 
                         <td>
-                            <div id='ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>'>
+                            <div id='ceklis_<?= $hash_isi_kolom;?>_<?= $idBatch; ?>'>
                             </div>
 
                             <script>
-                                $("#ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>").load("<?= base_url(); ?>evaluasi/ceklis/<?= $hash_isi_kolom; ?>/<?= $idSample; ?>")
+                                $("#ceklis_<?= $hash_isi_kolom;?>_<?= $idBatch; ?>").load("<?= base_url(); ?>evaluasi/ceklis/<?= $hash_isi_kolom; ?>/<?= $idBatch; ?>")
                             </script>
                         </td>
                     </tr>

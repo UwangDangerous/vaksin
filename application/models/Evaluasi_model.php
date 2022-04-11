@@ -104,9 +104,9 @@
                         return $this->db->get('tbl_proses_header')->result_array() ;
                     }
 
-                    public function cekIsiDataHeader($idHeader, $idSample)
+                    public function cekIsiDataHeader($idHeader, $idBatch)
                     {
-                        $this->db->where('idSample', $idSample);
+                        $this->db->where('idBatch', $idBatch);
                         $this->db->where('id_tbl_header', $idHeader);
                         return $this->db->get('isi_tbl_proses_header')->row_array();
                     }
@@ -119,10 +119,10 @@
                         return $this->db->get('tbl_proses_kolom')->result_array() ;
                     }
 
-                    public function getDataFor_Isi_kolom_array($idTbl, $idSample)
+                    public function getDataFor_Isi_kolom_array($idTbl, $idBatch)
                     {
                         $this->db->where('id_tbl_proses', $idTbl);
-                        $this->db->where('idSample', $idSample);
+                        $this->db->where('idBatch', $idBatch);
                         $this->db->join('tbl_proses_kolom', 'tbl_proses_kolom.id_kolom = isi_tbl_kolom.id_kolom');
                         return $this->db->get('isi_tbl_kolom')->result_array();
                     }
@@ -135,9 +135,9 @@
                         return $this->db->get('tbl_proses_footer')->result_array() ;
                     }
 
-                    public function cekIsiDataFooter($idFooter, $idSample) 
+                    public function cekIsiDataFooter($idFooter, $idBatch) 
                     {
-                        $this->db->where('idSample', $idSample);
+                        $this->db->where('idBatch', $idBatch);
                         $this->db->where('id_tbl_footer', $idFooter);
                         return $this->db->get('isi_tbl_proses_footer')->row_array();
                     }
@@ -146,9 +146,9 @@
             // tabel
 
             // ceklis
-                public function ceklis_pass($hash, $idSample) 
+                public function ceklis_pass($hash, $idBatch) 
                 {
-                    $this->db->where('idSample', $idSample);
+                    $this->db->where('idBatch', $idBatch);
                     $this->db->where('id_hash_isi_tbl_kolom', $hash);
                     return $this->db->get('isi_tbl_kolom_ceklis')->row_array();
                 }

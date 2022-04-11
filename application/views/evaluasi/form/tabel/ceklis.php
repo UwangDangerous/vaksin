@@ -10,11 +10,11 @@
     $('#hapus_ceklis_<?= $hash_isi_kolom; ?>').click(function(e){
         e.preventDefault();
         $.ajax({
-            url: '<?= base_url(); ?>evaluasi/hapus_ceklis/<?= $hash_isi_kolom.'/'.$idSample ; ?>',
+            url: '<?= base_url(); ?>evaluasi/hapus_ceklis/<?= $hash_isi_kolom.'/'.$idBatch ; ?>',
             type: 'post',
             data: $(this).serialize(),             
             success: function(data) {               
-                $('#ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>').html(data) ;      
+                $('#ceklis_<?= $hash_isi_kolom;?>_<?= $idBatch; ?>').html(data) ;      
             }
         });
     }) ;
@@ -22,11 +22,11 @@
     $('#tambah_ceklis_<?= $hash_isi_kolom; ?>').click(function(e){
         e.preventDefault();
         $.ajax({
-            url: '<?= base_url(); ?>evaluasi/tambah_ceklis/<?= $hash_isi_kolom.'/'.$idSample ; ?>',
+            url: '<?= base_url(); ?>evaluasi/tambah_ceklis/<?= $hash_isi_kolom.'/'.$idBatch ; ?>',
             type: 'post',
             data: $(this).serialize(),             
             success: function(data) {               
-                $('#ceklis_<?= $hash_isi_kolom;?>_<?= $idSample; ?>').html(data) ;      
+                $('#ceklis_<?= $hash_isi_kolom;?>_<?= $idBatch; ?>').html(data) ;      
             }
         });
     }) ;

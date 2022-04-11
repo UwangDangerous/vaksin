@@ -138,10 +138,10 @@
                         $this->load->view('evaluasi/form/tabel/header', $data);
                     }
 
-                    public function tambah_tbl_header($idTbl, $id, $idSample)
+                    public function tambah_tbl_header($idTbl, $id, $idBatch)
                     {
                         $query = [
-                            'idSample' => $idSample,
+                            'idBatch' => $idBatch,
                             'id_tbl_header' => $this->input->post('idHeader'),
                             'isi_header' => $this->input->post('namaHeader')
                         ];
@@ -159,7 +159,7 @@
                         }
 
                         $this->session->set_flashdata($pesan);
-                        $this->header($idTbl, $id, $idSample);
+                        $this->header($idTbl, $id, $idBatch);
                     }
 
                     public function hapus_tbl_header($idTbl, $id, $idSample, $id_isi_Header)
@@ -204,24 +204,24 @@
 
                 
                 // kolom
-                    public function kolom($idTbl, $id, $idSample) 
+                    public function kolom($idTbl, $id, $idBatch) 
                     {
                         $data['id'] = $id ;
                         $data['idTbl'] = $idTbl ;
-                        $data['idSample'] = $idSample ;
+                        $data['idBatch'] = $idBatch ;
                         $data['kolom'] =$this->Evaluasi_model->getDataForTabelKolom($idTbl) ;
                         $this->load->view('evaluasi/form/tabel/kolom', $data);  
                     }
 
-                    public function isi_kolom($idTbl, $id, $idSample) {
+                    public function isi_kolom($idTbl, $id, $idBatch) {
                         $data['id'] = $id ;
                         $data['idTbl'] = $idTbl ;
-                        $data['idSample'] = $idSample ;
+                        $data['idBatch'] = $idBatch ;
                         $data['kolom'] =$this->Evaluasi_model->getDataForTabelKolom($idTbl) ;
                         $this->load->view('evaluasi/form/tabel/isi_kolom',$data);
                     }
 
-                    public function tambahIsiKolom($idTbl, $id, $idSample) 
+                    public function tambahIsiKolom($idTbl, $id, $idBatch) 
                     {
                         $ArrayIDK = $this->input->post('ArrayIDK');
                         $ArrayIDK = explode(',',$ArrayIDK) ;
@@ -233,7 +233,7 @@
                             }
                             $query = [
                                 'id_kolom' => $Arr ,
-                                'idSample' => $idSample,
+                                'idBatch' => $idBatch,
                                 'isi_kolom' => $isi
                             ] ;
 
@@ -245,10 +245,10 @@
                             'warna_kolom'.$idTbl => 'success'
                         ];
                         $this->session->set_flashdata($pesan);
-                        $this->isi_kolom($idTbl, $id, $idSample);
+                        $this->isi_kolom($idTbl, $id, $idBatch);
                     }
 
-                    public function ubahIsiKolom($idTbl, $id, $idSample,$idKolom) 
+                    public function ubahIsiKolom($idTbl, $id, $idBatch,$idKolom) 
                     {
                         if($this->input->post("text_isi_kolom_$idKolom") == null) {
                             $isi = '-' ;
@@ -270,11 +270,11 @@
                         }
                         
                         $this->session->set_flashdata($pesan);
-                        $this->isi_kolom($idTbl, $id, $idSample);
+                        $this->isi_kolom($idTbl, $id, $idBatch);
                         // echo 'ok' ;
                     }
 
-                    public function hapusIsiKolom($idTbl, $id, $idSample,$ArrayIDK) 
+                    public function hapusIsiKolom($idTbl, $id, $idBatch,$ArrayIDK) 
                     {
                         $ArrayIDK = explode('%7C',$ArrayIDK) ;
                         foreach($ArrayIDK as $Arr) {
@@ -289,26 +289,26 @@
                         ];
                         // echo 'ok' ;
                         $this->session->set_flashdata($pesan);
-                        $this->isi_kolom($idTbl, $id, $idSample);
+                        $this->isi_kolom($idTbl, $id, $idBatch);
                     }
 
                 // kolom
 
 
                 // footer
-                    public function footer($idTbl, $id, $idSample)
+                    public function footer($idTbl, $id, $idBatch)
                     {
                         $data['id'] = $id ;
                         $data['idTbl'] = $idTbl ;
-                        $data['idSample'] = $idSample ;
+                        $data['idBatch'] = $idBatch ;
                         $data['footer'] =$this->Evaluasi_model->getDataForTabelFooter($idTbl) ;
                         $this->load->view('evaluasi/form/tabel/footer', $data);
                     }
 
-                    public function tambah_tbl_footer($idTbl, $id, $idSample)
+                    public function tambah_tbl_footer($idTbl, $id, $idBatch)
                     {
                         $query = [
-                            'idSample' => $idSample,
+                            'idBatch' => $idBatch,
                             'id_tbl_footer' => $this->input->post('idFooter'),
                             'isi_footer' => $this->input->post('namaFooter')
                         ];
@@ -326,10 +326,10 @@
                         }
 
                         $this->session->set_flashdata($pesan);
-                        $this->footer($idTbl, $id, $idSample);
+                        $this->footer($idTbl, $id, $idBatch);
                     }
 
-                    public function hapus_tbl_footer($idTbl, $id, $idSample, $id_isi_Footer)
+                    public function hapus_tbl_footer($idTbl, $id, $idBatch, $id_isi_Footer)
                     {
                         $this->db->where('id_isi_tbl_footer', $id_isi_Footer);
                         if($this->db->delete('isi_tbl_proses_footer') ) {
@@ -345,10 +345,10 @@
                         }
 
                         $this->session->set_flashdata($pesan);
-                        $this->footer($idTbl, $id, $idSample);
+                        $this->footer($idTbl, $id, $idBatch);
                     }
 
-                    public function ubah_tbl_footer($idTbl, $id, $idSample, $id_isi_Footer)
+                    public function ubah_tbl_footer($idTbl, $id, $idBatch, $id_isi_Footer)
                     {
                         $this->db->where('id_isi_tbl_footer', $id_isi_Footer);
                         if($this->db->update('isi_tbl_proses_footer',['isi_footer' => $this->input->post('namaFooter')]) ) {
@@ -364,7 +364,7 @@
                         }
 
                         $this->session->set_flashdata($pesan);
-                        $this->footer($idTbl, $id, $idSample);
+                        $this->footer($idTbl, $id, $idBatch);
                     }
                 // footer
                 
@@ -387,39 +387,39 @@
 
 
 
-            public function ceklis($hash, $idSample)
+            public function ceklis($hash, $idBatch)
             {
                 $data['hash_isi_kolom'] = $hash;
-                $data['idSample'] = $idSample;
-                $data['ceklis'] = $this->Evaluasi_model->ceklis_pass($hash, $idSample) ;
+                $data['idBatch'] = $idBatch;
+                $data['ceklis'] = $this->Evaluasi_model->ceklis_pass($hash, $idBatch) ;
                 $this->load->view('evaluasi/form/tabel/ceklis', $data);
             }
 
-            public function tambah_ceklis($hash, $idSample)
+            public function tambah_ceklis($hash, $idBatch)
             {
                 $query = [
                     'id_hash_isi_tbl_kolom' => $hash,
-                    'idSample' => $idSample
+                    'idBatch' => $idBatch
                 ] ;
                 $this->db->insert('isi_tbl_kolom_ceklis', $query);
 
-                $this->ceklis($hash, $idSample);
+                $this->ceklis($hash, $idBatch);
             }
 
-            public function hapus_ceklis($hash, $idSample)
+            public function hapus_ceklis($hash, $idBatch)
             {
                 $this->db->where('id_hash_isi_tbl_kolom', $hash);
-                $this->db->where('idSample', $idSample);
+                $this->db->where('idBatch', $idBatch);
                 $this->db->delete('isi_tbl_kolom_ceklis');
 
-                $this->ceklis($hash, $idSample);
+                $this->ceklis($hash, $idBatch);
             }
 
-            public function simpanNoCeklis($id,$idSample) 
+            public function simpanNoCeklis($id,$idBatch) 
             {
                 if( $this->input->post('nomer_ceklis') != null) {
                     $query = [
-                        'idSample' => $idSample,
+                        'idBatch' => $idBatch,
                         'nomer_ceklis' => $this->input->post('nomer_ceklis')
                     ] ;
 
@@ -436,22 +436,22 @@
                     }
 
                     $this->session->set_flashdata($pesan);
-                    $this->check($id,$idSample);
+                    $this->check($id,$idBatch);
                 }else{
                     $pesan = [
                         'pesan_check' => 'Data Tidak Boleh Kosong',
                         'warna_check' => 'danger'
                     ];
                     $this->session->set_flashdata($pesan);
-                    $this->check($id,$idSample);
+                    $this->check($id,$idBatch);
                 }
             }
 
-            public function ubahNoCeklis($id,$idSample) 
+            public function ubahNoCeklis($id,$idBatch) 
             {
                 if( $this->input->post('nomer_ceklis') != null) {
                     $query = [
-                        'idSample' => $idSample,
+                        'idBatch' => $idBatch,
                         'nomer_ceklis' => $this->input->post('nomer_ceklis')
                     ] ;
                     $this->db->where('id_hasil_evaluasi',$this->input->post('id'));
@@ -469,22 +469,22 @@
                     }
 
                     $this->session->set_flashdata($pesan);
-                    $this->check($id,$idSample);
+                    $this->check($id,$idBatch);
                 }else{
                     $pesan = [
                         'pesan_check' => 'Data Tidak Boleh Kosong',
                         'warna_check' => 'danger'
                     ];
                     $this->session->set_flashdata($pesan);
-                    $this->check($id,$idSample);
+                    $this->check($id,$idBatch);
                 }
             }
 
-            public function check($id,$idSample) 
+            public function check($id,$idBatch) 
             {
-                $data['idSample'] = $idSample ;
+                $data['idBatch'] = $idBatch ;
                 $data['id'] = $id ;
-                $this->db->where('idSample', $idSample);
+                $this->db->where('idBatch', $idBatch);
                 $data['check'] = $this->db->get('hasil_evaluasi')->row_array();
 
                 $this->load->view('evaluasi/form/tabel/check',$data);

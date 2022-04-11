@@ -15,7 +15,12 @@
     </div>
 
     
-
+    <?php 
+    
+        $this->db->where('id_tbl_proses', $idTbl) ;
+        $nama = $this->db->get('tbl_proses')->row_array()['nama_tbl_proses'] ;
+    
+    ?>
 
     
     <!-- Modal -->
@@ -23,7 +28,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle"> <?= $nama; ?> </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </button>
@@ -52,12 +57,12 @@
     
     <script>
         $(document).ready(function(){
-            $("#isi_kolom_query<?= $idTbl; ?>").load("<?= base_url(); ?>evaluasi/isi_kolom/<?= $idTbl; ?>/<?= $id; ?>/<?= $idSample;?>") ;
+            $("#isi_kolom_query<?= $idTbl; ?>").load("<?= base_url(); ?>evaluasi/isi_kolom/<?= $idTbl; ?>/<?= $id; ?>/<?= $idBatch;?>") ;
             
             $("#simpanIsiKolom_<?= $idTbl;?>").submit(function(e){
                 e.preventDefault();
                 $.ajax({
-                    url: '<?= base_url(); ?>evaluasi/tambahIsiKolom/<?= $idTbl.'/'.$id.'/'.$idSample ;?>',
+                    url: '<?= base_url(); ?>evaluasi/tambahIsiKolom/<?= $idTbl.'/'.$id.'/'.$idBatch ;?>',
                     type: 'post',
                     data: $(this).serialize(),             
                     success: function(data) {               

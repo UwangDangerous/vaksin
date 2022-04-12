@@ -29,6 +29,13 @@
             return $this->db->get('_jp_add')->result_array() ;
         }
 
+        public function getHasilEvaluasi($id)
+        {
+            $this->db->where('idBatch', $id) ;
+            $this->db->order_by('id_hasil_evaluasi','asc') ;
+            return $this->db->get('hasil_evaluasi')->row_array() ;
+        }
+
     }
 
 ?>

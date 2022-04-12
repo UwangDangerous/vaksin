@@ -29,7 +29,6 @@
             </div> 
 
     ' ;
-
 // general informasi
     $htmlBody = '
     <div class="general_informasi">
@@ -37,11 +36,6 @@
         <table cellpadding=2 cellspacing=2>
         
         <tr><td> <b>General Informasi </b></td></tr>                 <tr><td></td></tr>
-        <tr>
-            <td>Marketing Authorization (MA) No.</td>
-            <td>:</td>
-            <td>'.$sample['noMA'].'</td>
-        </tr>
         <tr>
             <td>Name of Product</td>
             <td>:</td>
@@ -72,7 +66,7 @@
         </tr>' ;
     }
 
-    $this->db->where('idSample', $idSample);
+    $this->db->where('idBatch', $idBatch);
     $batch = $this->db->get('sample_batch')->result_array();
 
     $htmlBody .= '
@@ -100,7 +94,7 @@
     foreach($general_informasi as $gi) {
         $gi_used = $this->Evaluasi_model->getData_GI_Use($gi['idGI']) ;
         $this->db->where('id_gi_used', $gi_used) ;
-        $this->db->where('idSample', $idSample) ;
+        $this->db->where('idBatch', $idBatch) ;
         $isi_gi_used = $this->db->get('isi_tbl_gi')->row_array() ;
         $htmlBody .= '
             <tr>
@@ -114,14 +108,12 @@
         </table>
     </div>' ;
 
-// general informasi
+// // general informasi
     
 
 
-// body
-    $htmlBody .= '<br><br><div class="body">
-    
-    <div class="judul-body"> <b> Summary Protocol '.$sample['jenisSample'].' Vaccine </b> <div> <br>' ;
+// // body
+    $htmlBody .= '<br><br><div class="body">' ;
 
     $table = $this->Evaluasi_model->getDataForTabel($sample['idJenisSample']);
     foreach($table as $row) {
@@ -135,7 +127,7 @@
                     $htmlBody .= '<tr>' ;
                     $htmlBody .= '<td>'.$header['nama_tbl_header'].'</td>
                                     <td>:</td>
-                                    <td>'. $this->Evaluasi_model->cekIsiDataHeader($header['id_tbl_header'], $idSample)['isi_header'].'</td>' ;
+                                    <td>'. $this->Evaluasi_model->cekIsiDataHeader($header['id_tbl_header'], $idBatch)['isi_header'].'</td>' ;
                     $htmlBody .= '</tr>' ;
                 }
                 $htmlBody .= '</table> <br>' ;
@@ -156,7 +148,7 @@
                 
                 $loop = 0 ;
                 $klm = [] ;
-                $isi_kolom_array = $this->Evaluasi_model->getDataFor_Isi_kolom_array($row['id_tbl_proses'], $idSample); 
+                $isi_kolom_array = $this->Evaluasi_model->getDataFor_Isi_kolom_array($row['id_tbl_proses'], $idBatch); 
 
                 foreach ($isi_kolom_array as $ika) : 
                     $klm[] = $ika['id_isi_tbl_kolom'].'|'.$ika['isi_kolom'] ;
@@ -195,7 +187,7 @@
 
                         $hash_isi_kolom = substr( md5($jml_isi_kolom), 1, 5);
                         
-                        $this->db->where('idSample', $idSample);
+                        $this->db->where('idBatch', $idBatch);
                         $this->db->where('id_hash_isi_tbl_kolom', $hash_isi_kolom);
                         if($this->db->get('isi_tbl_kolom_ceklis')->row_array()) {
                             $htmlBody .= ' 
@@ -222,7 +214,7 @@
                     $htmlBody .= '<tr>' ;
                     $htmlBody .= '<td>'.$footer['nama_tbl_footer'].'</td>
                                     <td>:</td>
-                                    <td>'. $this->Evaluasi_model->cekIsiDataFooter($footer['id_tbl_footer'], $idSample)['isi_footer'].'</td>' ;
+                                    <td>'. $this->Evaluasi_model->cekIsiDataFooter($footer['id_tbl_footer'], $idBatch)['isi_footer'].'</td>' ;
                     $htmlBody .= '</tr>' ;
                 }
                 $htmlBody .= '</table> <br>' ;
@@ -234,10 +226,10 @@
 
 
 // verify
-    $petugasVerify = $this->Cetak_model->getPetugasVerivikasi($idSample);
+    $petugasVerify = $this->Cetak_model->getPetugasVerivikasi($idBatch);
     $petugasCheck = $this->Cetak_model->getPetugasCheck();
 
-    $chcek = $this->Cetak_model->getInfoCeklis($idSample);
+    $chcek = $this->Cetak_model->getInfoCeklis($idBatch);
     $hasil_verifikasi = $this->Cetak_model->getHasilVerifikasi($chcek['id_hasil_evaluasi']);
     $hasil_periksa = $this->Cetak_model->getHasilPeriksa($chcek['id_hasil_evaluasi']);
     $dateVerify = '-' ;
@@ -247,13 +239,13 @@
     if($hasil_verifikasi) {
         if($hasil_verifikasi['status_verifikasi'] == "diterima" ){
             $dateVerify = $this->_Date->dateFormat( $hasil_verifikasi['tanggal_verifikasi'] ) ;
-            $sigVerify = '<img height="40px" src="'.base_url().'assets/file-upload/ttd/contoh.png">' ;
+            $sigVerify = '<img height="40px" src="'.base_url().'assets/file-upload/ttd/'.$petugasVerify['tanda_tangan'].'">' ;
         }
     }
     if($hasil_periksa) {
         if($hasil_periksa['status_periksa'] == "diterima" ){
             $datePeriksa = $this->_Date->dateFormat( $hasil_periksa['tanggal_periksa'] ) ;
-            $sigPeriksa = '<img height="40px" src="'.base_url().'assets/file-upload/ttd/contoh.png">' ;
+            $sigPeriksa = '<img height="40px" src="'.base_url().'assets/file-upload/ttd/'.$petugasCheck['tanda_tangan'].'">' ;
         }
     }
     $htmlBody .= '
@@ -278,7 +270,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col">
+                <div class="col col2">
                     <table>
                         <tr>
                             <td>Checked by</td>
@@ -327,13 +319,13 @@
     // $mpdf->AddPage('','','2','i','on');
     // $mpdf->setFooter('{PAGENO}');
     
-    $mpdf->SetHTMLFooter('<div class="footer">'.$chcek['nomer_ceklis'].'</div> <div class="footer-kanan">{PAGENO}</div>') ;
     $html = $htmlHeader.'<br>'.$htmlBody ;
+
+    $mpdf->SetHTMLFooter('<div class="footer">'.$chcek['nomor_ceklis'].'</div> <div class="footer-kanan">{PAGENO}</div>') ;
     $mpdf->WriteHTML($html);
-    // $mpdf->Output();
+    // // $mpdf->Output();
 
     $mpdf->Output('Evaluasi Dokumen Produksi Vaksin '.$sample['namaSample'].' ( '. $sample['jenisSample'] .' ).pdf' ,'I');
 
+    // echo $html ;
 ?> 
-
-

@@ -64,8 +64,16 @@ body{
 }
 
 .col{
-    width: 49.2%;
+    width: 50%;
     border: 2px solid;
     /* margin:auto ; */
     float:left ;
+}
+
+.col{
+    margin-left: -4px;
+}
+
+td{
+    vertical-align: top;
 }

@@ -11,11 +11,12 @@
             // $this->load->library('form_validation');
         }
 
-        public function form_evaluasi($id,$idSample) //$id = idJenisSample
+        public function form_evaluasi($id,$idBatch) //$id = idJenisSample
         {
             $data['id'] = $id ;
-            $data['idSample'] = $idSample ;
-            $data['sample'] = $this->Cetak_model->getJudulSample($idSample);
+            $data['idBatch'] = $idBatch ;
+            $data['sample'] = $this->Cetak_model->getJudulSample($idBatch);
+            $data['idSample'] = $data['sample']['idSample'] ;
             $data['general_informasi'] = $this->Cetak_model->getDataGeneral_informasi($id);            
 
             $this->load->view('cetak/form_evaluasi',$data);

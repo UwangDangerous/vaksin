@@ -49,7 +49,7 @@
                             
                             <a class="nav-link" href="<?= base_url(); ?>surat/kirim">
                                 <div class="sb-nav-link-icon"><i class="fas fa-envelope"></i></div>
-                                Surat Pengjuan
+                                Surat Pengajuan
                             </a>
                             <a class="nav-link" href="<?= base_url(); ?>surat">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>

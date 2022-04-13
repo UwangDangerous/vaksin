@@ -17,7 +17,7 @@
         public function getDataKecamatan() 
         {
             $this->db->order_by('namaKec', 'asc');
-            $this->db->join('a_kota', 'a_kota.idKota = a_kecamatan.idKec', 'inner');
+            $this->db->join('a_kota', 'a_kota.idKota = a_kecamatan.idKota', 'inner');
             return $this->db->get('a_kecamatan')->result_array();
         }
     }

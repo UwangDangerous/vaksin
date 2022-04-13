@@ -53,6 +53,9 @@
                                     <i class="fa fa-table"></i>
                                 </a>
                             <?php endif ; ?>
+                            <a href="<?= base_url();?>/jenisSample/hapusData/<?= $row['idJenisSample'];?>" data-toggle='tooltip' title='Hapus Data' class="badge badge-danger" onclick='return confirm("Hapus Data?")'>
+                                <i class="fa fa-trash"></i>
+                            </a>
                         </td>
 
                         <!-- Modal Ubah Data-->

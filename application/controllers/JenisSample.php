@@ -99,7 +99,20 @@
                 $this->db->update('_jenisSample',$query);
 
                 $pesan = [
-                    'pesan' => 'Data Berhasil Disimpan' ,
+                    'pesan' => 'Data Berhasil Diubah' ,
+                    'warna' => 'success' 
+                ];
+                $this->session->set_flashdata($pesan);
+                redirect('jenisSample/index') ;
+            }
+
+            public function hapusData($id) 
+            {
+                $this->db->where('idJenisSample', $id);
+                $this->db->delete('_jenisSample');
+
+                $pesan = [
+                    'pesan' => 'Data Berhasil Dihapus' ,
                     'warna' => 'success' 
                 ];
                 $this->session->set_flashdata($pesan);

@@ -88,7 +88,8 @@ class Login_model extends CI_model {
             'aktif' => 0
         ];
 
-        $token = base64_encode(random_bytes(32)) ;
+        // $token = base64_encode(random_bytes(32)) ;
+        $token = do_hash(date("Y-m-d")) ;
 
         $query_token = [
             'email'         => $email ,

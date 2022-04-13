@@ -87,11 +87,11 @@
                                             <select class="form-control mb-2" id="kecamatan" name='kecamatan'>
                                                 <option value=''>-pilih-</option>
                                                 <?php foreach ($kecamatan as $kec) : ?>
-                                                    <?php if($kec['idKec'] == set_value('kecamatan')) : ?>
-                                                        <option selected id='kecamatan' class="<?= $kec['idKota'];?>" value="<?= $kec['idKec'];?>"><?= $kec['namaKec'];?></option>
-                                                    <?php else : ?>
+                                                    <?php// if($kec['idKec'] == set_value('kecamatan')) : ?>
+                                                        <!-- <option selected id='kecamatan' class="<?//= $kec['idKota'];?>" value="<?//= $kec['idKec'];?>"><?//= $kec['namaKec'];?></option> -->
+                                                    <?php// else : ?>
                                                         <option id='kecamatan' class="<?= $kec['idKota'];?>" value="<?= $kec['idKec'];?>"><?= $kec['namaKec'];?></option>
-                                                    <?php endif ; ?>
+                                                    <?php// endif ; ?>
                                                 <?php endforeach ; ?>
                                             </select>
                                             <small class="form-text text-danger"><?= form_error('kecamatan'); ?></small>
@@ -117,8 +117,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="fax">Fax</label>
-                                            <input type='number' class="form-control py-2" id="fax" type="text" name='fax' placeholder="Nomor Fax" value='<?= set_value('fax'); ?>'/>
-                                            <small class="form-text text-danger"><?= form_error('fax'); ?></small>
+                                            <input type='number' class="form-control py-2" id="fax" type="text" name='fax' placeholder="Nomor Fax" />
                                         </div>
                                     </div>
                                 </div>

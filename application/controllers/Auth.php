@@ -42,11 +42,11 @@
             $this->form_validation->set_rules('kecamatan', 'Kecamatan', 'required');
             $this->form_validation->set_rules('pos', 'Kode Pos', 'required|numeric');
             $this->form_validation->set_rules('telp', 'Telepon', 'required|numeric');
-            $this->form_validation->set_rules('fax', 'FAX', 'required|numeric');
+            // $this->form_validation->set_rules('fax', 'FAX', 'required|numeric');
             $this->form_validation->set_rules('pj', 'Penanggung Jawab', 'required');
             $this->form_validation->set_rules('noPj', 'Nomor Telepon Penanggung Jawab', 'required|numeric');
             $this->form_validation->set_rules('jabatan', 'Jabatan', 'required');
-            $this->form_validation->set_rules('username', 'Username', 'required');
+            $this->form_validation->set_rules('username', 'Username', 'required|is_unique[eksuser.username]');
             $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[eksuser.email]');
             $this->form_validation->set_rules('password1', 'Kata Sandi', 'required|min_length[8]|matches[password2]');
             $this->form_validation->set_rules('password2', 'Konfirmasi Kata Sandi', 'required|min_length[8]|matches[password1]');
@@ -68,15 +68,18 @@
             $token = $this->input->get('token');
 
 
-            $user = $this->db->get_where('eksuser', ['email' => $email])->row_array();
+            $this->db->where('email', $email) ;
+            $user = $this->db->get('eksuser')->row_array();
+            
             
             if($user) {
-                $user_token = $this->db->get_where('eksuser_token', ['token' => $token])->row_array();
-
+                $this->db->where('token', $token) ;
+                $user_token = $this->db->get('eksuser_token')->row_array();
+                
                 if($user_token) {
 
                     $limit = $user_token['tanggal_buat'] + (60*60*48) ;
-                    var_dump($limit, time())  ;
+                    // var_dump($limit, time())  ;
                     if($limit < time()) {
                         $pesan = [
                             'pesan' => 'Gagal Aktivasi, Token Kadaluarsa, Silahkan Daftar Kembali',

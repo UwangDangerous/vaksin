@@ -51,8 +51,11 @@
                             </div>
                             <form action="" method="post">
                                 <div class="modal-body">
+                                    <label for="tgl_expiry_pengujian">Tanggal Kadaluarsa</label>
+                                    <input type="date" name="tgl_expiry_pengujian" id="tgl_expiry_pengujian" class='form-control'>
                                     <label for="berkas">Upload Hasil Pengujian</label>
                                     <input type="file" name="berkas" id="berkas" class='form-control'>
+                                    <i class="text-danger">*file pdf,doc,docx</i>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">Simpan</button>

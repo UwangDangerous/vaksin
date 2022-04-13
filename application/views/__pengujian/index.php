@@ -1,4 +1,15 @@
 <div class="card p-3">
+    <?php if(!empty($this->session->flashdata('pesan') )) : ?>
+        
+        <div class="alert alert-<?= $this->session->flashdata('warna') ;?> alert-dismissible fade show" role="alert">
+            <?=  $this->session->flashdata('pesan'); ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+    <?php endif ; ?>
+
     <div class="table-responsive">
         <table class="table table-bordered table-striped text-center" id="tabel-tugas">
             <thead>
@@ -49,10 +60,26 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <form action="" method="post">
+
+                            <form action="<?= base_url();?>__pengujian/simpan_hasil_pengujian/<?= $row['idJP_used']; ?>/<?= $row['idBatch'];?>" method="post" enctype="multipart/form-data">
                                 <div class="modal-body">
+                                    <input type="hidden" name='noAdm' value='<?= $noAdm; ?>'>
+
+                                    <label for="uji_yg_dilakukan">Uji Yang Dilakukan </label>
+                                    <input type="text" name="uji_yg_dilakukan" id="uji_yg_dilakukan" class='form-control'>
+                                    
+                                    <label for="hasil">Hasil Pengujian </label>
+                                    <input type="text" name="hasil" id="hasil" class='form-control'>
+
+                                    <label for="acuan">Acuan </label>
+                                    <input type="text" name="acuan" id="acuan" class='form-control'>
+
+                                    <label for="syarat">Syarat </label>
+                                    <input type="text" name="syarat" id="syarat" class='form-control'>
+
                                     <label for="tgl_expiry_pengujian">Tanggal Kadaluarsa</label>
                                     <input type="date" name="tgl_expiry_pengujian" id="tgl_expiry_pengujian" class='form-control'>
+                                    
                                     <label for="berkas">Upload Hasil Pengujian</label>
                                     <input type="file" name="berkas" id="berkas" class='form-control'>
                                     <i class="text-danger">*file pdf,doc,docx</i>

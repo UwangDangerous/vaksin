@@ -231,12 +231,12 @@
                             <!-- evaluator -->
 
                             <!-- verifikator -->
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#verifikator" aria-expanded="false">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#veri" aria-expanded="false">
                                     <div class="sb-nav-link-icon"><i class="fas fa-certificate"></i></div>
                                     Verifikasi
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="verifikator" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                <div class="collapse" id="veri" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="<?= base_url(); ?>__evaluasi">
                                             <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>

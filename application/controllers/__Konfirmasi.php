@@ -101,7 +101,11 @@
         public function konfirmasi_terima_pengujian($idPetugas, $konfirmasi, $id) 
         {
             $this->db->where('idPP', $idPetugas) ;
-            $this->db->set('konfirmasiPP', $konfirmasi) ;
+            $this->db->set(
+                             [
+                                 'konfirmasiPP' => $konfirmasi,
+                                 'tgl_mulai_pengujian' => date("Y-m-d")
+                             ]) ;
             if($this->db->update('petugas_penguji')) {
 
                 $this->load->model('_Riwayat') ;

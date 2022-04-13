@@ -365,25 +365,10 @@
                     if($this->db->delete('_sample')) {
                         
                         
-
                         //hapus sample_batch 1
                         $this->db->where('idSample', $id);
                         $this->db->delete('sample_batch');
                         
-                        //hapus _dataDukung_batch 1.1
-                        $this->db->where('idBatch', $batch);
-                        $this->db->delete('_datadukung_batch');
-
-                        //hapus bukti bayar 2
-                        $this->db->where('idSample', $id);
-                        $this->db->delete('_buktibayar');
-                        
-                        //hapus importir 3
-                        if($auth['idJenisManufacture'] == 2 ) {
-                            $this->db->where('idSample', $id);
-                            $this->db->delete('_importir');
-                        }
-
                         $pesan = [
                             'pesan' => 'Data Berhasil Di Hapus' ,
                             'warna' => 'success'

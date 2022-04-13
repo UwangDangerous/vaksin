@@ -123,6 +123,8 @@
                 $query = [
                     'idJP_used' => $idJP, 
                     'idIU' => $this->input->post('idIU') ,
+                    'konfirmasiPP' => 0,
+                    'tgl_mulai_pengujian' => date("Y-m-d") 
                 ] ;
 
                 if($this->db->insert('petugas_penguji', $query)) {
@@ -130,7 +132,7 @@
                     $this->_Riwayat->simpanRiwayat($id, "Tambah Petugas Penguji", "Petugas",1) ;
                     $pesan = [
                         "pesan_Penguji_$idJP" => "Petugas Penguji Berhasil Disimpan" ,
-                        "warna_Penguji_$idJP" => "success" 
+                        "warna_Penguji_$idJP" => "success" ,
                     ];
                 }else{
                     $pesan = [

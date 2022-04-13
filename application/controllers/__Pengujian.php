@@ -24,6 +24,41 @@
                 
             }
         }
+
+        public function simpan_hasil_pengujian($id, $idBatch)
+        {
+            //uji_yg_dilakukan //hasil //acuan //syarat //tgl_expiry_pengujian //berkas
+            $this->load->model('_Upload') ;
+            $file = $this->_Upload->uploadEksUser('berkas', 'assets/file-upload/hasil-pengujian', 'pdf|doc|docx','__pengujian', 'hasil_pengujian') ;
+
+            $query = [
+                'idJP_used' => $id,
+                'uji_yg_dilakukan' => $this->input->post('uji_yg_dilakukan') ,
+                'hasil' => $this->input->post('hasil') ,
+                'syarat' => $this->input->post('syarat') ,
+                'acuan' => $this->input->post('acuan') ,
+                'tgl_kadaluarsa_sample' => $this->input->post('tgl_expiry_pengujian') ,
+                'file_hasil_pengujian' => $file ,
+                'tgl_selesai_pengujian' => date("Y-m-d")
+            ];
+
+            if($this->db->insert('hasil_pengujian', $query)){
+                $this->load->model('_Riwayat') ;
+                $this->_Riwayat->simpanRiwayat($idBatch, 'Pengujian '.$this->input->post('noAdm').' Selesai', 'Hasil Pengujian',1);
+                $pesan = [
+                    'pesan' => 'Hasil Pengujian Berhasil Disimpan',
+                    'warna' => 'success'
+                ];
+            }else{
+                $pesan = [
+                    'pesan' => 'Hasil Pengujian Gagal Disimpan',
+                    'warna' => 'danger'
+                ];
+            }
+
+            $this->session->set_flasdata($pesan) ;
+            redirect('__pengujian') ;
+        }
     }
 
 ?>
